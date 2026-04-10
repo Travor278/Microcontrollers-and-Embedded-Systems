@@ -142,7 +142,7 @@
           <BreakIfRCount>1</BreakIfRCount>
           <Filename>Asm2-2.asm</Filename>
           <ExecCommand></ExecCommand>
-          <Expression></Expression>
+          <Expression>\\Asm2_2\ASM2_2\43</Expression>
         </Bp>
       </Breakpoint>
       <MemoryWindow1>

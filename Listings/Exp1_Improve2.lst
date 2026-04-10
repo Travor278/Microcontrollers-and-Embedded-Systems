@@ -1,4 +1,4 @@
-A51 MACRO ASSEMBLER  EXP1_IMPROVE2                                                        04/10/2026 04:25:01 PAGE     1
+A51 MACRO ASSEMBLER  EXP1_IMPROVE2                                                        04/10/2026 06:58:36 PAGE     1
 
 
 MACRO ASSEMBLER A51 V8.02c
@@ -65,7 +65,7 @@ LOC  OBJ            LINE     SOURCE
 014B 22               55             RET
                       56     
 014C 7F20             57     DELAY:  MOV     R7, #20H
-A51 MACRO ASSEMBLER  EXP1_IMPROVE2                                                        04/10/2026 04:25:01 PAGE     2
+A51 MACRO ASSEMBLER  EXP1_IMPROVE2                                                        04/10/2026 06:58:36 PAGE     2
 
 014E 7EFF             58     D1:     MOV     R6, #0FFH
 0150 DEFE             59     D2:     DJNZ    R6, D2
@@ -73,7 +73,7 @@ LOC  OBJ            LINE     SOURCE
 0154 22               61             RET
                       62     
                       63             END
-A51 MACRO ASSEMBLER  EXP1_IMPROVE2                                                        04/10/2026 04:25:01 PAGE     3
+A51 MACRO ASSEMBLER  EXP1_IMPROVE2                                                        04/10/2026 06:58:36 PAGE     3
 
 SYMBOL TABLE LISTING
 ------ ----- -------
