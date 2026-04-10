@@ -1,0 +1,48 @@
+A51 MACRO ASSEMBLER  LED_LEFT                                                             04/10/2026 04:04:05 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.02c
+OBJECT MODULE PLACED IN .\Objects\LED_Left.obj
+ASSEMBLER INVOKED BY: D:\C51\BIN\A51.EXE LED_Left.asm SET(SMALL) DEBUG PRINT(.\Listings\LED_Left.lst) OBJECT(.\Objects\L
+                      ED_Left.obj) EP
+
+LOC  OBJ            LINE     SOURCE
+
+0000                   1             ORG     0000H
+0000 020100            2             LJMP    MAIN
+                       3     
+0100                   4             ORG     0100H
+0100 7401              5     MAIN:   MOV     A, #01H        ; ??????? LED
+                       6     
+0102 F590              7     LOOP:   MOV     P1, A          ; ??? P1 ?
+0104 3109              8             ACALL   DELAY
+0106 23                9             RL      A              ; ?????
+0107 80F9             10             SJMP    LOOP
+                      11     
+0109 7FFF             12     DELAY:  MOV     R7, #0FFH
+010B 7EFF             13     D1:     MOV     R6, #0FFH
+010D DEFE             14     D2:     DJNZ    R6, D2
+010F DFFA             15             DJNZ    R7, D1
+0111 22               16             RET
+                      17     
+                      18             END
+A51 MACRO ASSEMBLER  LED_LEFT                                                             04/10/2026 04:04:05 PAGE     2
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+D1 . . . . . . . .  C ADDR   010BH   A   
+D2 . . . . . . . .  C ADDR   010DH   A   
+DELAY. . . . . . .  C ADDR   0109H   A   
+LOOP . . . . . . .  C ADDR   0102H   A   
+MAIN . . . . . . .  C ADDR   0100H   A   
+P1 . . . . . . . .  D ADDR   0090H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

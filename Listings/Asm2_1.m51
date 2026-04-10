@@ -1,0 +1,51 @@
+BL51 BANKED LINKER/LOCATER V6.22                                                        04/10/2026  02:05:46  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22, INVOKED BY:
+D:\C51\BIN\BL51.EXE .\Objects\Asm2-1.obj TO .\Objects\Asm2_1 PRINT (.\Listings\Asm2_1.m51) RAMSIZE (256)
+
+
+INPUT MODULES INCLUDED:
+  .\Objects\Asm2-1.obj (ASM2_1)
+
+
+LINK MAP OF MODULE:  .\Objects\Asm2_1 (ASM2_1)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0112H     ABSOLUTE     
+
+
+
+SYMBOL TABLE OF MODULE:  .\Objects\Asm2_1 (ASM2_1)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        ASM2_1
+  D:00F0H         SYMBOL        B
+  C:0106H         SYMBOL        LP1
+  C:0100H         SYMBOL        MAIN
+  C:0000H         LINE#         2
+  C:0100H         LINE#         5
+  C:0102H         LINE#         6
+  C:0104H         LINE#         7
+  C:0105H         LINE#         8
+  C:0106H         LINE#         10
+  C:0107H         LINE#         11
+  C:010AH         LINE#         12
+  C:010BH         LINE#         13
+  C:010CH         LINE#         14
+  C:010DH         LINE#         15
+  C:010EH         LINE#         16
+  C:0110H         LINE#         18
+  -------         ENDMOD        ASM2_1
+
+Program Size: data=8.0 xdata=0 code=274
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

@@ -1,0 +1,44 @@
+BL51 BANKED LINKER/LOCATER V6.22                                                        04/10/2026  04:01:21  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22, INVOKED BY:
+D:\C51\BIN\BL51.EXE .\Objects\Exp1_Improve1.obj TO .\Objects\Exp1_Improve1 PRINT (.\Listings\Exp1_Improve1.m51) RAMSIZE 
+>> (256)
+
+
+INPUT MODULES INCLUDED:
+  .\Objects\Exp1_Improve1.obj (EXP1_IMPROVE1)
+
+
+LINK MAP OF MODULE:  .\Objects\Exp1_Improve1 (EXP1_IMPROVE1)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0114H     ABSOLUTE     
+
+
+
+SYMBOL TABLE OF MODULE:  .\Objects\Exp1_Improve1 (EXP1_IMPROVE1)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        EXP1_IMPROVE1
+  C:0100H         SYMBOL        MAIN
+  C:010AH         SYMBOL        SQR
+  C:0000H         LINE#         2
+  C:0100H         LINE#         5
+  C:0103H         LINE#         6
+  C:0105H         LINE#         7
+  C:0106H         LINE#         8
+  C:0108H         LINE#         9
+  -------         ENDMOD        EXP1_IMPROVE1
+
+Program Size: data=8.0 xdata=0 code=276
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

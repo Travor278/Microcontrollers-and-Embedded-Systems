@@ -1,0 +1,3 @@
+".\Objects\DigitIO.obj" 
+TO ".\Objects\DigitIO" 
+PRINT(".\Listings\DigitIO.m51") RAMSIZE(256) 

@@ -1,0 +1,51 @@
+A51 MACRO ASSEMBLER  ASM4_1                                                               04/10/2026 02:21:50 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.02c
+OBJECT MODULE PLACED IN .\Objects\Asm4-1.obj
+ASSEMBLER INVOKED BY: D:\C51\BIN\A51.EXE Asm4-1.asm SET(SMALL) DEBUG PRINT(.\Listings\Asm4-1.lst) OBJECT(.\Objects\Asm4-
+                      1.obj) EP
+
+LOC  OBJ            LINE     SOURCE
+
+0000                   1             ORG     0000H
+0000 020100            2             LJMP    MAIN
+                       3     
+0100                   4             ORG     0100H
+0100 900110            5     MAIN:   MOV     DPTR, #ASCTAB
+0103 EF                6             MOV     A, R7
+0104 540F              7             ANL     A, #0FH
+0106 93                8             MOVC    A, @A+DPTR
+0107 FD                9             MOV     R5, A
+                      10     
+0108 EF               11             MOV     A, R7
+0109 54F0             12             ANL     A, #0F0H
+010B C4               13             SWAP    A
+010C 93               14             MOVC    A, @A+DPTR
+010D FE               15             MOV     R6, A
+                      16     
+010E 80FE             17             SJMP    $
+                      18     
+0110 30313233         19     ASCTAB: DB      30H,31H,32H,33H,34H
+0114 34                      
+0115 35363738         20             DB      35H,36H,37H,38H,39H
+0119 39                      
+011A 41424344         21             DB      41H,42H,43H,44H,45H,46H
+011E 4546                    
+                      22             END
+A51 MACRO ASSEMBLER  ASM4_1                                                               04/10/2026 02:21:50 PAGE     2
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+ASCTAB . . . . . .  C ADDR   0110H   A   
+MAIN . . . . . . .  C ADDR   0100H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

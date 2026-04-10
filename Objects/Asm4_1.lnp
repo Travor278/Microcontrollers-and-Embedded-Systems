@@ -1,0 +1,3 @@
+".\Objects\Asm4-1.obj" 
+TO ".\Objects\Asm4_1" 
+PRINT(".\Listings\Asm4_1.m51") RAMSIZE(256) 

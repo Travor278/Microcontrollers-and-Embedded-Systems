@@ -1,0 +1,3 @@
+".\Objects\LED_Left.obj" 
+TO ".\Objects\LED_Left" 
+PRINT(".\Listings\LED_Left.m51") RAMSIZE(256) 

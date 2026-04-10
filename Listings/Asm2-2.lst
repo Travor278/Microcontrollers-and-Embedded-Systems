@@ -1,0 +1,74 @@
+A51 MACRO ASSEMBLER  ASM2_2                                                               04/10/2026 02:10:59 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.02c
+OBJECT MODULE PLACED IN .\Objects\Asm2-2.obj
+ASSEMBLER INVOKED BY: D:\C51\BIN\A51.EXE Asm2-2.asm SET(SMALL) DEBUG PRINT(.\Listings\Asm2-2.lst) OBJECT(.\Objects\Asm2-
+                      2.obj) EP
+
+LOC  OBJ            LINE     SOURCE
+
+0000                   1             ORG     0000H
+0000 020100            2             LJMP    MAIN
+                       3     
+0100                   4             ORG     0100H
+0100 7822              5     MAIN:   MOV     R0, #22H
+0102 E8                6             MOV     A, R0
+0103 C0E0              7             PUSH    ACC
+0105 7F03              8             MOV     R7, #03H
+0107 E4                9             CLR     A
+                      10     
+0108 F6               11     LP1:    MOV     @R0, A
+0109 18               12             DEC     R0
+010A DFFC             13             DJNZ    R7, LP1
+                      14     
+010C D0E0             15             POP     ACC
+010E F8               16             MOV     R0, A
+010F 7F10             17             MOV     R7, #16
+                      18     
+0111 C0E0             19     LP2:    PUSH    ACC
+0113 C3               20             CLR     C
+                      21     
+0114 EC               22             MOV     A, R4
+0115 33               23             RLC     A
+0116 FC               24             MOV     R4, A
+                      25     
+0117 EB               26             MOV     A, R3
+0118 33               27             RLC     A
+0119 FB               28             MOV     R3, A
+                      29     
+011A 75F003           30             MOV     B, #03H
+                      31     
+011D E6               32     LP3:    MOV     A, @R0
+011E 36               33             ADDC    A, @R0
+011F D4               34             DA      A
+0120 F6               35             MOV     @R0, A
+0121 18               36             DEC     R0
+0122 D5F0F8           37             DJNZ    B, LP3
+                      38     
+0125 D0E0             39             POP     ACC
+0127 F8               40             MOV     R0, A
+0128 DFE7             41             DJNZ    R7, LP2
+                      42     
+012A 80FE             43             SJMP    $
+                      44             END
+A51 MACRO ASSEMBLER  ASM2_2                                                               04/10/2026 02:10:59 PAGE     2
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+ACC. . . . . . . .  D ADDR   00E0H   A   
+B. . . . . . . . .  D ADDR   00F0H   A   
+LP1. . . . . . . .  C ADDR   0108H   A   
+LP2. . . . . . . .  C ADDR   0111H   A   
+LP3. . . . . . . .  C ADDR   011DH   A   
+MAIN . . . . . . .  C ADDR   0100H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

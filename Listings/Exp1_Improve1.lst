@@ -1,0 +1,41 @@
+A51 MACRO ASSEMBLER  EXP1_IMPROVE1                                                        04/10/2026 04:01:21 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.02c
+OBJECT MODULE PLACED IN .\Objects\Exp1_Improve1.obj
+ASSEMBLER INVOKED BY: D:\C51\BIN\A51.EXE Exp1_Improve1.asm SET(SMALL) DEBUG PRINT(.\Listings\Exp1_Improve1.lst) OBJECT(.
+                      \Objects\Exp1_Improve1.obj) EP
+
+LOC  OBJ            LINE     SOURCE
+
+0000                   1             ORG     0000H
+0000 020100            2             LJMP    MAIN
+                       3     
+0100                   4             ORG     0100H
+0100 90010A            5     MAIN:   MOV     DPTR, #SQR
+0103 E520              6             MOV     A, 20H
+0105 93                7             MOVC    A, @A+DPTR
+0106 F521              8             MOV     21H, A
+0108 80FE              9             SJMP    $
+                      10     
+010A 00010409         11     SQR:    DB      00H,01H,04H,09H,16H
+010E 16                      
+010F 25364964         12             DB      25H,36H,49H,64H,81H
+0113 81                      
+                      13             END
+A51 MACRO ASSEMBLER  EXP1_IMPROVE1                                                        04/10/2026 04:01:21 PAGE     2
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+MAIN . . . . . . .  C ADDR   0100H   A   
+SQR. . . . . . . .  C ADDR   010AH   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

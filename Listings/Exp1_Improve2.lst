@@ -1,0 +1,102 @@
+A51 MACRO ASSEMBLER  EXP1_IMPROVE2                                                        04/10/2026 04:25:01 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.02c
+OBJECT MODULE PLACED IN .\Objects\Exp1_Improve2.obj
+ASSEMBLER INVOKED BY: D:\C51\BIN\A51.EXE Exp1_Improve2.asm SET(SMALL) DEBUG PRINT(.\Listings\Exp1_Improve2.lst) OBJECT(.
+                      \Objects\Exp1_Improve2.obj) EP
+
+LOC  OBJ            LINE     SOURCE
+
+0000                   1             ORG     0000H
+                       2     
+0000 020100            3             LJMP    MAIN
+                       4     
+0100                   5             ORG     0100H
+0100 759000            6     MAIN:   MOV     P1, #00H        ; LED ??
+0103 75A0FF            7             MOV     P2, #0FFH       ; P2 ???,??? 1
+0106 753001            8             MOV     30H, #01H       ; ?????
+0109 753180            9             MOV     31H, #80H       ; ?????
+010C 753255           10             MOV     32H, #55H       ; ??????
+                      11     
+010F E5A0             12     LOOP:   MOV     A, P2           ; ???
+0111 F4               13             CPL     A               ; ?????,?????? 1
+0112 5403             14             ANL     A, #03H         ; ?? P2.0 / P2.1
+                      15     
+0114 B40104           16             CJNE    A, #01H, CHECK_R
+0117 312E             17             ACALL   LEFT_STEP
+0119 80F4             18             SJMP    LOOP
+                      19     
+011B                  20     CHECK_R:
+011B B40204           21             CJNE    A, #02H, CHECK_F
+011E 3138             22             ACALL   RIGHT_STEP
+0120 80ED             23             SJMP    LOOP
+                      24     
+0122                  25     CHECK_F:
+0122 B40304           26             CJNE    A, #03H, IDLE
+0125 3142             27             ACALL   FLASH_STEP
+0127 80E6             28             SJMP    LOOP
+                      29     
+0129 759000           30     IDLE:   MOV     P1, #00H
+012C 80E1             31             SJMP    LOOP
+                      32     
+012E                  33     LEFT_STEP:
+012E E530             34             MOV     A, 30H
+0130 F590             35             MOV     P1, A
+0132 314C             36             ACALL   DELAY
+0134 23               37             RL      A
+0135 F530             38             MOV     30H, A
+0137 22               39             RET
+                      40     
+0138                  41     RIGHT_STEP:
+0138 E531             42             MOV     A, 31H
+013A F590             43             MOV     P1, A
+013C 314C             44             ACALL   DELAY
+013E 03               45             RR      A
+013F F531             46             MOV     31H, A
+0141 22               47             RET
+                      48     
+0142                  49     FLASH_STEP:
+0142 E532             50             MOV     A, 32H
+0144 F590             51             MOV     P1, A
+0146 314C             52             ACALL   DELAY
+0148 F4               53             CPL     A
+0149 F532             54             MOV     32H, A
+014B 22               55             RET
+                      56     
+014C 7F20             57     DELAY:  MOV     R7, #20H
+A51 MACRO ASSEMBLER  EXP1_IMPROVE2                                                        04/10/2026 04:25:01 PAGE     2
+
+014E 7EFF             58     D1:     MOV     R6, #0FFH
+0150 DEFE             59     D2:     DJNZ    R6, D2
+0152 DFFA             60             DJNZ    R7, D1
+0154 22               61             RET
+                      62     
+                      63             END
+A51 MACRO ASSEMBLER  EXP1_IMPROVE2                                                        04/10/2026 04:25:01 PAGE     3
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+CHECK_F. . . . . .  C ADDR   0122H   A   
+CHECK_R. . . . . .  C ADDR   011BH   A   
+D1 . . . . . . . .  C ADDR   014EH   A   
+D2 . . . . . . . .  C ADDR   0150H   A   
+DELAY. . . . . . .  C ADDR   014CH   A   
+FLASH_STEP . . . .  C ADDR   0142H   A   
+IDLE . . . . . . .  C ADDR   0129H   A   
+LEFT_STEP. . . . .  C ADDR   012EH   A   
+LOOP . . . . . . .  C ADDR   010FH   A   
+MAIN . . . . . . .  C ADDR   0100H   A   
+P1 . . . . . . . .  D ADDR   0090H   A   
+P2 . . . . . . . .  D ADDR   00A0H   A   
+RIGHT_STEP . . . .  C ADDR   0138H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

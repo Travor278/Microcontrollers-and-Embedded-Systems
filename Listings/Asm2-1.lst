@@ -1,0 +1,46 @@
+A51 MACRO ASSEMBLER  ASM2_1                                                               04/10/2026 02:05:46 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.02c
+OBJECT MODULE PLACED IN .\Objects\Asm2-1.obj
+ASSEMBLER INVOKED BY: D:\C51\BIN\A51.EXE Asm2-1.asm SET(SMALL) DEBUG PRINT(.\Listings\Asm2-1.lst) OBJECT(.\Objects\Asm2-
+                      1.obj) EP
+
+LOC  OBJ            LINE     SOURCE
+
+0000                   1             ORG     0000H
+0000 020100            2             LJMP    MAIN
+                       3     
+0100                   4             ORG     0100H
+0100 7820              5     MAIN:   MOV     R0, #20H
+0102 7F03              6             MOV     R7, #03H
+0104 E4                7             CLR     A
+0105 FC                8             MOV     R4, A
+                       9     
+0106 EC               10     LP1:    MOV     A, R4
+0107 75F00A           11             MOV     B, #0AH
+010A A4               12             MUL     AB
+010B 26               13             ADD     A, @R0
+010C 08               14             INC     R0
+010D FC               15             MOV     R4, A
+010E DFF6             16             DJNZ    R7, LP1
+                      17     
+0110 80FE             18             SJMP    $
+                      19             END
+A51 MACRO ASSEMBLER  ASM2_1                                                               04/10/2026 02:05:46 PAGE     2
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+B. . . . . . . . .  D ADDR   00F0H   A   
+LP1. . . . . . . .  C ADDR   0106H   A   
+MAIN . . . . . . .  C ADDR   0100H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)
