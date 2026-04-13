@@ -1,0 +1,206 @@
+C51 COMPILER V9.54   EX2_TRAFFIC_EMERGENCY                                                 04/13/2026 10:39:34 PAGE 1   
+
+
+C51 COMPILER V9.54, COMPILATION OF MODULE EX2_TRAFFIC_EMERGENCY
+OBJECT MODULE PLACED IN .\Objects\EX2_Traffic_Emergency.obj
+COMPILER INVOKED BY: D:\C51\BIN\C51.EXE EX2_Traffic_Emergency.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\List
+                    -ings\EX2_Traffic_Emergency.lst) TABS(2) OBJECT(.\Objects\EX2_Traffic_Emergency.obj)
+
+line level    source
+
+   1          #include "SST89x5x4.h"
+   2          
+   3          /*
+   4           * P1.0  南北红灯
+   5           * P1.1  南北黄灯
+   6           * P1.2  南北绿灯
+   7           * P1.3  东西红灯
+   8           * P1.4  东西黄灯
+   9           * P1.5  东西绿灯
+  10           *
+  11           * INT0  急救车中断请求，低电平触发后全红 10 秒，
+  12           *       然后恢复到中断前状态。
+  13           */
+  14          
+  15          #define NS_RED   0x01
+  16          #define NS_YEL   0x02
+  17          #define NS_GRN   0x04
+  18          #define EW_RED   0x08
+  19          #define EW_YEL   0x10
+  20          #define EW_GRN   0x20
+  21          
+  22          typedef enum
+  23          {
+  24              NS_GREEN = 0,
+  25              NS_YELLOW,
+  26              EW_GREEN,
+  27              EW_YELLOW
+  28          } traffic_state_t;
+  29          
+  30          /*
+  31           * 用 unsigned int 保存节拍计数，避免调试时把比较阈值改到 255 以上后
+  32           * 由于 8 位溢出而永远达不到条件。
+  33           */
+  34          volatile unsigned int tick_50ms = 0;
+  35          volatile unsigned char remain_seconds = 8;
+  36          volatile traffic_state_t state = NS_GREEN;
+  37          
+  38          volatile bit second_flag = 0;
+  39          volatile bit emergency_req = 0;
+  40          volatile bit emergency_active = 0;
+  41          
+  42          volatile unsigned char saved_remain = 0;
+  43          volatile traffic_state_t saved_state = NS_GREEN;
+  44          
+  45          void show_state(traffic_state_t s)
+  46          {
+  47   1          switch (s)
+  48   1          {
+  49   2          case NS_GREEN:
+  50   2              P1 = NS_GRN | EW_RED;
+  51   2              break;
+  52   2          case NS_YELLOW:
+  53   2              P1 = NS_YEL | EW_RED;
+  54   2              break;
+C51 COMPILER V9.54   EX2_TRAFFIC_EMERGENCY                                                 04/13/2026 10:39:34 PAGE 2   
+
+  55   2          case EW_GREEN:
+  56   2              P1 = NS_RED | EW_GRN;
+  57   2              break;
+  58   2          case EW_YELLOW:
+  59   2              P1 = NS_RED | EW_YEL;
+  60   2              break;
+  61   2          default:
+  62   2              P1 = 0x00;
+  63   2              break;
+  64   2          }
+  65   1      }
+  66          
+  67          void all_red(void)
+  68          {
+  69   1          P1 = NS_RED | EW_RED;
+  70   1      }
+  71          
+  72          void next_state(void)
+  73          {
+  74   1          switch (state)
+  75   1          {
+  76   2          case NS_GREEN:
+  77   2              state = NS_YELLOW;
+  78   2              remain_seconds = 2;
+  79   2              break;
+  80   2          case NS_YELLOW:
+  81   2              state = EW_GREEN;
+  82   2              remain_seconds = 8;
+  83   2              break;
+  84   2          case EW_GREEN:
+  85   2              state = EW_YELLOW;
+  86   2              remain_seconds = 2;
+  87   2              break;
+  88   2          case EW_YELLOW:
+  89   2              state = NS_GREEN;
+  90   2              remain_seconds = 8;
+  91   2              break;
+  92   2          default:
+  93   2              state = NS_GREEN;
+  94   2              remain_seconds = 8;
+  95   2              break;
+  96   2          }
+  97   1      }
+  98          
+  99          void timer0_isr(void) interrupt 1
+ 100          {
+ 101   1          TH0 = 0x3C;
+ 102   1          TL0 = 0xB0;
+ 103   1      
+ 104   1          tick_50ms++;
+ 105   1          if (tick_50ms >= 20)
+ 106   1          {
+ 107   2              tick_50ms = 0;
+ 108   2              second_flag = 1;
+ 109   2          }
+ 110   1      }
+ 111          
+ 112          void int0_isr(void) interrupt 0
+ 113          {
+ 114   1          emergency_req = 1;
+ 115   1      }
+ 116          
+C51 COMPILER V9.54   EX2_TRAFFIC_EMERGENCY                                                 04/13/2026 10:39:34 PAGE 3   
+
+ 117          void main(void)
+ 118          {
+ 119   1          TMOD = 0x01;
+ 120   1          TH0 = 0x3C;
+ 121   1          TL0 = 0xB0;
+ 122   1      
+ 123   1          IT0 = 1;
+ 124   1          EX0 = 1;
+ 125   1          ET0 = 1;
+ 126   1          EA = 1;
+ 127   1          TR0 = 1;
+ 128   1      
+ 129   1          show_state(state);
+ 130   1      
+ 131   1          while (1)
+ 132   1          {
+ 133   2              if (emergency_req && !emergency_active)
+ 134   2              {
+ 135   3                  emergency_req = 0;
+ 136   3                  emergency_active = 1;
+ 137   3                  saved_state = state;
+ 138   3                  saved_remain = remain_seconds;
+ 139   3                  /*
+ 140   3                   * 触发急救车后把当前 50ms 节拍清零，
+ 141   3                   * 这样“全红 10 秒”会从触发时刻开始完整计时，
+ 142   3                   * 不会吃掉前一个状态剩余的零头时间。
+ 143   3                   */
+ 144   3                  tick_50ms = 0;
+ 145   3                  second_flag = 0;
+ 146   3                  remain_seconds = 10;
+ 147   3                  all_red();
+ 148   3              }
+ 149   2      
+ 150   2              if (second_flag)
+ 151   2              {
+ 152   3                  second_flag = 0;
+ 153   3      
+ 154   3                  if (remain_seconds > 0)
+ 155   3                  {
+ 156   4                      remain_seconds--;
+ 157   4                  }
+ 158   3      
+ 159   3                  if (remain_seconds == 0)
+ 160   3                  {
+ 161   4                      if (emergency_active)
+ 162   4                      {
+ 163   5                          emergency_active = 0;
+ 164   5                          state = saved_state;
+ 165   5                          remain_seconds = saved_remain;
+ 166   5                          show_state(state);
+ 167   5                      }
+ 168   4                      else
+ 169   4                      {
+ 170   5                          next_state();
+ 171   5                          show_state(state);
+ 172   5                      }
+ 173   4                  }
+ 174   3              }
+ 175   2          }
+ 176   1      }
+
+
+C51 COMPILER V9.54   EX2_TRAFFIC_EMERGENCY                                                 04/13/2026 10:39:34 PAGE 4   
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    218    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      6    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =      3    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

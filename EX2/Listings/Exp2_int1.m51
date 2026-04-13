@@ -1,0 +1,109 @@
+BL51 BANKED LINKER/LOCATER V6.22                                                        04/13/2026  09:30:37  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22, INVOKED BY:
+D:\C51\BIN\BL51.EXE .\Objects\EX2_Int1.obj TO .\Objects\Exp2_int1 PRINT (.\Listings\Exp2_int1.m51) RAMSIZE (256)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  .\Objects\EX2_Int1.obj (EX2_INT1)
+  D:\C51\LIB\C51S.LIB (?C_STARTUP)
+
+
+LINK MAP OF MODULE:  .\Objects\Exp2_int1 (EX2_INT1)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            IDATA   0008H     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+                    0003H     0008H                  *** GAP ***
+            CODE    000BH     0003H     ABSOLUTE     
+            CODE    000EH     000CH     UNIT         ?C_C51STARTUP
+                    001AH     0001H                  *** GAP ***
+            CODE    001BH     0003H     ABSOLUTE     
+            CODE    001EH     0016H     UNIT         ?PR?MAIN?EX2_INT1
+            CODE    0034H     0009H     UNIT         ?PR?INT_TIMER0?EX2_INT1
+            CODE    003DH     0009H     UNIT         ?PR?INT_TIMER1?EX2_INT1
+
+
+
+OVERLAY MAP OF MODULE:   .\Objects\Exp2_int1 (EX2_INT1)
+
+
+SEGMENT
+  +--> CALLED SEGMENT
+---------------------
+?C_C51STARTUP
+  +--> ?PR?MAIN?EX2_INT1
+
+
+
+SYMBOL TABLE OF MODULE:  .\Objects\Exp2_int1 (EX2_INT1)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        EX2_INT1
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0090H         PUBLIC        P1
+  C:0034H         PUBLIC        int_timer0
+  C:003DH         PUBLIC        int_timer1
+  D:00B0H         PUBLIC        P3
+  D:00A8H         PUBLIC        IE
+BL51 BANKED LINKER/LOCATER V6.22                                                      04/13/2026  09:30:37  PAGE 2
+
+
+  D:00B8H         PUBLIC        IP
+  C:001EH         PUBLIC        main
+  D:0098H         PUBLIC        SCON
+  D:0089H         PUBLIC        TMOD
+  D:0088H         PUBLIC        TCON
+  B:0090H.0       PUBLIC        Wave1
+  B:0090H.1       PUBLIC        Wave2
+  D:008CH         PUBLIC        TH0
+  D:008DH         PUBLIC        TH1
+  D:008AH         PUBLIC        TL0
+  D:008BH         PUBLIC        TL1
+  D:00C8H         PUBLIC        T2CON
+  D:00D0H         PUBLIC        PSW
+  -------         PROC          INT_TIMER0
+  C:0034H         LINE#         6
+  C:0034H         LINE#         8
+  C:0036H         LINE#         9
+  C:0039H         LINE#         10
+  C:003CH         LINE#         11
+  -------         ENDPROC       INT_TIMER0
+  -------         PROC          INT_TIMER1
+  C:003DH         LINE#         13
+  C:003DH         LINE#         15
+  C:003FH         LINE#         16
+  C:0042H         LINE#         17
+  C:0045H         LINE#         18
+  -------         ENDPROC       INT_TIMER1
+  -------         PROC          MAIN
+  C:001EH         LINE#         20
+  C:001EH         LINE#         21
+  C:001EH         LINE#         22
+  C:0021H         LINE#         23
+  C:0024H         LINE#         24
+  C:0027H         LINE#         25
+  C:0029H         LINE#         27
+  C:002CH         LINE#         28
+  C:002FH         LINE#         29
+  C:0032H         LINE#         31
+  C:0032H         LINE#         32
+  C:0032H         LINE#         33
+  -------         ENDPROC       MAIN
+  -------         ENDMOD        EX2_INT1
+
+Program Size: data=9.0 xdata=0 code=61
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

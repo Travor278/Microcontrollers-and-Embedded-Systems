@@ -1,0 +1,147 @@
+BL51 BANKED LINKER/LOCATER V6.22                                                        04/13/2026  09:46:12  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22, INVOKED BY:
+D:\C51\BIN\BL51.EXE .\Objects\EX2_INT2.obj TO .\Objects\Exp2_int2 PRINT (.\Listings\Exp2_int2.m51) RAMSIZE (256)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  .\Objects\EX2_INT2.obj (EX2_INT2)
+  D:\C51\LIB\C51S.LIB (?C_STARTUP)
+
+
+LINK MAP OF MODULE:  .\Objects\Exp2_int2 (EX2_INT2)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            IDATA   0008H     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+            CODE    0003H     0003H     ABSOLUTE     
+            CODE    0006H     000CH     UNIT         ?C_C51STARTUP
+                    0012H     0001H                  *** GAP ***
+            CODE    0013H     0003H     ABSOLUTE     
+            CODE    0016H     003CH     UNIT         ?PR?INT1_ISR?EX2_INT2
+            CODE    0052H     002AH     UNIT         ?PR?INT0_ISR?EX2_INT2
+            CODE    007CH     000FH     UNIT         ?PR?DELAY?EX2_INT2
+            CODE    008BH     000FH     UNIT         ?PR?MAIN?EX2_INT2
+
+
+
+OVERLAY MAP OF MODULE:   .\Objects\Exp2_int2 (EX2_INT2)
+
+
+SEGMENT
+  +--> CALLED SEGMENT
+---------------------
+?PR?INT0_ISR?EX2_INT2
+  +--> ?PR?DELAY?EX2_INT2
+
+*** NEW ROOT ***************************************************
+
+?PR?INT1_ISR?EX2_INT2
+  +--> ?PR?DELAY?EX2_INT2
+
+*** NEW ROOT ***************************************************
+
+?C_C51STARTUP
+  +--> ?PR?MAIN?EX2_INT2
+
+
+
+SYMBOL TABLE OF MODULE:  .\Objects\Exp2_int2 (EX2_INT2)
+
+BL51 BANKED LINKER/LOCATER V6.22                                                      04/13/2026  09:46:12  PAGE 2
+
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        EX2_INT2
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0090H         PUBLIC        P1
+  D:00B0H         PUBLIC        P3
+  B:00A8H.7       PUBLIC        EA
+  D:00A8H         PUBLIC        IE
+  C:007CH         PUBLIC        delay
+  D:00B8H         PUBLIC        IP
+  C:008BH         PUBLIC        main
+  C:0052H         PUBLIC        int0_isr
+  C:0016H         PUBLIC        int1_isr
+  D:0098H         PUBLIC        SCON
+  D:0088H         PUBLIC        TCON
+  B:00A8H.0       PUBLIC        EX0
+  B:0088H.0       PUBLIC        IT0
+  B:00A8H.2       PUBLIC        EX1
+  B:0088H.2       PUBLIC        IT1
+  D:00C8H         PUBLIC        T2CON
+  D:00D0H         PUBLIC        PSW
+  -------         PROC          DELAY
+  -------         DO            
+  D:0006H         SYMBOL        x
+  -------         ENDDO         
+  C:007CH         LINE#         4
+  C:007CH         LINE#         5
+  C:007CH         LINE#         7
+  C:007FH         LINE#         8
+  C:007FH         LINE#         9
+  C:008AH         LINE#         10
+  -------         ENDPROC       DELAY
+  -------         PROC          INT0_ISR
+  -------         DO            
+  D:0005H         SYMBOL        j
+  -------         ENDDO         
+  C:0052H         LINE#         12
+  C:005FH         LINE#         15
+  C:0061H         LINE#         16
+  C:0061H         LINE#         17
+  C:0064H         LINE#         18
+  C:0067H         LINE#         19
+  C:006AH         LINE#         20
+  C:006DH         LINE#         21
+  C:0071H         LINE#         22
+  -------         ENDPROC       INT0_ISR
+  -------         PROC          INT1_ISR
+  -------         DO            
+  D:0005H         SYMBOL        i
+  D:0004H         SYMBOL        j
+  -------         ENDDO         
+  C:0016H         LINE#         24
+  C:0027H         LINE#         26
+  C:0029H         LINE#         27
+  C:002BH         LINE#         28
+  C:002BH         LINE#         29
+BL51 BANKED LINKER/LOCATER V6.22                                                      04/13/2026  09:46:12  PAGE 3
+
+
+  C:002DH         LINE#         30
+  C:0039H         LINE#         31
+  C:003CH         LINE#         32
+  C:0040H         LINE#         33
+  C:0043H         LINE#         34
+  -------         ENDPROC       INT1_ISR
+  -------         PROC          MAIN
+  C:008BH         LINE#         36
+  C:008BH         LINE#         37
+  C:008BH         LINE#         38
+  C:008EH         LINE#         40
+  C:0090H         LINE#         41
+  C:0092H         LINE#         42
+  C:0094H         LINE#         43
+  C:0096H         LINE#         44
+  C:0098H         LINE#         46
+  C:0098H         LINE#         47
+  C:0098H         LINE#         48
+  -------         ENDPROC       MAIN
+  -------         ENDMOD        EX2_INT2
+
+Program Size: data=9.0 xdata=0 code=153
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

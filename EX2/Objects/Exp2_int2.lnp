@@ -1,0 +1,3 @@
+".\Objects\EX2_INT2.obj" 
+TO ".\Objects\Exp2_int2" 
+PRINT(".\Listings\Exp2_int2.m51") RAMSIZE(256) 

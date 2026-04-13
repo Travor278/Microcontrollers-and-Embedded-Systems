@@ -1,0 +1,3 @@
+".\Objects\EX2_Traffic_Emergency.obj" 
+TO ".\Objects\Exp2_traffic" 
+PRINT(".\Listings\Exp2_traffic.m51") RAMSIZE(256) 
