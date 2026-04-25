@@ -1,0 +1,259 @@
+BL51 BANKED LINKER/LOCATER V6.22                                                        04/17/2026  06:16:11  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22, INVOKED BY:
+D:\C51\BIN\BL51.EXE .\Objects\EX2_Traffic_Emergency_display.obj TO .\Objects\Exp2_traffic_2 PRINT (.\Listings\Exp2_traff
+>> ic_2.m51) RAMSIZE (256)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  .\Objects\EX2_Traffic_Emergency_display.obj (EX2_TRAFFIC_EMERGENCY_DISPLAY)
+  D:\C51\LIB\C51S.LIB (?C_STARTUP)
+  D:\C51\LIB\C51S.LIB (?C_INIT)
+
+
+LINK MAP OF MODULE:  .\Objects\Exp2_traffic_2 (EX2_TRAFFIC_EMERGENCY_DISPLAY)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            DATA    0008H     0006H     UNIT         ?DT?EX2_TRAFFIC_EMERGENCY_DISPLAY
+                    000EH     0012H                  *** GAP ***
+            BIT     0020H.0   0000H.3   UNIT         ?BI?EX2_TRAFFIC_EMERGENCY_DISPLAY
+                    0020H.3   0000H.5                *** GAP ***
+            IDATA   0021H     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+            CODE    0003H     0003H     ABSOLUTE     
+            CODE    0006H     0004H     UNIT         ?PR?ALL_RED?EX2_TRAFFIC_EMERGENCY_DISPLAY
+                    000AH     0001H                  *** GAP ***
+            CODE    000BH     0003H     ABSOLUTE     
+            CODE    000EH     008CH     UNIT         ?C_C51STARTUP
+            CODE    009AH     0065H     UNIT         ?PR?MAIN?EX2_TRAFFIC_EMERGENCY_DISPLAY
+            CODE    00FFH     0038H     UNIT         ?PR?_DISPLAY_COUNTDOWN?EX2_TRAFFIC_EMERGENCY_DISPLAY
+            CODE    0137H     002AH     UNIT         ?PR?TIMER0_ISR?EX2_TRAFFIC_EMERGENCY_DISPLAY
+            CODE    0161H     0027H     UNIT         ?PR?NEXT_STATE?EX2_TRAFFIC_EMERGENCY_DISPLAY
+            CODE    0188H     0022H     UNIT         ?PR?_SHOW_STATE?EX2_TRAFFIC_EMERGENCY_DISPLAY
+            CODE    01AAH     0017H     UNIT         ?C_INITSEG
+            CODE    01C1H     0012H     UNIT         ?PR?_DELAY_DISP?EX2_TRAFFIC_EMERGENCY_DISPLAY
+            CODE    01D3H     000AH     UNIT         ?CO?EX2_TRAFFIC_EMERGENCY_DISPLAY
+            CODE    01DDH     0003H     UNIT         ?PR?INT0_ISR?EX2_TRAFFIC_EMERGENCY_DISPLAY
+
+
+
+OVERLAY MAP OF MODULE:   .\Objects\Exp2_traffic_2 (EX2_TRAFFIC_EMERGENCY_DISPLAY)
+
+
+SEGMENT
+  +--> CALLED SEGMENT
+---------------------
+?C_C51STARTUP
+  +--> ?PR?MAIN?EX2_TRAFFIC_EMERGENCY_DISPLAY
+  +--> ?C_INITSEG
+
+?PR?MAIN?EX2_TRAFFIC_EMERGENCY_DISPLAY
+BL51 BANKED LINKER/LOCATER V6.22                                                      04/17/2026  06:16:11  PAGE 2
+
+
+  +--> ?PR?_DISPLAY_COUNTDOWN?EX2_TRAFFIC_EM...
+  +--> ?PR?ALL_RED?EX2_TRAFFIC_EMERGENCY_DIS...
+  +--> ?PR?_SHOW_STATE?EX2_TRAFFIC_EMERGENCY...
+  +--> ?PR?NEXT_STATE?EX2_TRAFFIC_EMERGENCY_...
+
+?PR?_DISPLAY_COUNTDOWN?EX2_TRAFFIC_EM...
+  +--> ?CO?EX2_TRAFFIC_EMERGENCY_DISPLAY
+  +--> ?PR?_DELAY_DISP?EX2_TRAFFIC_EMERGENCY...
+
+
+
+SYMBOL TABLE OF MODULE:  .\Objects\Exp2_traffic_2 (EX2_TRAFFIC_EMERGENCY_DISPLAY)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        EX2_TRAFFIC_EMERGENCY_DISPLAY
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0080H         PUBLIC        P0
+  D:0090H         PUBLIC        P1
+  D:00A0H         PUBLIC        P2
+  D:00B0H         PUBLIC        P3
+  C:0137H         PUBLIC        timer0_isr
+  B:00A8H.7       PUBLIC        EA
+  D:00A8H         PUBLIC        IE
+  D:00B8H         PUBLIC        IP
+  D:0008H         PUBLIC        saved_state
+  D:0009H         PUBLIC        state
+  C:01C1H         PUBLIC        _delay_disp
+  B:0020H.0       PUBLIC        emergency_active
+  C:009AH         PUBLIC        main
+  C:01DDH         PUBLIC        int0_isr
+  D:0098H         PUBLIC        SCON
+  D:0089H         PUBLIC        TMOD
+  D:0088H         PUBLIC        TCON
+  C:01D3H         PUBLIC        seg_code
+  C:00FFH         PUBLIC        _display_countdown
+  C:0161H         PUBLIC        next_state
+  C:0188H         PUBLIC        _show_state
+  B:00A8H.1       PUBLIC        ET0
+  D:008CH         PUBLIC        TH0
+  B:00A8H.0       PUBLIC        EX0
+  B:0088H.0       PUBLIC        IT0
+  D:008AH         PUBLIC        TL0
+  D:000AH         PUBLIC        remain_seconds
+  D:000BH         PUBLIC        tick_50ms
+  B:0088H.4       PUBLIC        TR0
+  C:0006H         PUBLIC        all_red
+  D:00C8H         PUBLIC        T2CON
+  B:0020H.1       PUBLIC        emergency_req
+  D:000DH         PUBLIC        saved_remain
+  D:00D0H         PUBLIC        PSW
+  B:0020H.2       PUBLIC        second_flag
+  -------         PROC          _DELAY_DISP
+  D:0006H         SYMBOL        t
+  -------         DO            
+  D:0004H         SYMBOL        i
+BL51 BANKED LINKER/LOCATER V6.22                                                      04/17/2026  06:16:11  PAGE 3
+
+
+  -------         ENDDO         
+  C:01C1H         LINE#         73
+  C:01C1H         LINE#         74
+  C:01C1H         LINE#         76
+  C:01D2H         LINE#         77
+  -------         ENDPROC       _DELAY_DISP
+  -------         PROC          _DISPLAY_COUNTDOWN
+  D:0007H         SYMBOL        seconds
+  -------         DO            
+  D:0006H         SYMBOL        tens
+  D:0003H         SYMBOL        units
+  -------         ENDDO         
+  C:00FFH         LINE#         92
+  C:00FFH         LINE#         93
+  C:00FFH         LINE#         94
+  C:0105H         LINE#         95
+  C:010CH         LINE#         98
+  C:010FH         LINE#         99
+  C:0118H         LINE#         100
+  C:011BH         LINE#         101
+  C:0122H         LINE#         104
+  C:0125H         LINE#         105
+  C:012BH         LINE#         106
+  C:012EH         LINE#         107
+  C:0133H         LINE#         109
+  C:0136H         LINE#         110
+  -------         ENDPROC       _DISPLAY_COUNTDOWN
+  -------         PROC          _SHOW_STATE
+  D:0007H         SYMBOL        s
+  C:0188H         LINE#         114
+  C:0188H         LINE#         115
+  C:0188H         LINE#         116
+  C:0196H         LINE#         117
+  C:0196H         LINE#         118
+  C:019AH         LINE#         119
+  C:019EH         LINE#         120
+  C:01A2H         LINE#         121
+  C:01A6H         LINE#         122
+  C:01A9H         LINE#         123
+  C:01A9H         LINE#         124
+  -------         ENDPROC       _SHOW_STATE
+  -------         PROC          ALL_RED
+  C:0006H         LINE#         126
+  C:0006H         LINE#         127
+  C:0006H         LINE#         128
+  C:0009H         LINE#         129
+  -------         ENDPROC       ALL_RED
+  -------         PROC          NEXT_STATE
+  C:0161H         LINE#         131
+  C:0161H         LINE#         132
+  C:0161H         LINE#         133
+  C:0170H         LINE#         134
+  C:0170H         LINE#         135
+  C:0175H         LINE#         136
+  C:017AH         LINE#         137
+  C:0181H         LINE#         138
+  C:0181H         LINE#         139
+BL51 BANKED LINKER/LOCATER V6.22                                                      04/17/2026  06:16:11  PAGE 4
+
+
+  C:0187H         LINE#         140
+  C:0187H         LINE#         141
+  -------         ENDPROC       NEXT_STATE
+  -------         PROC          TIMER0_ISR
+  C:0137H         LINE#         145
+  C:013BH         LINE#         147
+  C:013EH         LINE#         148
+  C:0141H         LINE#         149
+  C:0149H         LINE#         150
+  C:0154H         LINE#         151
+  C:0154H         LINE#         152
+  C:015AH         LINE#         153
+  C:015CH         LINE#         154
+  C:015CH         LINE#         155
+  -------         ENDPROC       TIMER0_ISR
+  -------         PROC          INT0_ISR
+  C:01DDH         LINE#         157
+  C:01DDH         LINE#         159
+  C:01DFH         LINE#         160
+  -------         ENDPROC       INT0_ISR
+  -------         PROC          MAIN
+  C:009AH         LINE#         164
+  C:009AH         LINE#         165
+  C:009AH         LINE#         166
+  C:009DH         LINE#         167
+  C:00A0H         LINE#         168
+  C:00A3H         LINE#         169
+  C:00A5H         LINE#         170
+  C:00A7H         LINE#         171
+  C:00A9H         LINE#         172
+  C:00ABH         LINE#         173
+  C:00ADH         LINE#         175
+  C:00AFH         LINE#         177
+  C:00AFH         LINE#         178
+  C:00AFH         LINE#         184
+  C:00B4H         LINE#         187
+  C:00BAH         LINE#         188
+  C:00BAH         LINE#         189
+  C:00BCH         LINE#         190
+  C:00BEH         LINE#         191
+  C:00C1H         LINE#         192
+  C:00C4H         LINE#         193
+  C:00C9H         LINE#         194
+  C:00CBH         LINE#         195
+  C:00CEH         LINE#         196
+  C:00D1H         LINE#         197
+  C:00D1H         LINE#         200
+  C:00D4H         LINE#         201
+  C:00D4H         LINE#         202
+  C:00D6H         LINE#         204
+  C:00DDH         LINE#         205
+  C:00DFH         LINE#         207
+  C:00E3H         LINE#         208
+  C:00E3H         LINE#         209
+  C:00E6H         LINE#         210
+  C:00E6H         LINE#         211
+  C:00E8H         LINE#         212
+BL51 BANKED LINKER/LOCATER V6.22                                                      04/17/2026  06:16:11  PAGE 5
+
+
+  C:00EBH         LINE#         213
+  C:00EEH         LINE#         214
+  C:00F3H         LINE#         215
+  C:00F5H         LINE#         217
+  C:00F5H         LINE#         218
+  C:00F8H         LINE#         219
+  C:00FDH         LINE#         220
+  C:00FDH         LINE#         221
+  C:00FDH         LINE#         222
+  C:00FDH         LINE#         223
+  -------         ENDPROC       MAIN
+  -------         ENDMOD        EX2_TRAFFIC_EMERGENCY_DISPLAY
+
+Program Size: data=15.3 xdata=0 code=479
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

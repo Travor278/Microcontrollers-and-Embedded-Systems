@@ -1,0 +1,3 @@
+".\Objects\EX3_Timer_LED_Sound_Advanced.obj" 
+TO ".\Objects\EX3_Timer_LED_Sound_Advanced" 
+PRINT(".\Listings\EX3_Timer_LED_Sound_Advanced.m51") RAMSIZE(256) 

@@ -1,0 +1,242 @@
+C51 COMPILER V9.54   EX3_TIMER_LED_SOUND_ADVANCED                                          04/25/2026 00:38:28 PAGE 1   
+
+
+C51 COMPILER V9.54, COMPILATION OF MODULE EX3_TIMER_LED_SOUND_ADVANCED
+OBJECT MODULE PLACED IN .\Objects\EX3_Timer_LED_Sound_Advanced.obj
+COMPILER INVOKED BY: D:\C51\BIN\C51.EXE EX3_Timer_LED_Sound_Advanced.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT
+                    -(.\Listings\EX3_Timer_LED_Sound_Advanced.lst) TABS(2) OBJECT(.\Objects\EX3_Timer_LED_Sound_Advanced.obj)
+
+line level    source
+
+   1          #include "SST89x5x4.h"
+   2          
+   3          /*
+   4           * EX3 advanced task
+   5           *
+   6           * Port assignment for Proteus:
+   7           *   P1.0-P1.7 -> LED L1-L8, active high
+   8           *   P2.0-P2.7 -> 1-digit 7-segment display a,b,c,d,e,f,g,dp, common cathode
+   9           *   P3.7      -> speaker driver input
+  10           *
+  11           * Timer1:
+  12           *   mode 1, 50 ms overflow interrupt.
+  13           *   With 11.0592 MHz crystal and 12-clock mode:
+  14           *   timer clock = 921600 Hz, 50 ms = 46080 counts, reload = 0x4C00.
+  15           *
+  16           * Timer0:
+  17           *   mode 1, generates the square wave for the speaker.
+  18           */
+  19          
+  20          sbit SPK = P3^7;
+  21          
+  22          #define TIMER_CLOCK 1000000UL
+  23          #define T1_RELOAD_H 0x3C
+  24          #define T1_RELOAD_L 0xB0
+  25          
+  26          unsigned char code led_pattern[8] = {
+  27              0x05,   /* 1s: L1, L3 */
+  28              0x0A,   /* 2s: L2, L4 */
+  29              0x50,   /* 3s: L5, L7 */
+  30              0xA0,   /* 4s: L6, L8 */
+  31              0x55,   /* 5s: L1, L3, L5, L7 */
+  32              0xAA,   /* 6s: L2, L4, L6, L8 */
+  33              0xFF,   /* 7s: all on */
+  34              0x00    /* 8s: all off */
+  35          };
+  36          
+  37          /* Common-cathode segment codes: 0-9 */
+  38          unsigned char code seg_cc[10] = {
+  39              0x3F, 0x06, 0x5B, 0x4F, 0x66,
+  40              0x6D, 0x7D, 0x07, 0x7F, 0x6F
+  41          };
+  42          
+  43          /* Song 1: 16 notes * 10 ticks = 8 s */
+  44          unsigned int code song1_freq[] = {
+  45              262, 262, 393, 393, 441, 441, 393, 0,
+  46              350, 350, 330, 330, 294, 294, 262, 0
+  47          };
+  48          
+  49          unsigned char code song1_time[] = {
+  50              10, 10, 10, 10, 10, 10, 10, 10,
+  51              10, 10, 10, 10, 10, 10, 10, 10
+  52          };
+  53          
+  54          /* Song 2: 16 notes * 10 ticks = 8 s */
+C51 COMPILER V9.54   EX3_TIMER_LED_SOUND_ADVANCED                                          04/25/2026 00:38:28 PAGE 2   
+
+  55          unsigned int code song2_freq[] = {
+  56              330, 330, 350, 393, 393, 350, 330, 294,
+  57              262, 262, 294, 330, 330, 294, 294, 0
+  58          };
+  59          
+  60          unsigned char code song2_time[] = {
+  61              10, 10, 10, 10, 10, 10, 10, 10,
+  62              10, 10, 10, 10, 10, 10, 10, 10
+  63          };
+  64          
+  65          unsigned char data tone_h = 0x00;
+  66          unsigned char data tone_l = 0x00;
+  67          
+  68          volatile unsigned char tick_50ms = 0;
+  69          volatile unsigned char pending_50ms = 0;
+  70          volatile unsigned char second_index = 0;
+  71          
+  72          unsigned char data song_no = 0;
+  73          unsigned char data note_index = 0;
+  74          unsigned char data note_ticks_left = 0;
+  75          
+  76          void display_second(void)
+  77          {
+  78   1          P2 = seg_cc[second_index + 1];
+  79   1      }
+  80          
+  81          void set_tone(unsigned int freq)
+  82          {
+  83   1          unsigned long counts;
+  84   1          unsigned int reload;
+  85   1      
+  86   1          if (freq == 0)
+  87   1          {
+  88   2              TR0 = 0;
+  89   2              SPK = 0;
+  90   2              return;
+  91   2          }
+  92   1      
+  93   1          counts = TIMER_CLOCK / (2UL * freq);
+  94   1          reload = (unsigned int)(65536UL - counts);
+  95   1      
+  96   1          tone_h = (unsigned char)(reload >> 8);
+  97   1          tone_l = (unsigned char)(reload & 0xFF);
+  98   1      
+  99   1          TH0 = tone_h;
+ 100   1          TL0 = tone_l;
+ 101   1          TF0 = 0;
+ 102   1          TR0 = 1;
+ 103   1      }
+ 104          
+ 105          void load_note(void)
+ 106          {
+ 107   1          unsigned int freq;
+ 108   1      
+ 109   1          if (song_no == 0)
+ 110   1          {
+ 111   2              freq = song1_freq[note_index];
+ 112   2              note_ticks_left = song1_time[note_index];
+ 113   2          }
+ 114   1          else
+ 115   1          {
+ 116   2              freq = song2_freq[note_index];
+C51 COMPILER V9.54   EX3_TIMER_LED_SOUND_ADVANCED                                          04/25/2026 00:38:28 PAGE 3   
+
+ 117   2              note_ticks_left = song2_time[note_index];
+ 118   2          }
+ 119   1      
+ 120   1          set_tone(freq);
+ 121   1      }
+ 122          
+ 123          void next_note(void)
+ 124          {
+ 125   1          note_index++;
+ 126   1      
+ 127   1          if (note_index >= 16)
+ 128   1          {
+ 129   2              note_index = 0;
+ 130   2              song_no++;
+ 131   2              if (song_no >= 2)
+ 132   2              {
+ 133   3                  song_no = 0;
+ 134   3              }
+ 135   2          }
+ 136   1      
+ 137   1          load_note();
+ 138   1      }
+ 139          
+ 140          void music_tick(void)
+ 141          {
+ 142   1          if (note_ticks_left > 0)
+ 143   1          {
+ 144   2              note_ticks_left--;
+ 145   2          }
+ 146   1      
+ 147   1          if (note_ticks_left == 0)
+ 148   1          {
+ 149   2              next_note();
+ 150   2          }
+ 151   1      }
+ 152          
+ 153          void timer0_isr(void) interrupt 1
+ 154          {
+ 155   1          TH0 = tone_h;
+ 156   1          TL0 = tone_l;
+ 157   1          SPK = ~SPK;
+ 158   1      }
+ 159          
+ 160          void timer1_isr(void) interrupt 3
+ 161          {
+ 162   1          TH1 = T1_RELOAD_H;
+ 163   1          TL1 = T1_RELOAD_L;
+ 164   1      
+ 165   1          if (pending_50ms < 250)
+ 166   1          {
+ 167   2              pending_50ms++;
+ 168   2          }
+ 169   1      
+ 170   1          tick_50ms++;
+ 171   1          if (tick_50ms >= 20)
+ 172   1          {
+ 173   2              tick_50ms = 0;
+ 174   2              second_index++;
+ 175   2              if (second_index >= 8)
+ 176   2              {
+ 177   3                  second_index = 0;
+ 178   3              }
+C51 COMPILER V9.54   EX3_TIMER_LED_SOUND_ADVANCED                                          04/25/2026 00:38:28 PAGE 4   
+
+ 179   2      
+ 180   2              P1 = led_pattern[second_index];
+ 181   2              display_second();
+ 182   2          }
+ 183   1      }
+ 184          
+ 185          void main(void)
+ 186          {
+ 187   1          P1 = led_pattern[0];
+ 188   1          second_index = 0;
+ 189   1          display_second();
+ 190   1      
+ 191   1          TMOD = 0x11;      /* T1 mode 1 + T0 mode 1 */
+ 192   1      
+ 193   1          TH1 = T1_RELOAD_H;
+ 194   1          TL1 = T1_RELOAD_L;
+ 195   1      
+ 196   1          load_note();
+ 197   1      
+ 198   1          ET0 = 1;
+ 199   1          ET1 = 1;
+ 200   1          EA = 1;
+ 201   1      
+ 202   1          TR1 = 1;
+ 203   1      
+ 204   1          while (1)
+ 205   1          {
+ 206   2              if (pending_50ms > 0)
+ 207   2              {
+ 208   3                  pending_50ms--;
+ 209   3                  music_tick();
+ 210   3              }
+ 211   2          }
+ 212   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    318    ----
+   CONSTANT SIZE    =    114    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      8       6
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

@@ -1,0 +1,254 @@
+C51 COMPILER V9.54   EX2_TRAFFIC_EMERGENCY_DISPLAY                                         04/17/2026 06:16:11 PAGE 1   
+
+
+C51 COMPILER V9.54, COMPILATION OF MODULE EX2_TRAFFIC_EMERGENCY_DISPLAY
+OBJECT MODULE PLACED IN .\Objects\EX2_Traffic_Emergency_display.obj
+COMPILER INVOKED BY: D:\C51\BIN\C51.EXE EX2_Traffic_Emergency_display.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRIN
+                    -T(.\Listings\EX2_Traffic_Emergency_display.lst) TABS(2) OBJECT(.\Objects\EX2_Traffic_Emergency_display.obj)
+
+line level    source
+
+   1          /*
+   2           * EX2 Advanced (with 7-segment display):
+   3           * Traffic light + emergency priority + 2-digit countdown display
+   4           *
+   5           * Based on EX2_Traffic_Emergency.c; display wiring follows the
+   6           * style of section 4.4 (KeyScan.C) in the lab guide.
+   7           *
+   8           * Port assignment:
+   9           *   P1.0  NS red
+  10           *   P1.1  NS yellow
+  11           *   P1.2  NS green
+  12           *   P1.3  EW red
+  13           *   P1.4  EW yellow
+  14           *   P1.5  EW green
+  15           *
+  16           *   P0    7-segment data (common-cathode codes, same table as 4.4)
+  17           *   P2.7  tens  digit select  (active low, COM pulled to GND via 7407)
+  18           *   P2.6  units digit select  (active low)
+  19           *
+  20           *   INT0  Emergency: all-red 10 s, then restore previous state
+  21           *
+  22           * Note: P1 is already used by traffic LEDs, so digit-select is moved
+  23           * to P2 instead of P1 as in the original 4.4 wiring.
+  24           */
+  25          
+  26          #include "SST89x5x4.h"
+  27          
+  28          /* Traffic light port masks                                             */
+  29          #define NS_RED   0x01
+  30          #define NS_YEL   0x02
+  31          #define NS_GRN   0x04
+  32          #define EW_RED   0x08
+  33          #define EW_YEL   0x10
+  34          #define EW_GRN   0x20
+  35          
+  36          typedef enum
+  37          {
+  38              NS_GREEN = 0,
+  39              NS_YELLOW,
+  40              EW_GREEN,
+  41              EW_YELLOW
+  42          } traffic_state_t;
+  43          
+  44          /* 7-segment encoding table (common cathode, digits 0-9, from 4.4)    */
+  45          unsigned char code seg_code[] =
+  46          {
+  47              0x3F, /* 0 */
+  48              0x06, /* 1 */
+  49              0x5B, /* 2 */
+  50              0x4F, /* 3 */
+  51              0x66, /* 4 */
+  52              0x6D, /* 5 */
+  53              0x7D, /* 6 */
+  54              0x07, /* 7 */
+C51 COMPILER V9.54   EX2_TRAFFIC_EMERGENCY_DISPLAY                                         04/17/2026 06:16:11 PAGE 2   
+
+  55              0x7F, /* 8 */
+  56              0x6F  /* 9 */
+  57          };
+  58          
+  59          /* Global state variables                                               */
+  60          volatile unsigned int       tick_50ms      = 0;
+  61          volatile unsigned char      remain_seconds = 8;
+  62          volatile traffic_state_t    state          = NS_GREEN;
+  63          volatile bit                second_flag    = 0;
+  64          volatile bit                emergency_req  = 0;
+  65          volatile bit                emergency_active = 0;
+  66          volatile unsigned char      saved_remain   = 0;
+  67          volatile traffic_state_t    saved_state    = NS_GREEN;
+  68          
+  69          /* Utilities                                                            */
+  70          
+  71          /* Short blocking delay used between display digit strobes.
+  72             ~1 ms at 12 MHz (each loop iteration ≈ 12 clock cycles). */
+  73          void delay_disp(unsigned int t)
+  74          {
+  75   1          unsigned int i;
+  76   1          for (i = 0; i < t; i++);
+  77   1      }
+  78          
+  79          /* Display                                                              */
+  80          
+  81          /*
+  82           * display_countdown()
+  83           * Drives two 7-segment digits to show 'seconds' (0–99).
+  84           *
+  85           * Digit select is active low via a 7407 open-collector buffer:
+  86           *   P2 = 0x7F  →  P2.7 = 0  →  tens  digit active
+  87           *   P2 = 0xBF  →  P2.6 = 0  →  units digit active
+  88           *
+  89           * This mirrors the display() function in KeyScan.C (section 4.4),
+  90           * but uses P2 for digit select instead of P1 (P1 is used for LEDs).
+  91           */
+  92          void display_countdown(unsigned char seconds)
+  93          {
+  94   1          unsigned char tens  = seconds / 10;
+  95   1          unsigned char units = seconds % 10;
+  96   1      
+  97   1          /* --- tens digit --- */
+  98   1          P2 = 0xFF;              /* blank all digits first to avoid ghosting */
+  99   1          P0 = seg_code[tens];
+ 100   1          P2 = 0x7F;              /* P2.7 = 0: select tens digit              */
+ 101   1          delay_disp(0x400);      /* hold ~1 ms                               */
+ 102   1      
+ 103   1          /* --- units digit --- */
+ 104   1          P2 = 0xFF;
+ 105   1          P0 = seg_code[units];
+ 106   1          P2 = 0xBF;              /* P2.6 = 0: select units digit             */
+ 107   1          delay_disp(0x400);
+ 108   1      
+ 109   1          P2 = 0xFF;              /* blank at end of cycle                    */
+ 110   1      }
+ 111          
+ 112          /* Traffic light helpers (unchanged from EX2_Traffic_Emergency.c)      */
+ 113          
+ 114          void show_state(traffic_state_t s)
+ 115          {
+ 116   1          switch (s)
+C51 COMPILER V9.54   EX2_TRAFFIC_EMERGENCY_DISPLAY                                         04/17/2026 06:16:11 PAGE 3   
+
+ 117   1          {
+ 118   2          case NS_GREEN:  P1 = NS_GRN | EW_RED; break;
+ 119   2          case NS_YELLOW: P1 = NS_YEL | EW_RED; break;
+ 120   2          case EW_GREEN:  P1 = NS_RED | EW_GRN; break;
+ 121   2          case EW_YELLOW: P1 = NS_RED | EW_YEL; break;
+ 122   2          default:        P1 = 0x00;            break;
+ 123   2          }
+ 124   1      }
+ 125          
+ 126          void all_red(void)
+ 127          {
+ 128   1          P1 = NS_RED | EW_RED;
+ 129   1      }
+ 130          
+ 131          void next_state(void)
+ 132          {
+ 133   1          switch (state)
+ 134   1          {
+ 135   2          case NS_GREEN:  state = NS_YELLOW; remain_seconds = 2; break;
+ 136   2          case NS_YELLOW: state = EW_GREEN;  remain_seconds = 8; break;
+ 137   2          case EW_GREEN:  state = EW_YELLOW; remain_seconds = 2; break;
+ 138   2          case EW_YELLOW: state = NS_GREEN;  remain_seconds = 8; break;
+ 139   2          default:        state = NS_GREEN;  remain_seconds = 8; break;
+ 140   2          }
+ 141   1      }
+ 142          
+ 143          /* Interrupt service routines                                           */
+ 144          
+ 145          void timer0_isr(void) interrupt 1
+ 146          {
+ 147   1          TH0 = 0x3C;
+ 148   1          TL0 = 0xB0;
+ 149   1          tick_50ms++;
+ 150   1          if (tick_50ms >= 20)
+ 151   1          {
+ 152   2              tick_50ms  = 0;
+ 153   2              second_flag = 1;
+ 154   2          }
+ 155   1      }
+ 156          
+ 157          void int0_isr(void) interrupt 0
+ 158          {
+ 159   1          emergency_req = 1;
+ 160   1      }
+ 161          
+ 162          /* Main                                                                 */
+ 163          
+ 164          void main(void)
+ 165          {
+ 166   1          TMOD = 0x01;
+ 167   1          TH0  = 0x3C;
+ 168   1          TL0  = 0xB0;
+ 169   1          IT0  = 1;
+ 170   1          EX0  = 1;
+ 171   1          ET0  = 1;
+ 172   1          EA   = 1;
+ 173   1          TR0  = 1;
+ 174   1      
+ 175   1          show_state(state);
+ 176   1      
+ 177   1          while (1)
+ 178   1          {
+C51 COMPILER V9.54   EX2_TRAFFIC_EMERGENCY_DISPLAY                                         04/17/2026 06:16:11 PAGE 4   
+
+ 179   2              /*
+ 180   2               * Refresh the 7-segment display every loop pass.
+ 181   2               * Two digits × ~1 ms each = ~2 ms per refresh cycle,
+ 182   2               * well within the 50 ms Timer0 tick period.
+ 183   2               */
+ 184   2              display_countdown(remain_seconds);
+ 185   2      
+ 186   2              /* Handle emergency vehicle request */
+ 187   2              if (emergency_req && !emergency_active)
+ 188   2              {
+ 189   3                  emergency_req    = 0;
+ 190   3                  emergency_active = 1;
+ 191   3                  saved_state      = state;
+ 192   3                  saved_remain     = remain_seconds;
+ 193   3                  tick_50ms        = 0;
+ 194   3                  second_flag      = 0;
+ 195   3                  remain_seconds   = 10;
+ 196   3                  all_red();
+ 197   3              }
+ 198   2      
+ 199   2              /* Process one-second tick */
+ 200   2              if (second_flag)
+ 201   2              {
+ 202   3                  second_flag = 0;
+ 203   3      
+ 204   3                  if (remain_seconds > 0)
+ 205   3                      remain_seconds--;
+ 206   3      
+ 207   3                  if (remain_seconds == 0)
+ 208   3                  {
+ 209   4                      if (emergency_active)
+ 210   4                      {
+ 211   5                          emergency_active = 0;
+ 212   5                          state            = saved_state;
+ 213   5                          remain_seconds   = saved_remain;
+ 214   5                          show_state(state);
+ 215   5                      }
+ 216   4                      else
+ 217   4                      {
+ 218   5                          next_state();
+ 219   5                          show_state(state);
+ 220   5                      }
+ 221   4                  }
+ 222   3              }
+ 223   2          }
+ 224   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    297    ----
+   CONSTANT SIZE    =     10    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      6    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =      3    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
