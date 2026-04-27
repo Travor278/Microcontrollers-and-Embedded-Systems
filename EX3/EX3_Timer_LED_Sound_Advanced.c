@@ -10,8 +10,8 @@
  *
  * Timer1:
  *   mode 1, 50 ms overflow interrupt.
- *   With 11.0592 MHz crystal and 12-clock mode:
- *   timer clock = 921600 Hz, 50 ms = 46080 counts, reload = 0x4C00.
+ *   With 12 MHz crystal and 12-clock mode:
+ *   timer clock = 1000000 Hz, 50 ms = 50000 counts, reload = 0x3CB0.
  *
  * Timer0:
  *   mode 1, generates the square wave for the speaker.

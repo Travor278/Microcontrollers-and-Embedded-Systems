@@ -1,0 +1,115 @@
+C51 COMPILER V9.54   EX4_DOTMATRIX_16X16_TEMPLATE                                          04/27/2026 07:35:27 PAGE 1   
+
+
+C51 COMPILER V9.54, COMPILATION OF MODULE EX4_DOTMATRIX_16X16_TEMPLATE
+OBJECT MODULE PLACED IN EX4_DotMatrix_16x16_Template.OBJ
+COMPILER INVOKED BY: D:\C51\BIN\C51.exe EX4_DotMatrix_16x16_Template.c INCDIR(D:\C51\INC,D:\C51\INC\SST)
+
+line level    source
+
+   1          #include "SST89x5x4.h"
+   2          #include "intrins.h"
+   3          
+   4          /*
+   5           * 16x16 dot-matrix template for the new experiment box.
+   6           * The concrete driver pins depend on the SM16206/SM5166 wiring
+   7           * on the laboratory hardware. Use the pin names below as a mapping layer,
+   8           * then replace name_font[] with the 16x16 font of your own name.
+   9           */
+  10          
+  11          sbit DIR_SW = P3^2;
+  12          sbit ROW_A = P1^0;
+  13          sbit ROW_B = P1^1;
+  14          sbit ROW_C = P1^2;
+  15          sbit ROW_D = P1^3;
+  16          sbit COL_DATA = P1^4;
+  17          sbit COL_CLK = P1^5;
+  18          sbit COL_LAT = P1^6;
+  19          sbit COL_OE = P1^7;
+  20          
+  21          unsigned char code name_font[][32] = {
+  22              {
+  23                  0x00, 0x00, 0x7F, 0xFC, 0x04, 0x20, 0x04, 0x20,
+  24                  0x04, 0x20, 0x3F, 0xF8, 0x04, 0x20, 0x04, 0x20,
+  25                  0x04, 0x20, 0x7F, 0xFC, 0x04, 0x20, 0x04, 0x20,
+  26                  0x08, 0x20, 0x10, 0x20, 0x20, 0x20, 0x00, 0x00
+  27              }
+  28          };
+  29          
+  30          void delay_short(void)
+  31          {
+  32   1          unsigned char i;
+  33   1          for (i = 0; i < 20; i++)
+  34   1          {
+  35   2              _nop_();
+  36   2          }
+  37   1      }
+  38          
+  39          void select_row(unsigned char row)
+  40          {
+  41   1          ROW_A = row & 0x01;
+  42   1          ROW_B = (row >> 1) & 0x01;
+  43   1          ROW_C = (row >> 2) & 0x01;
+  44   1          ROW_D = (row >> 3) & 0x01;
+  45   1      }
+  46          
+  47          void shift_out16(unsigned int value)
+  48          {
+  49   1          unsigned char i;
+  50   1          for (i = 0; i < 16; i++)
+  51   1          {
+  52   2              COL_DATA = (value & 0x8000) ? 1 : 0;
+  53   2              COL_CLK = 0;
+  54   2              COL_CLK = 1;
+  55   2              value <<= 1;
+C51 COMPILER V9.54   EX4_DOTMATRIX_16X16_TEMPLATE                                          04/27/2026 07:35:27 PAGE 2   
+
+  56   2          }
+  57   1          COL_LAT = 0;
+  58   1          COL_LAT = 1;
+  59   1      }
+  60          
+  61          void scan_char(unsigned char char_index)
+  62          {
+  63   1          unsigned char row;
+  64   1          unsigned int col;
+  65   1      
+  66   1          for (row = 0; row < 16; row++)
+  67   1          {
+  68   2              col = ((unsigned int)name_font[char_index][row * 2] << 8) |
+  69   2                    name_font[char_index][row * 2 + 1];
+  70   2              if (!DIR_SW)
+  71   2              {
+  72   3                  col = (unsigned int)((col >> 1) | (col << 15));
+  73   3              }
+  74   2      
+  75   2              COL_OE = 1;
+  76   2              select_row(row);
+  77   2              shift_out16(~col);
+  78   2              COL_OE = 0;
+  79   2              delay_short();
+  80   2          }
+  81   1      }
+  82          
+  83          void main(void)
+  84          {
+  85   1          P1 = 0xFF;
+  86   1          while (1)
+  87   1          {
+  88   2              scan_char(0);
+  89   2          }
+  90   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    200    ----
+   CONSTANT SIZE    =     32    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----       4
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

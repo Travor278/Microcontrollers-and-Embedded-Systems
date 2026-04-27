@@ -1,4 +1,4 @@
-C51 COMPILER V9.54   EX3_TIMER_LED_SOUND_ADVANCED                                          04/25/2026 00:38:28 PAGE 1   
+C51 COMPILER V9.54   EX3_TIMER_LED_SOUND_ADVANCED                                          04/27/2026 07:19:01 PAGE 1   
 
 
 C51 COMPILER V9.54, COMPILATION OF MODULE EX3_TIMER_LED_SOUND_ADVANCED
@@ -20,8 +20,8 @@ line level    source
   10           *
   11           * Timer1:
   12           *   mode 1, 50 ms overflow interrupt.
-  13           *   With 11.0592 MHz crystal and 12-clock mode:
-  14           *   timer clock = 921600 Hz, 50 ms = 46080 counts, reload = 0x4C00.
+  13           *   With 12 MHz crystal and 12-clock mode:
+  14           *   timer clock = 1000000 Hz, 50 ms = 50000 counts, reload = 0x3CB0.
   15           *
   16           * Timer0:
   17           *   mode 1, generates the square wave for the speaker.
@@ -62,7 +62,7 @@ line level    source
   52          };
   53          
   54          /* Song 2: 16 notes * 10 ticks = 8 s */
-C51 COMPILER V9.54   EX3_TIMER_LED_SOUND_ADVANCED                                          04/25/2026 00:38:28 PAGE 2   
+C51 COMPILER V9.54   EX3_TIMER_LED_SOUND_ADVANCED                                          04/27/2026 07:19:01 PAGE 2   
 
   55          unsigned int code song2_freq[] = {
   56              330, 330, 350, 393, 393, 350, 330, 294,
@@ -126,7 +126,7 @@ line level    source
  114   1          else
  115   1          {
  116   2              freq = song2_freq[note_index];
-C51 COMPILER V9.54   EX3_TIMER_LED_SOUND_ADVANCED                                          04/25/2026 00:38:28 PAGE 3   
+C51 COMPILER V9.54   EX3_TIMER_LED_SOUND_ADVANCED                                          04/27/2026 07:19:01 PAGE 3   
 
  117   2              note_ticks_left = song2_time[note_index];
  118   2          }
@@ -190,7 +190,7 @@ line level    source
  176   2              {
  177   3                  second_index = 0;
  178   3              }
-C51 COMPILER V9.54   EX3_TIMER_LED_SOUND_ADVANCED                                          04/25/2026 00:38:28 PAGE 4   
+C51 COMPILER V9.54   EX3_TIMER_LED_SOUND_ADVANCED                                          04/27/2026 07:19:01 PAGE 4   
 
  179   2      
  180   2              P1 = led_pattern[second_index];

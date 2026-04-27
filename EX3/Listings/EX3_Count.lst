@@ -1,0 +1,49 @@
+C51 COMPILER V9.54   EX3_COUNT                                                             04/27/2026 06:45:55 PAGE 1   
+
+
+C51 COMPILER V9.54, COMPILATION OF MODULE EX3_COUNT
+OBJECT MODULE PLACED IN .\Objects\EX3_Count.obj
+COMPILER INVOKED BY: D:\C51\BIN\C51.EXE EX3_Count.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\EX3_Cou
+                    -nt.lst) TABS(2) OBJECT(.\Objects\EX3_Count.obj)
+
+line level    source
+
+   1          #include "SST89x5x4.h"
+   2          
+   3          sbit P10Value = P1^0;
+   4          
+   5          void main(void)
+   6          {
+   7   1          /*
+   8   1           * T1 mode 2 counter:
+   9   1           * C/T1 = 1, mode = 2, reload = 0xF6.
+  10   1           * 0x100 - 0xF6 = 10, so P1.0 toggles every 10 input pulses.
+  11   1           */
+  12   1          TMOD = 0x60;
+  13   1          TH1 = 0xF6;
+  14   1          TL1 = 0xF6;
+  15   1          TR1 = 1;
+  16   1      
+  17   1          while (1)
+  18   1          {
+  19   2              while (!TF1)
+  20   2              {
+  21   3              }
+  22   2              TF1 = 0;
+  23   2              P10Value = ~P10Value;
+  24   2          }
+  25   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     20    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

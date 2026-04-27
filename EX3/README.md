@@ -22,7 +22,7 @@
 2. 器件选择 `SST89E554RC`；如果 Proteus 没有该器件，仿真时可先用兼容 8051 内核的器件替代，但报告里要说明。
 3. 每个基本题建议单独建一个工程，分别添加对应 `.c` 文件，避免多个 `main()` 同时参与编译。
 4. 在 `Options for Target -> Output` 勾选 `Create HEX File`，方便 Proteus 加载。
-5. `Options for Target -> Target` 里确认晶振频率。这里代码按 `11.0592 MHz, 12-clock mode` 计算；如果你的 Proteus 晶振设成 `12 MHz`，提高题的 T1 50 ms 重装值改为 `0x3CB0`。
+5. `Options for Target -> Target` 里确认晶振频率。这里代码按 `12 MHz, 12-clock mode` 计算，T1 50 ms 重装值为 `0x3CB0`。
 
 ## 4. Proteus 提高题接线建议
 
@@ -31,7 +31,7 @@
 - P1.0-P1.7 接 8 个 LED，串联限流电阻，LED 按高电平点亮处理。
 - P2.0-P2.7 接一位共阴极数码管的 a,b,c,d,e,f,g,dp。
 - P3.7 接蜂鸣器或经三极管驱动扬声器。
-- 单片机晶振设 `11.0592 MHz`，与源码中的 `TIMER_CLOCK` 和 T1 重装值一致。
+- 单片机晶振设 `12 MHz`，与源码中的 `TIMER_CLOCK` 和 T1 重装值一致。
 
 如果使用共阳极数码管，把 `EX3_Timer_LED_Sound_Advanced.c` 里的 `seg_cc[]` 每一项取反即可，例如显示 1 的 `0x06` 改为 `~0x06`。
 

@@ -1,0 +1,3 @@
+".\Objects\EX3_Sound.obj" 
+TO ".\Objects\EX3_3" 
+PRINT(".\Listings\EX3_3.m51") RAMSIZE(256) 

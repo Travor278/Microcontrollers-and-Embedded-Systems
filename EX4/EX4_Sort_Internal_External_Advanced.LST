@@ -1,0 +1,100 @@
+C51 COMPILER V9.54   EX4_SORT_INTERNAL_EXTERNAL_ADVANCED                                   04/27/2026 07:35:27 PAGE 1   
+
+
+C51 COMPILER V9.54, COMPILATION OF MODULE EX4_SORT_INTERNAL_EXTERNAL_ADVANCED
+OBJECT MODULE PLACED IN EX4_Sort_Internal_External_Advanced.OBJ
+COMPILER INVOKED BY: D:\C51\BIN\C51.exe EX4_Sort_Internal_External_Advanced.c INCDIR(D:\C51\INC,D:\C51\INC\SST)
+
+line level    source
+
+   1          #include "SST89x5x4.h"
+   2          #include "ABSACC.H"
+   3          
+   4          unsigned char code internal_init[16] = {
+   5              0x2A, 0x04, 0x19, 0x33, 0x0C, 0x41, 0x08, 0x1F,
+   6              0x55, 0x10, 0x3B, 0x01, 0x27, 0x0A, 0x60, 0x16
+   7          };
+   8          
+   9          unsigned char code external_init[16] = {
+  10              0x31, 0x22, 0x05, 0x7A, 0x18, 0x42, 0x0E, 0x63,
+  11              0x12, 0x2D, 0x09, 0x51, 0x24, 0x03, 0x6B, 0x1C
+  12          };
+  13          
+  14          void init_ram_area(void)
+  15          {
+  16   1          unsigned char i;
+  17   1      
+  18   1          AUXR = 0x02;
+  19   1          for (i = 0; i < 16; i++)
+  20   1          {
+  21   2              DBYTE[0x40 + i] = internal_init[i];
+  22   2              XBYTE[0x0000 + i] = external_init[i];
+  23   2          }
+  24   1      }
+  25          
+  26          void sort_internal_40h_4fh(void)
+  27          {
+  28   1          unsigned char i;
+  29   1          unsigned char j;
+  30   1          unsigned char temp;
+  31   1      
+  32   1          for (i = 0; i < 15; i++)
+  33   1          {
+  34   2              for (j = i + 1; j < 16; j++)
+  35   2              {
+  36   3                  if (DBYTE[0x40 + i] > DBYTE[0x40 + j])
+  37   3                  {
+  38   4                      temp = DBYTE[0x40 + i];
+  39   4                      DBYTE[0x40 + i] = DBYTE[0x40 + j];
+  40   4                      DBYTE[0x40 + j] = temp;
+  41   4                  }
+  42   3              }
+  43   2          }
+  44   1      }
+  45          
+  46          void sort_external_0000h_000fh(void)
+  47          {
+  48   1          unsigned char i;
+  49   1          unsigned char j;
+  50   1          unsigned char temp;
+  51   1      
+  52   1          for (i = 0; i < 15; i++)
+  53   1          {
+  54   2              for (j = i + 1; j < 16; j++)
+  55   2              {
+C51 COMPILER V9.54   EX4_SORT_INTERNAL_EXTERNAL_ADVANCED                                   04/27/2026 07:35:27 PAGE 2   
+
+  56   3                  if (XBYTE[0x0000 + i] > XBYTE[0x0000 + j])
+  57   3                  {
+  58   4                      temp = XBYTE[0x0000 + i];
+  59   4                      XBYTE[0x0000 + i] = XBYTE[0x0000 + j];
+  60   4                      XBYTE[0x0000 + j] = temp;
+  61   4                  }
+  62   3              }
+  63   2          }
+  64   1      }
+  65          
+  66          void main(void)
+  67          {
+  68   1          init_ram_area();
+  69   1          sort_internal_40h_4fh();
+  70   1          sort_external_0000h_000fh();
+  71   1      
+  72   1          while (1)
+  73   1          {
+  74   2          }
+  75   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    142    ----
+   CONSTANT SIZE    =     32    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

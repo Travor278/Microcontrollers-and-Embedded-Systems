@@ -1,0 +1,218 @@
+C51 COMPILER V9.54   EX5_ADC_SERIAL_ADVANCED                                               04/27/2026 07:56:56 PAGE 1   
+
+
+C51 COMPILER V9.54, COMPILATION OF MODULE EX5_ADC_SERIAL_ADVANCED
+OBJECT MODULE PLACED IN EX5_ADC_Serial_Advanced.OBJ
+COMPILER INVOKED BY: D:\C51\BIN\C51.exe EX5_ADC_Serial_Advanced.c INCDIR(D:\C51\INC,D:\C51\INC\SST)
+
+line level    source
+
+   1          #include "SST89x5x4.h"
+   2          #include "ABSACC.H"
+   3          
+   4          #define STARTAD  XBYTE[0x7F00]
+   5          #define ADRESULT XBYTE[0x7F08]
+   6          
+   7          sbit ADBUSY = P3^3;
+   8          
+   9          unsigned char code seg_cc[10] = {
+  10              0x3F, 0x06, 0x5B, 0x4F, 0x66,
+  11              0x6D, 0x7D, 0x07, 0x7F, 0x6F
+  12          };
+  13          
+  14          unsigned char data ad_value = 0;
+  15          unsigned char data precision = 2;
+  16          unsigned char data display_buf[3] = {0, 0, 0};
+  17          
+  18          void uart_init(void)
+  19          {
+  20   1          SCON = 0x50;
+  21   1          TMOD = (TMOD & 0x0F) | 0x20;
+  22   1          PCON = 0x80;
+  23   1          TH1 = 0xFD;
+  24   1          TL1 = 0xFD;
+  25   1          TR1 = 1;
+  26   1          TI = 1;
+  27   1      }
+  28          
+  29          void uart_putc(unsigned char c)
+  30          {
+  31   1          SBUF = c;
+  32   1          while (!TI)
+  33   1          {
+  34   2          }
+  35   1          TI = 0;
+  36   1      }
+  37          
+  38          void uart_puts(char *s)
+  39          {
+  40   1          while (*s)
+  41   1          {
+  42   2              uart_putc(*s++);
+  43   2          }
+  44   1      }
+  45          
+  46          void uart_put_uint(unsigned int v)
+  47          {
+  48   1          unsigned char hundreds = 0;
+  49   1          unsigned char tens = 0;
+  50   1      
+  51   1          while (v >= 100)
+  52   1          {
+  53   2              v -= 100;
+  54   2              hundreds++;
+  55   2          }
+C51 COMPILER V9.54   EX5_ADC_SERIAL_ADVANCED                                               04/27/2026 07:56:56 PAGE 2   
+
+  56   1          while (v >= 10)
+  57   1          {
+  58   2              v -= 10;
+  59   2              tens++;
+  60   2          }
+  61   1      
+  62   1          if (hundreds)
+  63   1          {
+  64   2              uart_putc((unsigned char)('0' + hundreds));
+  65   2              uart_putc((unsigned char)('0' + tens));
+  66   2          }
+  67   1          else if (tens)
+  68   1          {
+  69   2              uart_putc((unsigned char)('0' + tens));
+  70   2          }
+  71   1          uart_putc((unsigned char)('0' + v));
+  72   1      }
+  73          
+  74          void uart_put_voltage(unsigned char value)
+  75          {
+  76   1          unsigned long mv;
+  77   1          unsigned int v_int;
+  78   1          unsigned int v_frac;
+  79   1      
+  80   1          mv = ((unsigned long)value * 5000UL) / 255UL;
+  81   1          v_int = (unsigned int)(mv / 1000UL);
+  82   1          v_frac = (unsigned int)(mv % 1000UL);
+  83   1      
+  84   1          uart_put_uint(v_int);
+  85   1          if (precision > 0)
+  86   1          {
+  87   2              uart_putc('.');
+  88   2              uart_putc((unsigned char)('0' + (v_frac / 100)));
+  89   2              if (precision > 1)
+  90   2              {
+  91   3                  uart_putc((unsigned char)('0' + ((v_frac / 10) % 10)));
+  92   3              }
+  93   2              if (precision > 2)
+  94   2              {
+  95   3                  uart_putc((unsigned char)('0' + (v_frac % 10)));
+  96   3              }
+  97   2          }
+  98   1          uart_putc('V');
+  99   1      }
+ 100          
+ 101          void delay_short(void)
+ 102          {
+ 103   1          unsigned int i;
+ 104   1          for (i = 0; i < 500; i++)
+ 105   1          {
+ 106   2          }
+ 107   1      }
+ 108          
+ 109          unsigned char read_adc0809(void)
+ 110          {
+ 111   1          STARTAD = 0x00;
+ 112   1          while (ADBUSY)
+ 113   1          {
+ 114   2          }
+ 115   1          delay_short();
+ 116   1          return ADRESULT;
+ 117   1      }
+C51 COMPILER V9.54   EX5_ADC_SERIAL_ADVANCED                                               04/27/2026 07:56:56 PAGE 3   
+
+ 118          
+ 119          void update_display_buf(unsigned char value)
+ 120          {
+ 121   1          display_buf[0] = value / 100;
+ 122   1          display_buf[1] = (value / 10) % 10;
+ 123   1          display_buf[2] = value % 10;
+ 124   1      }
+ 125          
+ 126          void display_scan_once(void)
+ 127          {
+ 128   1          P1 = 0xFE;
+ 129   1          P0 = seg_cc[display_buf[0]];
+ 130   1          delay_short();
+ 131   1          P1 = 0xFD;
+ 132   1          P0 = seg_cc[display_buf[1]];
+ 133   1          delay_short();
+ 134   1          P1 = 0xFB;
+ 135   1          P0 = seg_cc[display_buf[2]];
+ 136   1          delay_short();
+ 137   1          P1 = 0xFF;
+ 138   1      }
+ 139          
+ 140          void handle_uart_command(void)
+ 141          {
+ 142   1          unsigned char c;
+ 143   1      
+ 144   1          if (RI)
+ 145   1          {
+ 146   2              RI = 0;
+ 147   2              c = SBUF;
+ 148   2              if (c >= '0' && c <= '3')
+ 149   2              {
+ 150   3                  precision = c - '0';
+ 151   3                  uart_puts("precision=");
+ 152   3                  uart_put_uint(precision);
+ 153   3                  uart_puts("\r\n");
+ 154   3              }
+ 155   2          }
+ 156   1      }
+ 157          
+ 158          void send_sample(void)
+ 159          {
+ 160   1          uart_puts("ADC=");
+ 161   1          uart_put_uint(ad_value);
+ 162   1          uart_puts(", U=");
+ 163   1          uart_put_voltage(ad_value);
+ 164   1          uart_puts("\r\n");
+ 165   1      }
+ 166          
+ 167          void main(void)
+ 168          {
+ 169   1          unsigned int loop_count = 0;
+ 170   1      
+ 171   1          uart_init();
+ 172   1          P1 = 0xFF;
+ 173   1      
+ 174   1          while (1)
+ 175   1          {
+ 176   2              handle_uart_command();
+ 177   2              ad_value = read_adc0809();
+ 178   2              P2 = ad_value;
+ 179   2              update_display_buf(ad_value);
+C51 COMPILER V9.54   EX5_ADC_SERIAL_ADVANCED                                               04/27/2026 07:56:56 PAGE 4   
+
+ 180   2              display_scan_once();
+ 181   2      
+ 182   2              loop_count++;
+ 183   2              if (loop_count >= 80)
+ 184   2              {
+ 185   3                  loop_count = 0;
+ 186   3                  send_sample();
+ 187   3              }
+ 188   2          }
+ 189   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    534    ----
+   CONSTANT SIZE    =     34    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      5      11
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

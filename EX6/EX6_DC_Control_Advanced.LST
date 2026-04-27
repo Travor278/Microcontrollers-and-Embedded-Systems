@@ -1,0 +1,314 @@
+C51 COMPILER V9.54   EX6_DC_CONTROL_ADVANCED                                               04/27/2026 07:57:16 PAGE 1   
+
+
+C51 COMPILER V9.54, COMPILATION OF MODULE EX6_DC_CONTROL_ADVANCED
+OBJECT MODULE PLACED IN EX6_DC_Control_Advanced.OBJ
+COMPILER INVOKED BY: D:\C51\BIN\C51.exe EX6_DC_Control_Advanced.c INCDIR(D:\C51\INC,D:\C51\INC\SST)
+
+line level    source
+
+   1          #include "SST89x5x4.h"
+   2          
+   3          sbit PWM_OUT = P1^7;
+   4          sbit ALARM_LED = P1^0;
+   5          sbit BUZZER = P1^1;
+   6          
+   7          sbit KEY_START = P3^2;
+   8          sbit KEY_STOP  = P3^3;
+   9          sbit KEY_UP    = P3^4;
+  10          sbit KEY_DOWN  = P3^5;
+  11          
+  12          #define T0_RELOAD_H 0xFC
+  13          #define T0_RELOAD_L 0x18
+  14          #define PWM_PERIOD 20
+  15          
+  16          unsigned char code seg_cc[10] = {
+  17              0x3F, 0x06, 0x5B, 0x4F, 0x66,
+  18              0x6D, 0x7D, 0x07, 0x7F, 0x6F
+  19          };
+  20          
+  21          unsigned char code duty_table[5] = {0, 5, 10, 15, 20};
+  22          
+  23          volatile unsigned char pwm_count = 0;
+  24          volatile unsigned int ms_count = 0;
+  25          volatile bit status_due = 0;
+  26          
+  27          bit running = 0;
+  28          unsigned char speed = 0;
+  29          unsigned int alarm_ms = 0;
+  30          
+  31          void uart_init(void)
+  32          {
+  33   1          SCON = 0x50;
+  34   1          TMOD = (TMOD & 0x0F) | 0x20;
+  35   1          PCON = 0x80;
+  36   1          TH1 = 0xFD;
+  37   1          TL1 = 0xFD;
+  38   1          TR1 = 1;
+  39   1          TI = 1;
+  40   1      }
+  41          
+  42          void uart_putc(unsigned char c)
+  43          {
+  44   1          SBUF = c;
+  45   1          while (!TI)
+  46   1          {
+  47   2          }
+  48   1          TI = 0;
+  49   1      }
+  50          
+  51          void uart_puts(char *s)
+  52          {
+  53   1          while (*s)
+  54   1          {
+  55   2              uart_putc(*s++);
+C51 COMPILER V9.54   EX6_DC_CONTROL_ADVANCED                                               04/27/2026 07:57:16 PAGE 2   
+
+  56   2          }
+  57   1      }
+  58          
+  59          void uart_put_digit(unsigned char v)
+  60          {
+  61   1          uart_putc((unsigned char)('0' + v));
+  62   1      }
+  63          
+  64          void timer0_init(void)
+  65          {
+  66   1          TMOD = (TMOD & 0xF0) | 0x01;
+  67   1          TH0 = T0_RELOAD_H;
+  68   1          TL0 = T0_RELOAD_L;
+  69   1          ET0 = 1;
+  70   1          TR0 = 1;
+  71   1      }
+  72          
+  73          void timer0_isr(void) interrupt 1
+  74          {
+  75   1          TH0 = T0_RELOAD_H;
+  76   1          TL0 = T0_RELOAD_L;
+  77   1      
+  78   1          pwm_count++;
+  79   1          if (pwm_count >= PWM_PERIOD)
+  80   1          {
+  81   2              pwm_count = 0;
+  82   2          }
+  83   1      
+  84   1          if (running && pwm_count < duty_table[speed])
+  85   1          {
+  86   2              PWM_OUT = 1;
+  87   2          }
+  88   1          else
+  89   1          {
+  90   2              PWM_OUT = 0;
+  91   2          }
+  92   1      
+  93   1          if (alarm_ms > 0)
+  94   1          {
+  95   2              alarm_ms--;
+  96   2              ALARM_LED = 1;
+  97   2              BUZZER = (alarm_ms & 0x40) ? 1 : 0;
+  98   2          }
+  99   1          else
+ 100   1          {
+ 101   2              ALARM_LED = 0;
+ 102   2              BUZZER = 0;
+ 103   2          }
+ 104   1      
+ 105   1          ms_count++;
+ 106   1          if (ms_count >= 1000)
+ 107   1          {
+ 108   2              ms_count = 0;
+ 109   2              status_due = 1;
+ 110   2          }
+ 111   1      }
+ 112          
+ 113          void display_state(void)
+ 114          {
+ 115   1          if (running)
+ 116   1          {
+ 117   2              P2 = seg_cc[speed];
+C51 COMPILER V9.54   EX6_DC_CONTROL_ADVANCED                                               04/27/2026 07:57:16 PAGE 3   
+
+ 118   2          }
+ 119   1          else
+ 120   1          {
+ 121   2              P2 = 0x40;
+ 122   2          }
+ 123   1      }
+ 124          
+ 125          void send_status(void)
+ 126          {
+ 127   1          uart_puts("RUN=");
+ 128   1          uart_put_digit(running ? 1 : 0);
+ 129   1          uart_puts(", SPEED=");
+ 130   1          uart_put_digit(speed);
+ 131   1          uart_puts("\r\n");
+ 132   1      }
+ 133          
+ 134          void trigger_error(void)
+ 135          {
+ 136   1          alarm_ms = 2000;
+ 137   1          uart_puts("error\r\n");
+ 138   1      }
+ 139          
+ 140          void speed_up(void)
+ 141          {
+ 142   1          if (speed < 4)
+ 143   1          {
+ 144   2              speed++;
+ 145   2          }
+ 146   1          else
+ 147   1          {
+ 148   2              trigger_error();
+ 149   2          }
+ 150   1      }
+ 151          
+ 152          void speed_down(void)
+ 153          {
+ 154   1          if (speed > 0)
+ 155   1          {
+ 156   2              speed--;
+ 157   2          }
+ 158   1          else
+ 159   1          {
+ 160   2              trigger_error();
+ 161   2          }
+ 162   1      }
+ 163          
+ 164          void delay_key(void)
+ 165          {
+ 166   1          unsigned int i;
+ 167   1          for (i = 0; i < 3000; i++)
+ 168   1          {
+ 169   2          }
+ 170   1      }
+ 171          
+ 172          void handle_keys(void)
+ 173          {
+ 174   1          if (!KEY_START)
+ 175   1          {
+ 176   2              delay_key();
+ 177   2              if (!KEY_START)
+ 178   2              {
+ 179   3                  running = 1;
+C51 COMPILER V9.54   EX6_DC_CONTROL_ADVANCED                                               04/27/2026 07:57:16 PAGE 4   
+
+ 180   3                  send_status();
+ 181   3                  while (!KEY_START)
+ 182   3                  {
+ 183   4                  }
+ 184   3              }
+ 185   2          }
+ 186   1      
+ 187   1          if (!KEY_STOP)
+ 188   1          {
+ 189   2              delay_key();
+ 190   2              if (!KEY_STOP)
+ 191   2              {
+ 192   3                  running = 0;
+ 193   3                  send_status();
+ 194   3                  while (!KEY_STOP)
+ 195   3                  {
+ 196   4                  }
+ 197   3              }
+ 198   2          }
+ 199   1      
+ 200   1          if (!KEY_UP)
+ 201   1          {
+ 202   2              delay_key();
+ 203   2              if (!KEY_UP)
+ 204   2              {
+ 205   3                  speed_up();
+ 206   3                  send_status();
+ 207   3                  while (!KEY_UP)
+ 208   3                  {
+ 209   4                  }
+ 210   3              }
+ 211   2          }
+ 212   1      
+ 213   1          if (!KEY_DOWN)
+ 214   1          {
+ 215   2              delay_key();
+ 216   2              if (!KEY_DOWN)
+ 217   2              {
+ 218   3                  speed_down();
+ 219   3                  send_status();
+ 220   3                  while (!KEY_DOWN)
+ 221   3                  {
+ 222   4                  }
+ 223   3              }
+ 224   2          }
+ 225   1      }
+ 226          
+ 227          void handle_uart(void)
+ 228          {
+ 229   1          unsigned char c;
+ 230   1      
+ 231   1          if (RI)
+ 232   1          {
+ 233   2              RI = 0;
+ 234   2              c = SBUF;
+ 235   2              if (c == 's')
+ 236   2              {
+ 237   3                  running = 1;
+ 238   3              }
+ 239   2              else if (c == 'p')
+ 240   2              {
+ 241   3                  running = 0;
+C51 COMPILER V9.54   EX6_DC_CONTROL_ADVANCED                                               04/27/2026 07:57:16 PAGE 5   
+
+ 242   3              }
+ 243   2              else if (c == '+')
+ 244   2              {
+ 245   3                  speed_up();
+ 246   3              }
+ 247   2              else if (c == '-')
+ 248   2              {
+ 249   3                  speed_down();
+ 250   3              }
+ 251   2              else if (c >= '0' && c <= '4')
+ 252   2              {
+ 253   3                  speed = c - '0';
+ 254   3              }
+ 255   2              send_status();
+ 256   2          }
+ 257   1      }
+ 258          
+ 259          void main(void)
+ 260          {
+ 261   1          P1 = 0x00;
+ 262   1          P2 = 0x40;
+ 263   1          P3 |= 0x3C;
+ 264   1      
+ 265   1          uart_init();
+ 266   1          timer0_init();
+ 267   1          EA = 1;
+ 268   1      
+ 269   1          send_status();
+ 270   1      
+ 271   1          while (1)
+ 272   1          {
+ 273   2              handle_keys();
+ 274   2              handle_uart();
+ 275   2              display_state();
+ 276   2      
+ 277   2              if (status_due)
+ 278   2              {
+ 279   3                  status_due = 0;
+ 280   3                  send_status();
+ 281   3              }
+ 282   2          }
+ 283   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    511    ----
+   CONSTANT SIZE    =     40    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      6       3
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =      2    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

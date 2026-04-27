@@ -1,0 +1,3 @@
+".\Objects\EX3_Timer.obj" 
+TO ".\Objects\EX3_1" 
+PRINT(".\Listings\EX3_1.m51") RAMSIZE(256) 
