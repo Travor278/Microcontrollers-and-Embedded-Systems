@@ -1,0 +1,156 @@
+BL51 BANKED LINKER/LOCATER V6.22                                                        05/01/2026  03:57:46  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22, INVOKED BY:
+D:\C51\BIN\BL51.EXE .\Objects\EX4_Sort_Internal_External_Advanced.obj TO .\Objects\EX4_3 PRINT (.\Listings\EX4_3.m51) RA
+>> MSIZE (256)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  .\Objects\EX4_Sort_Internal_External_Advanced.obj (EX4_SORT_INTERNAL_EXTERNAL_ADVANCED)
+  D:\C51\LIB\C51S.LIB (?C_STARTUP)
+
+
+LINK MAP OF MODULE:  .\Objects\EX4_3 (EX4_SORT_INTERNAL_EXTERNAL_ADVANCED)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            IDATA   0008H     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+            CODE    0003H     0036H     UNIT         ?PR?SORT_INTERNAL_40H_4FH?EX4_SORT_INTERNAL_EXTERNAL_ADVANCED
+            CODE    0039H     002CH     UNIT         ?PR?SORT_EXTERNAL_0000H_000FH?EX4_SORT_INTERNAL_EXTERNAL_ADVANCED
+            CODE    0065H     0021H     UNIT         ?PR?INIT_RAM_AREA?EX4_SORT_INTERNAL_EXTERNAL_ADVANCED
+            CODE    0086H     0020H     UNIT         ?CO?EX4_SORT_INTERNAL_EXTERNAL_ADVANCED
+            CODE    00A6H     000CH     UNIT         ?C_C51STARTUP
+            CODE    00B2H     000BH     UNIT         ?PR?MAIN?EX4_SORT_INTERNAL_EXTERNAL_ADVANCED
+
+
+
+OVERLAY MAP OF MODULE:   .\Objects\EX4_3 (EX4_SORT_INTERNAL_EXTERNAL_ADVANCED)
+
+
+SEGMENT
+  +--> CALLED SEGMENT
+---------------------
+?C_C51STARTUP
+  +--> ?PR?MAIN?EX4_SORT_INTERNAL_EXTERNAL_A...
+
+?PR?MAIN?EX4_SORT_INTERNAL_EXTERNAL_A...
+  +--> ?PR?INIT_RAM_AREA?EX4_SORT_INTERNAL_E...
+  +--> ?PR?SORT_INTERNAL_40H_4FH?EX4_SORT_IN...
+  +--> ?PR?SORT_EXTERNAL_0000H_000FH?EX4_SOR...
+
+?PR?INIT_RAM_AREA?EX4_SORT_INTERNAL_E...
+  +--> ?CO?EX4_SORT_INTERNAL_EXTERNAL_ADVANCED
+
+
+
+SYMBOL TABLE OF MODULE:  .\Objects\EX4_3 (EX4_SORT_INTERNAL_EXTERNAL_ADVANCED)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+BL51 BANKED LINKER/LOCATER V6.22                                                      05/01/2026  03:57:46  PAGE 2
+
+
+  -------         MODULE        EX4_SORT_INTERNAL_EXTERNAL_ADVANCED
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  C:0096H         PUBLIC        external_init
+  D:0090H         PUBLIC        P1
+  D:00B0H         PUBLIC        P3
+  D:00A8H         PUBLIC        IE
+  D:00B8H         PUBLIC        IP
+  C:0003H         PUBLIC        sort_internal_40h_4fh
+  C:00B2H         PUBLIC        main
+  D:0098H         PUBLIC        SCON
+  D:0088H         PUBLIC        TCON
+  D:008EH         PUBLIC        AUXR
+  C:0065H         PUBLIC        init_ram_area
+  C:0039H         PUBLIC        sort_external_0000h_000fh
+  D:00C8H         PUBLIC        T2CON
+  C:0086H         PUBLIC        internal_init
+  D:00D0H         PUBLIC        PSW
+  -------         PROC          INIT_RAM_AREA
+  -------         DO            
+  D:0007H         SYMBOL        i
+  -------         ENDDO         
+  C:0065H         LINE#         14
+  C:0065H         LINE#         15
+  C:0065H         LINE#         18
+  C:0068H         LINE#         19
+  C:006AH         LINE#         20
+  C:006AH         LINE#         21
+  C:0076H         LINE#         22
+  C:0081H         LINE#         23
+  C:0085H         LINE#         24
+  -------         ENDPROC       INIT_RAM_AREA
+  -------         PROC          SORT_INTERNAL_40H_4FH
+  -------         DO            
+  D:0007H         SYMBOL        i
+  D:0006H         SYMBOL        j
+  D:0005H         SYMBOL        temp
+  -------         ENDDO         
+  C:0003H         LINE#         26
+  C:0003H         LINE#         27
+  C:0003H         LINE#         32
+  C:0005H         LINE#         33
+  C:0005H         LINE#         34
+  C:000EH         LINE#         35
+  C:000EH         LINE#         36
+  C:001DH         LINE#         37
+  C:001DH         LINE#         38
+  C:001FH         LINE#         39
+  C:002BH         LINE#         40
+  C:0031H         LINE#         41
+  C:0031H         LINE#         42
+  C:0034H         LINE#         43
+  C:0038H         LINE#         44
+  -------         ENDPROC       SORT_INTERNAL_40H_4FH
+  -------         PROC          SORT_EXTERNAL_0000H_000FH
+  -------         DO            
+  D:0007H         SYMBOL        i
+  D:0006H         SYMBOL        j
+BL51 BANKED LINKER/LOCATER V6.22                                                      05/01/2026  03:57:46  PAGE 3
+
+
+  D:0005H         SYMBOL        temp
+  -------         ENDDO         
+  C:0039H         LINE#         46
+  C:0039H         LINE#         47
+  C:0039H         LINE#         52
+  C:003BH         LINE#         53
+  C:003BH         LINE#         54
+  C:0044H         LINE#         55
+  C:0044H         LINE#         56
+  C:0051H         LINE#         57
+  C:0051H         LINE#         58
+  C:0053H         LINE#         59
+  C:0059H         LINE#         60
+  C:005DH         LINE#         61
+  C:005DH         LINE#         62
+  C:0060H         LINE#         63
+  C:0064H         LINE#         64
+  -------         ENDPROC       SORT_EXTERNAL_0000H_000FH
+  -------         PROC          MAIN
+  C:00B2H         LINE#         66
+  C:00B2H         LINE#         67
+  C:00B2H         LINE#         68
+  C:00B5H         LINE#         69
+  C:00B8H         LINE#         70
+  C:00BBH         LINE#         72
+  C:00BBH         LINE#         73
+  C:00BBH         LINE#         74
+  -------         ENDPROC       MAIN
+  -------         ENDMOD        EX4_SORT_INTERNAL_EXTERNAL_ADVANCED
+
+Program Size: data=9.0 xdata=0 code=189
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

@@ -1,0 +1,90 @@
+BL51 BANKED LINKER/LOCATER V6.22                                                        05/01/2026  03:47:09  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22, INVOKED BY:
+D:\C51\BIN\BL51.EXE .\Objects\EX4_SRAM.obj TO .\Objects\EX4_1 PRINT (.\Listings\EX4_1.m51) RAMSIZE (256)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  .\Objects\EX4_SRAM.obj (EX4_SRAM)
+  D:\C51\LIB\C51S.LIB (?C_STARTUP)
+
+
+LINK MAP OF MODULE:  .\Objects\EX4_1 (EX4_SRAM)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            IDATA   0008H     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+            CODE    0003H     0035H     UNIT         ?PR?MAIN?EX4_SRAM
+            CODE    0038H     000CH     UNIT         ?C_C51STARTUP
+
+
+
+OVERLAY MAP OF MODULE:   .\Objects\EX4_1 (EX4_SRAM)
+
+
+SEGMENT
+  +--> CALLED SEGMENT
+---------------------
+?C_C51STARTUP
+  +--> ?PR?MAIN?EX4_SRAM
+
+
+
+SYMBOL TABLE OF MODULE:  .\Objects\EX4_1 (EX4_SRAM)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        EX4_SRAM
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0090H         PUBLIC        P1
+  D:00B0H         PUBLIC        P3
+  D:00A8H         PUBLIC        IE
+  D:00B8H         PUBLIC        IP
+  C:0003H         PUBLIC        main
+  D:0098H         PUBLIC        SCON
+  D:0088H         PUBLIC        TCON
+  D:008EH         PUBLIC        AUXR
+  D:00C8H         PUBLIC        T2CON
+  D:00D0H         PUBLIC        PSW
+  -------         PROC          MAIN
+BL51 BANKED LINKER/LOCATER V6.22                                                      05/01/2026  03:47:09  PAGE 2
+
+
+  -------         DO            
+  D:0007H         SYMBOL        i
+  -------         ENDDO         
+  C:0003H         LINE#         4
+  C:0003H         LINE#         5
+  C:0003H         LINE#         8
+  C:0006H         LINE#         10
+  C:0008H         LINE#         11
+  C:0008H         LINE#         12
+  C:000EH         LINE#         13
+  C:0012H         LINE#         15
+  C:0014H         LINE#         16
+  C:0014H         LINE#         17
+  C:001FH         LINE#         18
+  C:0023H         LINE#         20
+  C:0025H         LINE#         21
+  C:0025H         LINE#         22
+  C:0032H         LINE#         23
+  C:0036H         LINE#         25
+  C:0036H         LINE#         26
+  C:0036H         LINE#         27
+  -------         ENDPROC       MAIN
+  -------         ENDMOD        EX4_SRAM
+
+Program Size: data=9.0 xdata=0 code=68
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

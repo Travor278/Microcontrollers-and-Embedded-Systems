@@ -1,0 +1,125 @@
+BL51 BANKED LINKER/LOCATER V6.22                                                        05/01/2026  03:53:31  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22, INVOKED BY:
+D:\C51\BIN\BL51.EXE .\Objects\EX4_Sort_Internal.obj TO .\Objects\EX4_2 PRINT (.\Listings\EX4_2.m51) RAMSIZE (256)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  .\Objects\EX4_Sort_Internal.obj (EX4_SORT_INTERNAL)
+  D:\C51\LIB\C51S.LIB (?C_STARTUP)
+
+
+LINK MAP OF MODULE:  .\Objects\EX4_2 (EX4_SORT_INTERNAL)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            IDATA   0008H     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+            CODE    0003H     0036H     UNIT         ?PR?SORT_INTERNAL_30H?EX4_SORT_INTERNAL
+            CODE    0039H     0013H     UNIT         ?PR?INIT_INTERNAL_RAM?EX4_SORT_INTERNAL
+            CODE    004CH     000CH     UNIT         ?C_C51STARTUP
+            CODE    0058H     000AH     UNIT         ?CO?EX4_SORT_INTERNAL
+            CODE    0062H     0008H     UNIT         ?PR?MAIN?EX4_SORT_INTERNAL
+
+
+
+OVERLAY MAP OF MODULE:   .\Objects\EX4_2 (EX4_SORT_INTERNAL)
+
+
+SEGMENT
+  +--> CALLED SEGMENT
+---------------------
+?C_C51STARTUP
+  +--> ?PR?MAIN?EX4_SORT_INTERNAL
+
+?PR?MAIN?EX4_SORT_INTERNAL
+  +--> ?PR?INIT_INTERNAL_RAM?EX4_SORT_INTERNAL
+  +--> ?PR?SORT_INTERNAL_30H?EX4_SORT_INTERNAL
+
+?PR?INIT_INTERNAL_RAM?EX4_SORT_INTERNAL
+  +--> ?CO?EX4_SORT_INTERNAL
+
+
+
+SYMBOL TABLE OF MODULE:  .\Objects\EX4_2 (EX4_SORT_INTERNAL)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        EX4_SORT_INTERNAL
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0090H         PUBLIC        P1
+BL51 BANKED LINKER/LOCATER V6.22                                                      05/01/2026  03:53:31  PAGE 2
+
+
+  D:00B0H         PUBLIC        P3
+  D:00A8H         PUBLIC        IE
+  D:00B8H         PUBLIC        IP
+  C:0039H         PUBLIC        init_internal_ram
+  C:0062H         PUBLIC        main
+  C:0058H         PUBLIC        init_data
+  D:0098H         PUBLIC        SCON
+  D:0088H         PUBLIC        TCON
+  C:0003H         PUBLIC        sort_internal_30h
+  D:00C8H         PUBLIC        T2CON
+  D:00D0H         PUBLIC        PSW
+  -------         PROC          INIT_INTERNAL_RAM
+  -------         DO            
+  D:0007H         SYMBOL        i
+  -------         ENDDO         
+  C:0039H         LINE#         9
+  C:0039H         LINE#         10
+  C:0039H         LINE#         12
+  C:003BH         LINE#         13
+  C:003BH         LINE#         14
+  C:0047H         LINE#         15
+  C:004BH         LINE#         16
+  -------         ENDPROC       INIT_INTERNAL_RAM
+  -------         PROC          SORT_INTERNAL_30H
+  -------         DO            
+  D:0007H         SYMBOL        i
+  D:0006H         SYMBOL        j
+  D:0005H         SYMBOL        temp
+  -------         ENDDO         
+  C:0003H         LINE#         18
+  C:0003H         LINE#         19
+  C:0003H         LINE#         24
+  C:0005H         LINE#         25
+  C:0005H         LINE#         26
+  C:000EH         LINE#         27
+  C:000EH         LINE#         28
+  C:001DH         LINE#         29
+  C:001DH         LINE#         30
+  C:001FH         LINE#         31
+  C:002BH         LINE#         32
+  C:0031H         LINE#         33
+  C:0031H         LINE#         34
+  C:0034H         LINE#         35
+  C:0038H         LINE#         36
+  -------         ENDPROC       SORT_INTERNAL_30H
+  -------         PROC          MAIN
+  C:0062H         LINE#         38
+  C:0062H         LINE#         39
+  C:0062H         LINE#         40
+  C:0065H         LINE#         41
+  C:0068H         LINE#         43
+  C:0068H         LINE#         44
+  C:0068H         LINE#         45
+  -------         ENDPROC       MAIN
+  -------         ENDMOD        EX4_SORT_INTERNAL
+
+Program Size: data=9.0 xdata=0 code=106
+BL51 BANKED LINKER/LOCATER V6.22                                                      05/01/2026  03:53:31  PAGE 3
+
+
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

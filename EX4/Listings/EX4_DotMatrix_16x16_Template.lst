@@ -1,9 +1,10 @@
-C51 COMPILER V9.54   EX4_DOTMATRIX_16X16_TEMPLATE                                          05/01/2026 04:57:20 PAGE 1   
+C51 COMPILER V9.54   EX4_DOTMATRIX_16X16_TEMPLATE                                          05/01/2026 05:01:06 PAGE 1   
 
 
 C51 COMPILER V9.54, COMPILATION OF MODULE EX4_DOTMATRIX_16X16_TEMPLATE
-OBJECT MODULE PLACED IN EX4_DotMatrix_16x16_Template.OBJ
-COMPILER INVOKED BY: D:\C51\BIN\C51.exe EX4_DotMatrix_16x16_Template.c INCDIR(D:\C51\INC,D:\C51\INC\SST)
+OBJECT MODULE PLACED IN .\Objects\EX4_DotMatrix_16x16_Template.obj
+COMPILER INVOKED BY: D:\C51\BIN\C51.EXE EX4_DotMatrix_16x16_Template.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT
+                    -(.\Listings\EX4_DotMatrix_16x16_Template.lst) TABS(2) OBJECT(.\Objects\EX4_DotMatrix_16x16_Template.obj)
 
 line level    source
 
@@ -61,9 +62,9 @@ line level    source
   52          void select_row(unsigned char row)
   53          {
   54   1          ROW_A = row & 0x01;
-  55   1          ROW_B = (row >> 1) & 0x01;
-C51 COMPILER V9.54   EX4_DOTMATRIX_16X16_TEMPLATE                                          05/01/2026 04:57:20 PAGE 2   
+C51 COMPILER V9.54   EX4_DOTMATRIX_16X16_TEMPLATE                                          05/01/2026 05:01:06 PAGE 2   
 
+  55   1          ROW_B = (row >> 1) & 0x01;
   56   1          ROW_C = (row >> 2) & 0x01;
   57   1          ROW_D = (row >> 3) & 0x01;
   58   1      }
@@ -125,9 +126,9 @@ line level    source
  114   3                  {
  115   4                      if (char_index == 0)
  116   4                      {
- 117   5                          char_index = 2;
-C51 COMPILER V9.54   EX4_DOTMATRIX_16X16_TEMPLATE                                          05/01/2026 04:57:20 PAGE 3   
+C51 COMPILER V9.54   EX4_DOTMATRIX_16X16_TEMPLATE                                          05/01/2026 05:01:06 PAGE 3   
 
+ 117   5                          char_index = 2;
  118   5                      }
  119   4                      else
  120   4                      {

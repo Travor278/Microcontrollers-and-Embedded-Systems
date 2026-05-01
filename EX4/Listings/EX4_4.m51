@@ -1,0 +1,176 @@
+BL51 BANKED LINKER/LOCATER V6.22                                                        05/01/2026  04:46:59  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22, INVOKED BY:
+D:\C51\BIN\BL51.EXE .\Objects\EX4_DotMatrix_8x8.obj TO .\Objects\EX4_4 PRINT (.\Listings\EX4_4.m51) RAMSIZE (256)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  .\Objects\EX4_DotMatrix_8x8.obj (EX4_DOTMATRIX_8X8)
+  D:\C51\LIB\C51S.LIB (?C_STARTUP)
+
+
+LINK MAP OF MODULE:  .\Objects\EX4_4 (EX4_DOTMATRIX_8X8)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            DATA    0008H     0004H     UNIT         _DATA_GROUP_
+            IDATA   000CH     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+            CODE    0003H     005DH     UNIT         ?PR?_SCAN_FRAME?EX4_DOTMATRIX_8X8
+            CODE    0060H     005AH     UNIT         ?CO?EX4_DOTMATRIX_8X8
+            CODE    00BAH     004BH     UNIT         ?PR?MAIN?EX4_DOTMATRIX_8X8
+            CODE    0105H     001BH     UNIT         ?PR?_DELAY_FRAME?EX4_DOTMATRIX_8X8
+            CODE    0120H     000EH     UNIT         ?PR?_DELAY_US?EX4_DOTMATRIX_8X8
+            CODE    012EH     000CH     UNIT         ?C_C51STARTUP
+
+
+
+OVERLAY MAP OF MODULE:   .\Objects\EX4_4 (EX4_DOTMATRIX_8X8)
+
+
+SEGMENT                                      DATA_GROUP 
+  +--> CALLED SEGMENT                      START    LENGTH
+----------------------------------------------------------
+?C_C51STARTUP                              -----    -----
+  +--> ?PR?MAIN?EX4_DOTMATRIX_8X8
+
+?PR?MAIN?EX4_DOTMATRIX_8X8                 0008H    0004H
+  +--> ?CO?EX4_DOTMATRIX_8X8
+  +--> ?PR?_SCAN_FRAME?EX4_DOTMATRIX_8X8
+
+?PR?_SCAN_FRAME?EX4_DOTMATRIX_8X8          -----    -----
+  +--> ?CO?EX4_DOTMATRIX_8X8
+  +--> ?PR?_DELAY_US?EX4_DOTMATRIX_8X8
+
+
+
+SYMBOL TABLE OF MODULE:  .\Objects\EX4_4 (EX4_DOTMATRIX_8X8)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+BL51 BANKED LINKER/LOCATER V6.22                                                      05/01/2026  04:46:59  PAGE 2
+
+
+  -------         MODULE        EX4_DOTMATRIX_8X8
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  C:0105H         PUBLIC        _delay_frame
+  D:0090H         PUBLIC        P1
+  D:00A0H         PUBLIC        P2
+  D:00B0H         PUBLIC        P3
+  D:00A8H         PUBLIC        IE
+  C:0003H         PUBLIC        _scan_frame
+  D:00B8H         PUBLIC        IP
+  C:00BAH         PUBLIC        main
+  C:0060H         PUBLIC        digit_font
+  D:0098H         PUBLIC        SCON
+  D:0088H         PUBLIC        TCON
+  C:00B0H         PUBLIC        student_id
+  C:0120H         PUBLIC        _delay_us
+  D:00C8H         PUBLIC        T2CON
+  B:00B0H.2       PUBLIC        DIR_SW
+  D:00D0H         PUBLIC        PSW
+  -------         PROC          _DELAY_US
+  D:0006H         SYMBOL        n
+  C:0120H         LINE#         32
+  C:0120H         LINE#         33
+  C:0120H         LINE#         34
+  C:012AH         LINE#         35
+  C:012AH         LINE#         36
+  C:012BH         LINE#         37
+  C:012DH         LINE#         38
+  -------         ENDPROC       _DELAY_US
+  -------         PROC          _DELAY_FRAME
+  D:0002H         SYMBOL        n
+  -------         DO            
+  D:0082H         SYMBOL        i
+  -------         ENDDO         
+  C:0105H         LINE#         40
+  C:0109H         LINE#         41
+  C:0109H         LINE#         43
+  C:0115H         LINE#         44
+  C:0115H         LINE#         45
+  C:011CH         LINE#         46
+  C:011FH         LINE#         47
+  -------         ENDPROC       _DELAY_FRAME
+  -------         PROC          _SCAN_FRAME
+  D:0001H         SYMBOL        char_index
+  D:0005H         SYMBOL        shift
+  -------         DO            
+  D:0002H         SYMBOL        row
+  D:0003H         SYMBOL        col_data
+  -------         ENDDO         
+  C:0003H         LINE#         49
+  C:0005H         LINE#         50
+  C:0005H         LINE#         54
+  C:0007H         LINE#         55
+  C:0007H         LINE#         56
+  C:0022H         LINE#         57
+  C:0025H         LINE#         58
+  C:0025H         LINE#         59
+  C:002FH         LINE#         60
+BL51 BANKED LINKER/LOCATER V6.22                                                      05/01/2026  04:46:59  PAGE 3
+
+
+  C:0031H         LINE#         62
+  C:0031H         LINE#         63
+  C:003DH         LINE#         64
+  C:003DH         LINE#         66
+  C:004AH         LINE#         67
+  C:004EH         LINE#         68
+  C:0055H         LINE#         69
+  C:0058H         LINE#         70
+  C:005BH         LINE#         71
+  C:005FH         LINE#         72
+  -------         ENDPROC       _SCAN_FRAME
+  -------         PROC          MAIN
+  -------         DO            
+  D:0008H         SYMBOL        char_index
+  D:0009H         SYMBOL        shift
+  D:000AH         SYMBOL        frame_count
+  -------         ENDDO         
+  C:00BAH         LINE#         74
+  C:00BAH         LINE#         75
+  C:00BAH         LINE#         76
+  C:00BDH         LINE#         77
+  C:00BFH         LINE#         78
+  C:00C3H         LINE#         80
+  C:00C5H         LINE#         81
+  C:00C8H         LINE#         82
+  C:00CBH         LINE#         84
+  C:00CBH         LINE#         85
+  C:00CBH         LINE#         86
+  C:00D7H         LINE#         87
+  C:00DFH         LINE#         89
+  C:00E8H         LINE#         90
+  C:00E8H         LINE#         91
+  C:00EDH         LINE#         92
+  C:00EFH         LINE#         93
+  C:00F5H         LINE#         94
+  C:00F5H         LINE#         95
+  C:00F8H         LINE#         96
+  C:00FAH         LINE#         97
+  C:0100H         LINE#         98
+  C:0100H         LINE#         99
+  C:0103H         LINE#         100
+  C:0103H         LINE#         101
+  C:0103H         LINE#         102
+  C:0103H         LINE#         103
+  -------         ENDPROC       MAIN
+  -------         ENDMOD        EX4_DOTMATRIX_8X8
+
+*** WARNING L16: UNCALLED SEGMENT, IGNORED FOR OVERLAY PROCESS
+    SEGMENT: ?PR?_DELAY_FRAME?EX4_DOTMATRIX_8X8
+
+Program Size: data=13.0 xdata=0 code=314
+LINK/LOCATE RUN COMPLETE.  1 WARNING(S),  0 ERROR(S)

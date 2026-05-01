@@ -5,7 +5,8 @@
  * 16x16 dot-matrix template for the new experiment box.
  * The concrete driver pins depend on the SM16206/SM5166 wiring
  * on the laboratory hardware. Use the pin names below as a mapping layer,
- * then replace name_font[] with the 16x16 font of your own name.
+ * Name displayed: Jin Yi Fan.
+ * P3.2 controls the cyclic display direction.
  */
 
 sbit DIR_SW = P3^2;
@@ -20,10 +21,22 @@ sbit COL_OE = P1^7;
 
 unsigned char code name_font[][32] = {
     {
-        0x00, 0x00, 0x7F, 0xFC, 0x04, 0x20, 0x04, 0x20,
-        0x04, 0x20, 0x3F, 0xF8, 0x04, 0x20, 0x04, 0x20,
-        0x04, 0x20, 0x7F, 0xFC, 0x04, 0x20, 0x04, 0x20,
-        0x08, 0x20, 0x10, 0x20, 0x20, 0x20, 0x00, 0x00
+        0x00, 0x00, 0x01, 0x80, 0x03, 0x80, 0x06, 0xC0,
+        0x0C, 0x70, 0x18, 0x38, 0x3F, 0xFE, 0x6F, 0xF2,
+        0x01, 0x80, 0x1F, 0xF8, 0x1F, 0xF8, 0x09, 0x98,
+        0x0D, 0xB0, 0x05, 0xB0, 0x3F, 0xFE, 0x00, 0x00
+    },
+    {
+        0x00, 0x00, 0x01, 0x80, 0x3F, 0xFE, 0x3F, 0xFE,
+        0x12, 0x60, 0x3A, 0x68, 0x76, 0x6C, 0x26, 0xE4,
+        0x1C, 0xC0, 0x09, 0x80, 0x7F, 0xFE, 0x03, 0xC0,
+        0x03, 0x60, 0x0E, 0x38, 0x78, 0x1E, 0x20, 0x00
+    },
+    {
+        0x18, 0x00, 0x18, 0xF8, 0x18, 0xC8, 0x7E, 0x88,
+        0x5A, 0xE8, 0x5A, 0xA8, 0x5A, 0xB8, 0x5A, 0xB8,
+        0x5A, 0xB8, 0x5A, 0x88, 0x5F, 0x88, 0x5D, 0x8A,
+        0x1B, 0x0E, 0x1B, 0x0E, 0x00, 0x00, 0x00, 0x00
     }
 };
 
@@ -67,11 +80,6 @@ void scan_char(unsigned char char_index)
     {
         col = ((unsigned int)name_font[char_index][row * 2] << 8) |
               name_font[char_index][row * 2 + 1];
-        if (!DIR_SW)
-        {
-            col = (unsigned int)((col >> 1) | (col << 15));
-        }
-
         COL_OE = 1;
         select_row(row);
         shift_out16(~col);
@@ -82,9 +90,37 @@ void scan_char(unsigned char char_index)
 
 void main(void)
 {
+    unsigned char char_index = 0;
+    unsigned int frame_count = 0;
+
     P1 = 0xFF;
     while (1)
     {
-        scan_char(0);
+        scan_char(char_index);
+        frame_count++;
+
+        if (frame_count >= 180)
+        {
+            frame_count = 0;
+            if (DIR_SW)
+            {
+                char_index++;
+                if (char_index >= 3)
+                {
+                    char_index = 0;
+                }
+            }
+            else
+            {
+                if (char_index == 0)
+                {
+                    char_index = 2;
+                }
+                else
+                {
+                    char_index--;
+                }
+            }
+        }
     }
 }

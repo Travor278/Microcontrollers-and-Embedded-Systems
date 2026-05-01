@@ -1,0 +1,204 @@
+BL51 BANKED LINKER/LOCATER V6.22                                                        05/01/2026  05:18:53  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22, INVOKED BY:
+D:\C51\BIN\BL51.EXE .\Objects\EX4_DotMatrix_16x16_Template.obj TO .\Objects\EX4_5 PRINT (.\Listings\EX4_5.m51) RAMSIZE (
+>> 256)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  .\Objects\EX4_DotMatrix_16x16_Template.obj (EX4_DOTMATRIX_16X16_TEMPLATE)
+  D:\C51\LIB\C51S.LIB (?C_STARTUP)
+  D:\C51\LIB\C51S.LIB (?C?OFFXADD)
+
+
+LINK MAP OF MODULE:  .\Objects\EX4_5 (EX4_DOTMATRIX_16X16_TEMPLATE)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            DATA    0008H     0004H     UNIT         _DATA_GROUP_
+            IDATA   000CH     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+            CODE    0003H     0060H     UNIT         ?CO?EX4_DOTMATRIX_16X16_TEMPLATE
+            CODE    0063H     005CH     UNIT         ?PR?_SCAN_CHAR?EX4_DOTMATRIX_16X16_TEMPLATE
+            CODE    00BFH     003BH     UNIT         ?PR?MAIN?EX4_DOTMATRIX_16X16_TEMPLATE
+            CODE    00FAH     0020H     UNIT         ?PR?_SHIFT_OUT16?EX4_DOTMATRIX_16X16_TEMPLATE
+            CODE    011AH     001CH     UNIT         ?PR?_SELECT_ROW?EX4_DOTMATRIX_16X16_TEMPLATE
+            CODE    0136H     000CH     UNIT         ?C_C51STARTUP
+            CODE    0142H     000CH     UNIT         ?C?LIB_CODE
+            CODE    014EH     0008H     UNIT         ?PR?DELAY_SHORT?EX4_DOTMATRIX_16X16_TEMPLATE
+
+
+
+OVERLAY MAP OF MODULE:   .\Objects\EX4_5 (EX4_DOTMATRIX_16X16_TEMPLATE)
+
+
+SEGMENT                                            DATA_GROUP 
+  +--> CALLED SEGMENT                            START    LENGTH
+----------------------------------------------------------------
+?C_C51STARTUP                                    -----    -----
+  +--> ?PR?MAIN?EX4_DOTMATRIX_16X16_TEMPLATE
+
+?PR?MAIN?EX4_DOTMATRIX_16X16_TEMPLATE            0008H    0002H
+  +--> ?PR?_SCAN_CHAR?EX4_DOTMATRIX_16X16_TE...
+
+?PR?_SCAN_CHAR?EX4_DOTMATRIX_16X16_TE...         000AH    0002H
+  +--> ?CO?EX4_DOTMATRIX_16X16_TEMPLATE
+  +--> ?PR?_SELECT_ROW?EX4_DOTMATRIX_16X16_T...
+  +--> ?PR?_SHIFT_OUT16?EX4_DOTMATRIX_16X16_...
+  +--> ?PR?DELAY_SHORT?EX4_DOTMATRIX_16X16_T...
+
+
+
+BL51 BANKED LINKER/LOCATER V6.22                                                      05/01/2026  05:18:53  PAGE 2
+
+
+SYMBOL TABLE OF MODULE:  .\Objects\EX4_5 (EX4_DOTMATRIX_16X16_TEMPLATE)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        EX4_DOTMATRIX_16X16_TEMPLATE
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0090H         PUBLIC        P1
+  D:00B0H         PUBLIC        P3
+  D:00A8H         PUBLIC        IE
+  D:00B8H         PUBLIC        IP
+  B:0090H.5       PUBLIC        COL_CLK
+  B:0090H.0       PUBLIC        ROW_A
+  B:0090H.1       PUBLIC        ROW_B
+  B:0090H.2       PUBLIC        ROW_C
+  B:0090H.3       PUBLIC        ROW_D
+  B:0090H.6       PUBLIC        COL_LAT
+  C:014EH         PUBLIC        delay_short
+  C:00BFH         PUBLIC        main
+  C:0063H         PUBLIC        _scan_char
+  D:0098H         PUBLIC        SCON
+  D:0088H         PUBLIC        TCON
+  C:0003H         PUBLIC        name_font
+  C:011AH         PUBLIC        _select_row
+  C:00FAH         PUBLIC        _shift_out16
+  B:0090H.7       PUBLIC        COL_OE
+  B:0090H.4       PUBLIC        COL_DATA
+  D:00C8H         PUBLIC        T2CON
+  B:00B0H.2       PUBLIC        DIR_SW
+  D:00D0H         PUBLIC        PSW
+  -------         PROC          DELAY_SHORT
+  -------         DO            
+  D:0007H         SYMBOL        i
+  -------         ENDDO         
+  C:014EH         LINE#         43
+  C:014EH         LINE#         44
+  C:014EH         LINE#         46
+  C:0150H         LINE#         47
+  C:0150H         LINE#         48
+  C:0151H         LINE#         49
+  C:0155H         LINE#         50
+  -------         ENDPROC       DELAY_SHORT
+  -------         PROC          _SELECT_ROW
+  D:0007H         SYMBOL        row
+  C:011AH         LINE#         52
+  C:011AH         LINE#         53
+  C:011AH         LINE#         54
+  C:011EH         LINE#         55
+  C:0124H         LINE#         56
+  C:012CH         LINE#         57
+  C:0135H         LINE#         58
+  -------         ENDPROC       _SELECT_ROW
+  -------         PROC          _SHIFT_OUT16
+  D:0006H         SYMBOL        value
+  -------         DO            
+  D:0005H         SYMBOL        i
+  -------         ENDDO         
+BL51 BANKED LINKER/LOCATER V6.22                                                      05/01/2026  05:18:53  PAGE 3
+
+
+  C:00FAH         LINE#         60
+  C:00FAH         LINE#         61
+  C:00FAH         LINE#         63
+  C:00FCH         LINE#         64
+  C:00FCH         LINE#         65
+  C:0106H         LINE#         66
+  C:0108H         LINE#         67
+  C:010AH         LINE#         68
+  C:0111H         LINE#         69
+  C:0115H         LINE#         70
+  C:0117H         LINE#         71
+  C:0119H         LINE#         72
+  -------         ENDPROC       _SHIFT_OUT16
+  -------         PROC          _SCAN_CHAR
+  D:000AH         SYMBOL        char_index
+  -------         DO            
+  D:000BH         SYMBOL        row
+  D:0002H         SYMBOL        col
+  -------         ENDDO         
+  C:0063H         LINE#         74
+  C:0065H         LINE#         75
+  C:0065H         LINE#         79
+  C:0068H         LINE#         80
+  C:0068H         LINE#         81
+  C:00A0H         LINE#         83
+  C:00A2H         LINE#         84
+  C:00A7H         LINE#         85
+  C:00B0H         LINE#         86
+  C:00B2H         LINE#         87
+  C:00B5H         LINE#         88
+  C:00BEH         LINE#         89
+  -------         ENDPROC       _SCAN_CHAR
+  -------         PROC          MAIN
+  -------         DO            
+  D:0004H         SYMBOL        char_index
+  D:0008H         SYMBOL        frame_count
+  -------         ENDDO         
+  C:00BFH         LINE#         91
+  C:00BFH         LINE#         92
+  C:00BFH         LINE#         93
+  C:00C1H         LINE#         94
+  C:00C5H         LINE#         96
+  C:00C8H         LINE#         97
+  C:00C8H         LINE#         98
+  C:00C8H         LINE#         99
+  C:00CDH         LINE#         100
+  C:00D5H         LINE#         102
+  C:00DEH         LINE#         103
+  C:00DEH         LINE#         104
+  C:00E3H         LINE#         105
+  C:00E6H         LINE#         106
+  C:00E6H         LINE#         107
+  C:00E7H         LINE#         108
+  C:00ECH         LINE#         109
+  C:00ECH         LINE#         110
+  C:00EEH         LINE#         111
+  C:00EEH         LINE#         112
+BL51 BANKED LINKER/LOCATER V6.22                                                      05/01/2026  05:18:53  PAGE 4
+
+
+  C:00F0H         LINE#         114
+  C:00F0H         LINE#         115
+  C:00F3H         LINE#         116
+  C:00F3H         LINE#         117
+  C:00F5H         LINE#         118
+  C:00F7H         LINE#         120
+  C:00F7H         LINE#         121
+  C:00F8H         LINE#         122
+  C:00F8H         LINE#         123
+  C:00F8H         LINE#         124
+  C:00F8H         LINE#         125
+  -------         ENDPROC       MAIN
+  -------         ENDMOD        EX4_DOTMATRIX_16X16_TEMPLATE
+
+  -------         MODULE        ?C?OFFXADD
+  C:0142H         PUBLIC        ?C?OFFXADD
+  -------         ENDMOD        ?C?OFFXADD
+
+Program Size: data=13.0 xdata=0 code=342
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

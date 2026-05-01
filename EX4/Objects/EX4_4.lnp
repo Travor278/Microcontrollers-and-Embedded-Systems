@@ -1,0 +1,3 @@
+".\Objects\EX4_DotMatrix_8x8.obj" 
+TO ".\Objects\EX4_4" 
+PRINT(".\Listings\EX4_4.m51") RAMSIZE(256) 
