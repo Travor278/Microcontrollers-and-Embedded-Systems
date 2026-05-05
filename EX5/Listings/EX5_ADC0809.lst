@@ -1,0 +1,64 @@
+C51 COMPILER V9.54   EX5_ADC0809                                                           05/05/2026 08:05:30 PAGE 1   
+
+
+C51 COMPILER V9.54, COMPILATION OF MODULE EX5_ADC0809
+OBJECT MODULE PLACED IN .\Objects\EX5_ADC0809.obj
+COMPILER INVOKED BY: D:\C51\BIN\C51.EXE EX5_ADC0809.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\EX5_A
+                    -DC0809.lst) TABS(2) OBJECT(.\Objects\EX5_ADC0809.obj)
+
+line level    source
+
+   1          #include "SST89x5x4.h"
+   2          #include "ABSACC.H"
+   3          
+   4          #define STARTAD  XBYTE[0x7F00]
+   5          #define ADRESULT XBYTE[0x7F08]
+   6          
+   7          sbit ADBUSY = P3^3;
+   8          
+   9          unsigned char data ad_value = 0;
+  10          
+  11          void delay_short(void)
+  12          {
+  13   1          unsigned char i;
+  14   1          for (i = 0; i < 100; i++)
+  15   1          {
+  16   2          }
+  17   1      }
+  18          
+  19          unsigned char read_adc0809(void)
+  20          {
+  21   1          unsigned char result;
+  22   1      
+  23   1          STARTAD = 0x00;
+  24   1          while (ADBUSY)
+  25   1          {
+  26   2          }
+  27   1          delay_short();
+  28   1          result = ADRESULT;
+  29   1          return result;
+  30   1      }
+  31          
+  32          void main(void)
+  33          {
+  34   1          while (1)
+  35   1          {
+  36   2              ad_value = read_adc0809();
+  37   2              P1 = ad_value;
+  38   2              delay_short();
+  39   2          }
+  40   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     37    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      1    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

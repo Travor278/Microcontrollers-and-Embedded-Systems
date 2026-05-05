@@ -1,0 +1,3 @@
+".\Objects\EX5_ADC_Serial_Advanced_Proteus.obj" 
+TO ".\Objects\EX_5.4" 
+PRINT(".\Listings\EX_5.m51") RAMSIZE(256) 

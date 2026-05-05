@@ -1,0 +1,262 @@
+C51 COMPILER V9.54   EX5_ADC_SERIAL_ADVANCED_PROTEUS                                       05/05/2026 09:05:04 PAGE 1   
+
+
+C51 COMPILER V9.54, COMPILATION OF MODULE EX5_ADC_SERIAL_ADVANCED_PROTEUS
+OBJECT MODULE PLACED IN .\Objects\EX5_ADC_Serial_Advanced_Proteus.obj
+COMPILER INVOKED BY: D:\C51\BIN\C51.EXE EX5_ADC_Serial_Advanced_Proteus.c OPTIMIZE(8,SPEED) BROWSE DEBUG OBJECTEXTEND PR
+                    -INT(.\Listings\EX5_ADC_Serial_Advanced_Proteus.lst) TABS(2) OBJECT(.\Objects\EX5_ADC_Serial_Advanced_Proteus.obj)
+
+line level    source
+
+   1          #include "SST89x5x4.h"
+   2          
+   3          /*
+   4           * Proteus-friendly version of experiment 5 advanced task.
+   5           *
+   6           * ADC0809:
+   7           *   D0-D7  -> P0.0-P0.7
+   8           *   ALE    -> P3.4
+   9           *   START  -> P3.5
+  10           *   OE     -> P3.6
+  11           *   EOC    -> P3.3
+  12           *   ADDA/ADDB/ADDC -> GND, so channel IN0 is selected.
+  13           *
+  14           * Display:
+  15           *   P2.0-P2.7 -> seven-segment segment bus a,b,c,d,e,f,g,dp.
+  16           *   P1.0-P1.2 -> digit enables for hundreds/tens/ones, active low.
+  17           *
+  18           * Serial:
+  19           *   P3.1/TXD -> Virtual Terminal RXD
+  20           *   P3.0/RXD -> Virtual Terminal TXD
+  21           *
+  22           * Send 0, 1, 2, or 3 from the terminal to change voltage decimals.
+  23           */
+  24          
+  25          sbit ADC_EOC   = P3^3;
+  26          sbit ADC_ALE   = P3^4;
+  27          sbit ADC_START = P3^5;
+  28          sbit ADC_OE    = P3^6;
+  29          
+  30          unsigned char code seg_cc[10] = {
+  31              0x3F, 0x06, 0x5B, 0x4F, 0x66,
+  32              0x6D, 0x7D, 0x07, 0x7F, 0x6F
+  33          };
+  34          
+  35          unsigned char data ad_value = 0;
+  36          unsigned char data precision = 2;
+  37          unsigned char data display_buf[3] = {0, 0, 0};
+  38          
+  39          void delay_short(void)
+  40          {
+  41   1          unsigned int i;
+  42   1          for (i = 0; i < 500; i++)
+  43   1          {
+  44   2          }
+  45   1      }
+  46          
+  47          void uart_init(void)
+  48          {
+  49   1          SCON = 0x50;
+  50   1          TMOD = (TMOD & 0x0F) | 0x20;
+  51   1          PCON = 0x80;
+  52   1          TH1 = 0xFD;
+  53   1          TL1 = 0xFD;
+  54   1          TR1 = 1;
+C51 COMPILER V9.54   EX5_ADC_SERIAL_ADVANCED_PROTEUS                                       05/05/2026 09:05:04 PAGE 2   
+
+  55   1          TI = 1;
+  56   1      }
+  57          
+  58          void uart_putc(unsigned char c)
+  59          {
+  60   1          SBUF = c;
+  61   1          while (!TI)
+  62   1          {
+  63   2          }
+  64   1          TI = 0;
+  65   1      }
+  66          
+  67          void uart_puts(char *s)
+  68          {
+  69   1          while (*s)
+  70   1          {
+  71   2              uart_putc(*s++);
+  72   2          }
+  73   1      }
+  74          
+  75          void uart_put_uint(unsigned int v)
+  76          {
+  77   1          unsigned char hundreds = 0;
+  78   1          unsigned char tens = 0;
+  79   1      
+  80   1          while (v >= 100)
+  81   1          {
+  82   2              v -= 100;
+  83   2              hundreds++;
+  84   2          }
+  85   1          while (v >= 10)
+  86   1          {
+  87   2              v -= 10;
+  88   2              tens++;
+  89   2          }
+  90   1      
+  91   1          if (hundreds)
+  92   1          {
+  93   2              uart_putc((unsigned char)('0' + hundreds));
+  94   2              uart_putc((unsigned char)('0' + tens));
+  95   2          }
+  96   1          else if (tens)
+  97   1          {
+  98   2              uart_putc((unsigned char)('0' + tens));
+  99   2          }
+ 100   1          uart_putc((unsigned char)('0' + v));
+ 101   1      }
+ 102          
+ 103          void uart_put_voltage(unsigned char value)
+ 104          {
+ 105   1          unsigned long mv;
+ 106   1          unsigned int v_int;
+ 107   1          unsigned int v_frac;
+ 108   1      
+ 109   1          mv = ((unsigned long)value * 5000UL) / 255UL;
+ 110   1          v_int = (unsigned int)(mv / 1000UL);
+ 111   1          v_frac = (unsigned int)(mv % 1000UL);
+ 112   1      
+ 113   1          uart_put_uint(v_int);
+ 114   1          if (precision > 0)
+ 115   1          {
+ 116   2              uart_putc('.');
+C51 COMPILER V9.54   EX5_ADC_SERIAL_ADVANCED_PROTEUS                                       05/05/2026 09:05:04 PAGE 3   
+
+ 117   2              uart_putc((unsigned char)('0' + (v_frac / 100)));
+ 118   2              if (precision > 1)
+ 119   2              {
+ 120   3                  uart_putc((unsigned char)('0' + ((v_frac / 10) % 10)));
+ 121   3              }
+ 122   2              if (precision > 2)
+ 123   2              {
+ 124   3                  uart_putc((unsigned char)('0' + (v_frac % 10)));
+ 125   3              }
+ 126   2          }
+ 127   1          uart_putc('V');
+ 128   1      }
+ 129          
+ 130          unsigned char read_adc0809(void)
+ 131          {
+ 132   1          unsigned char value;
+ 133   1      
+ 134   1          P0 = 0xFF;
+ 135   1          ADC_OE = 0;
+ 136   1      
+ 137   1          ADC_ALE = 1;
+ 138   1          ADC_START = 1;
+ 139   1          delay_short();
+ 140   1          ADC_ALE = 0;
+ 141   1          ADC_START = 0;
+ 142   1      
+ 143   1          while (!ADC_EOC)
+ 144   1          {
+ 145   2          }
+ 146   1      
+ 147   1          ADC_OE = 1;
+ 148   1          delay_short();
+ 149   1          value = P0;
+ 150   1          ADC_OE = 0;
+ 151   1      
+ 152   1          return value;
+ 153   1      }
+ 154          
+ 155          void update_display_buf(unsigned char value)
+ 156          {
+ 157   1          display_buf[0] = value / 100;
+ 158   1          display_buf[1] = (value / 10) % 10;
+ 159   1          display_buf[2] = value % 10;
+ 160   1      }
+ 161          
+ 162          void display_scan_once(void)
+ 163          {
+ 164   1          P1 = 0xFE;
+ 165   1          P2 = seg_cc[display_buf[0]];
+ 166   1          delay_short();
+ 167   1          P1 = 0xFD;
+ 168   1          P2 = seg_cc[display_buf[1]];
+ 169   1          delay_short();
+ 170   1          P1 = 0xFB;
+ 171   1          P2 = seg_cc[display_buf[2]];
+ 172   1          delay_short();
+ 173   1          P1 = 0xFF;
+ 174   1      }
+ 175          
+ 176          void handle_uart_command(void)
+ 177          {
+ 178   1          unsigned char c;
+C51 COMPILER V9.54   EX5_ADC_SERIAL_ADVANCED_PROTEUS                                       05/05/2026 09:05:04 PAGE 4   
+
+ 179   1      
+ 180   1          if (RI)
+ 181   1          {
+ 182   2              RI = 0;
+ 183   2              c = SBUF;
+ 184   2              if (c >= '0' && c <= '3')
+ 185   2              {
+ 186   3                  precision = c - '0';
+ 187   3                  uart_puts("precision=");
+ 188   3                  uart_put_uint(precision);
+ 189   3                  uart_puts("\r\n");
+ 190   3              }
+ 191   2          }
+ 192   1      }
+ 193          
+ 194          void send_sample(void)
+ 195          {
+ 196   1          uart_puts("ADC=");
+ 197   1          uart_put_uint(ad_value);
+ 198   1          uart_puts(", U=");
+ 199   1          uart_put_voltage(ad_value);
+ 200   1          uart_puts("\r\n");
+ 201   1      }
+ 202          
+ 203          void main(void)
+ 204          {
+ 205   1          unsigned int loop_count = 0;
+ 206   1      
+ 207   1          uart_init();
+ 208   1          P0 = 0xFF;
+ 209   1          P1 = 0xFF;
+ 210   1          P2 = 0x00;
+ 211   1          P3 |= 0x08;
+ 212   1          ADC_ALE = 0;
+ 213   1          ADC_START = 0;
+ 214   1          ADC_OE = 0;
+ 215   1      
+ 216   1          while (1)
+ 217   1          {
+ 218   2              handle_uart_command();
+ 219   2              ad_value = read_adc0809();
+ 220   2              update_display_buf(ad_value);
+ 221   2              display_scan_once();
+ 222   2      
+ 223   2              loop_count++;
+ 224   2              if (loop_count >= 80)
+ 225   2              {
+ 226   3                  loop_count = 0;
+ 227   3                  send_sample();
+ 228   3              }
+ 229   2          }
+ 230   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    556    ----
+   CONSTANT SIZE    =     34    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      5      11
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+C51 COMPILER V9.54   EX5_ADC_SERIAL_ADVANCED_PROTEUS                                       05/05/2026 09:05:04 PAGE 5   
+
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

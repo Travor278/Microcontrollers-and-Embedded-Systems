@@ -1,0 +1,397 @@
+BL51 BANKED LINKER/LOCATER V6.22                                                        05/05/2026  09:38:39  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22, INVOKED BY:
+D:\C51\BIN\BL51.EXE .\Objects\EX5_ADC_Serial_Advanced_Proteus.obj TO .\Objects\EX_5.4 PRINT (.\Listings\EX_5.m51) RAMSIZ
+>> E (256)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  .\Objects\EX5_ADC_Serial_Advanced_Proteus.obj (EX5_ADC_SERIAL_ADVANCED_PROTEUS)
+  D:\C51\LIB\C51S.LIB (?C_STARTUP)
+  D:\C51\LIB\C51S.LIB (?C?CLDPTR)
+  D:\C51\LIB\C51S.LIB (?C?UIDIV)
+  D:\C51\LIB\C51S.LIB (?C?ULDIV)
+  D:\C51\LIB\C51S.LIB (?C?LIMUL)
+  D:\C51\LIB\C51S.LIB (?C_INIT)
+
+
+LINK MAP OF MODULE:  .\Objects\EX_5.4 (EX5_ADC_SERIAL_ADVANCED_PROTEUS)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            DATA    0008H     0008H     UNIT         _DATA_GROUP_
+            DATA    0010H     0005H     UNIT         ?DT?EX5_ADC_SERIAL_ADVANCED_PROTEUS
+            IDATA   0015H     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+            CODE    0003H     0169H     UNIT         ?C?LIB_CODE
+            CODE    016CH     008CH     UNIT         ?C_C51STARTUP
+            CODE    01F8H     0087H     UNIT         ?PR?_UART_PUT_VOLTAGE?EX5_ADC_SERIAL_ADVANCED_PROTEUS
+            CODE    027FH     004BH     UNIT         ?PR?_UART_PUT_UINT?EX5_ADC_SERIAL_ADVANCED_PROTEUS
+            CODE    02CAH     0043H     UNIT         ?PR?MAIN?EX5_ADC_SERIAL_ADVANCED_PROTEUS
+            CODE    030DH     0032H     UNIT         ?PR?HANDLE_UART_COMMAND?EX5_ADC_SERIAL_ADVANCED_PROTEUS
+            CODE    033FH     0027H     UNIT         ?PR?SEND_SAMPLE?EX5_ADC_SERIAL_ADVANCED_PROTEUS
+            CODE    0366H     0025H     UNIT         ?PR?_UART_PUTS?EX5_ADC_SERIAL_ADVANCED_PROTEUS
+            CODE    038BH     0022H     UNIT         ?PR?DISPLAY_SCAN_ONCE?EX5_ADC_SERIAL_ADVANCED_PROTEUS
+            CODE    03ADH     0022H     UNIT         ?CO?EX5_ADC_SERIAL_ADVANCED_PROTEUS
+            CODE    03CFH     001DH     UNIT         ?PR?READ_ADC0809?EX5_ADC_SERIAL_ADVANCED_PROTEUS
+            CODE    03ECH     001CH     UNIT         ?PR?_UPDATE_DISPLAY_BUF?EX5_ADC_SERIAL_ADVANCED_PROTEUS
+            CODE    0408H     0019H     UNIT         ?PR?UART_INIT?EX5_ADC_SERIAL_ADVANCED_PROTEUS
+            CODE    0421H     0013H     UNIT         ?PR?_UART_PUTC?EX5_ADC_SERIAL_ADVANCED_PROTEUS
+            CODE    0434H     0012H     UNIT         ?PR?DELAY_SHORT?EX5_ADC_SERIAL_ADVANCED_PROTEUS
+            CODE    0446H     000CH     UNIT         ?C_INITSEG
+
+
+
+OVERLAY MAP OF MODULE:   .\Objects\EX_5.4 (EX5_ADC_SERIAL_ADVANCED_PROTEUS)
+
+
+SEGMENT                                            DATA_GROUP 
+  +--> CALLED SEGMENT                            START    LENGTH
+----------------------------------------------------------------
+?C_C51STARTUP                                    -----    -----
+BL51 BANKED LINKER/LOCATER V6.22                                                      05/05/2026  09:38:39  PAGE 2
+
+
+  +--> ?PR?MAIN?EX5_ADC_SERIAL_ADVANCED_PROTEUS
+  +--> ?C_INITSEG
+
+?PR?MAIN?EX5_ADC_SERIAL_ADVANCED_PROTEUS         0008H    0002H
+  +--> ?PR?UART_INIT?EX5_ADC_SERIAL_ADVANCED...
+  +--> ?PR?HANDLE_UART_COMMAND?EX5_ADC_SERIA...
+  +--> ?PR?READ_ADC0809?EX5_ADC_SERIAL_ADVAN...
+  +--> ?PR?_UPDATE_DISPLAY_BUF?EX5_ADC_SERIA...
+  +--> ?PR?DISPLAY_SCAN_ONCE?EX5_ADC_SERIAL_...
+  +--> ?PR?SEND_SAMPLE?EX5_ADC_SERIAL_ADVANC...
+
+?PR?HANDLE_UART_COMMAND?EX5_ADC_SERIA...         -----    -----
+  +--> ?CO?EX5_ADC_SERIAL_ADVANCED_PROTEUS
+  +--> ?PR?_UART_PUTS?EX5_ADC_SERIAL_ADVANCE...
+  +--> ?PR?_UART_PUT_UINT?EX5_ADC_SERIAL_ADV...
+
+?PR?_UART_PUTS?EX5_ADC_SERIAL_ADVANCE...         000AH    0003H
+  +--> ?PR?_UART_PUTC?EX5_ADC_SERIAL_ADVANCE...
+
+?PR?_UART_PUT_UINT?EX5_ADC_SERIAL_ADV...         -----    -----
+  +--> ?PR?_UART_PUTC?EX5_ADC_SERIAL_ADVANCE...
+
+?PR?READ_ADC0809?EX5_ADC_SERIAL_ADVAN...         -----    -----
+  +--> ?PR?DELAY_SHORT?EX5_ADC_SERIAL_ADVANC...
+
+?PR?DISPLAY_SCAN_ONCE?EX5_ADC_SERIAL_...         -----    -----
+  +--> ?CO?EX5_ADC_SERIAL_ADVANCED_PROTEUS
+  +--> ?PR?DELAY_SHORT?EX5_ADC_SERIAL_ADVANC...
+
+?PR?SEND_SAMPLE?EX5_ADC_SERIAL_ADVANC...         -----    -----
+  +--> ?CO?EX5_ADC_SERIAL_ADVANCED_PROTEUS
+  +--> ?PR?_UART_PUTS?EX5_ADC_SERIAL_ADVANCE...
+  +--> ?PR?_UART_PUT_UINT?EX5_ADC_SERIAL_ADV...
+  +--> ?PR?_UART_PUT_VOLTAGE?EX5_ADC_SERIAL_...
+
+?PR?_UART_PUT_VOLTAGE?EX5_ADC_SERIAL_...         000AH    0006H
+  +--> ?PR?_UART_PUT_UINT?EX5_ADC_SERIAL_ADV...
+  +--> ?PR?_UART_PUTC?EX5_ADC_SERIAL_ADVANCE...
+
+
+
+SYMBOL TABLE OF MODULE:  .\Objects\EX_5.4 (EX5_ADC_SERIAL_ADVANCED_PROTEUS)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        EX5_ADC_SERIAL_ADVANCED_PROTEUS
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0080H         PUBLIC        P0
+  B:00B0H.3       PUBLIC        ADC_EOC
+  D:0090H         PUBLIC        P1
+  C:03ECH         PUBLIC        _update_display_buf
+  D:00A0H         PUBLIC        P2
+  D:00B0H         PUBLIC        P3
+  C:038BH         PUBLIC        display_scan_once
+  D:00A8H         PUBLIC        IE
+  C:033FH         PUBLIC        send_sample
+BL51 BANKED LINKER/LOCATER V6.22                                                      05/05/2026  09:38:39  PAGE 3
+
+
+  D:00B8H         PUBLIC        IP
+  D:0010H         PUBLIC        display_buf
+  B:0098H.0       PUBLIC        RI
+  C:027FH         PUBLIC        _uart_put_uint
+  B:0098H.1       PUBLIC        TI
+  C:0437H         PUBLIC        delay_short
+  C:02CAH         PUBLIC        main
+  D:0099H         PUBLIC        SBUF
+  D:0087H         PUBLIC        PCON
+  D:0098H         PUBLIC        SCON
+  D:0089H         PUBLIC        TMOD
+  D:0088H         PUBLIC        TCON
+  B:00B0H.5       PUBLIC        ADC_START
+  B:00B0H.6       PUBLIC        ADC_OE
+  D:0013H         PUBLIC        ad_value
+  D:008DH         PUBLIC        TH1
+  C:01F8H         PUBLIC        _uart_put_voltage
+  D:008BH         PUBLIC        TL1
+  D:0014H         PUBLIC        precision
+  C:030DH         PUBLIC        handle_uart_command
+  C:0408H         PUBLIC        uart_init
+  B:0088H.6       PUBLIC        TR1
+  C:042CH         PUBLIC        _uart_putc
+  C:03C5H         PUBLIC        seg_cc
+  D:00C8H         PUBLIC        T2CON
+  C:0366H         PUBLIC        _uart_puts
+  C:03CFH         PUBLIC        read_adc0809
+  D:00D0H         PUBLIC        PSW
+  B:00B0H.4       PUBLIC        ADC_ALE
+  -------         PROC          L?0042
+  -------         ENDPROC       L?0042
+  -------         PROC          DELAY_SHORT
+  -------         DO            
+  D:0006H         SYMBOL        i
+  -------         ENDDO         
+  C:0437H         LINE#         39
+  C:0437H         LINE#         40
+  C:0437H         LINE#         42
+  C:043AH         LINE#         43
+  C:043AH         LINE#         44
+  C:0445H         LINE#         45
+  -------         ENDPROC       DELAY_SHORT
+  -------         PROC          UART_INIT
+  C:0408H         LINE#         47
+  C:0408H         LINE#         48
+  C:0408H         LINE#         49
+  C:040BH         LINE#         50
+  C:0413H         LINE#         51
+  C:0416H         LINE#         52
+  C:0419H         LINE#         53
+  C:041CH         LINE#         54
+  C:041EH         LINE#         55
+  C:0420H         LINE#         56
+  -------         ENDPROC       UART_INIT
+  -------         PROC          L?0041
+  -------         ENDPROC       L?0041
+  -------         PROC          _UART_PUTC
+BL51 BANKED LINKER/LOCATER V6.22                                                      05/05/2026  09:38:39  PAGE 4
+
+
+  D:0007H         SYMBOL        c
+  C:042CH         LINE#         58
+  C:042CH         LINE#         59
+  C:042CH         LINE#         60
+  C:042EH         LINE#         61
+  C:0431H         LINE#         62
+  C:0431H         LINE#         63
+  C:0431H         LINE#         64
+  C:0433H         LINE#         65
+  -------         ENDPROC       _UART_PUTC
+  -------         PROC          _UART_PUTS
+  D:000AH         SYMBOL        s
+  C:0366H         LINE#         67
+  C:036CH         LINE#         68
+  C:036CH         LINE#         69
+  C:0377H         LINE#         70
+  C:0377H         LINE#         71
+  C:0388H         LINE#         72
+  C:038AH         LINE#         73
+  -------         ENDPROC       _UART_PUTS
+  -------         PROC          _UART_PUT_UINT
+  D:0004H         SYMBOL        v
+  -------         DO            
+  D:0007H         SYMBOL        hundreds
+  D:0006H         SYMBOL        tens
+  -------         ENDDO         
+  C:027FH         LINE#         75
+  C:0283H         LINE#         76
+  C:0283H         LINE#         77
+  C:0285H         LINE#         78
+  C:0286H         LINE#         80
+  C:028FH         LINE#         81
+  C:028FH         LINE#         82
+  C:0297H         LINE#         83
+  C:0298H         LINE#         84
+  C:029AH         LINE#         85
+  C:02A3H         LINE#         86
+  C:02A3H         LINE#         87
+  C:02ABH         LINE#         88
+  C:02ACH         LINE#         89
+  C:02AEH         LINE#         91
+  C:02B1H         LINE#         92
+  C:02B1H         LINE#         93
+  C:02B7H         LINE#         94
+  C:02B8H         LINE#         95
+  C:02BAH         LINE#         96
+  C:02BDH         LINE#         97
+  C:02BDH         LINE#         98
+  C:02C3H         LINE#         99
+  C:02C3H         LINE#         100
+  -------         ENDPROC       _UART_PUT_UINT
+  -------         PROC          _UART_PUT_VOLTAGE
+  D:0007H         SYMBOL        value
+  -------         DO            
+  D:000AH         SYMBOL        mv
+  D:000EH         SYMBOL        v_int
+  D:0002H         SYMBOL        v_frac
+BL51 BANKED LINKER/LOCATER V6.22                                                      05/05/2026  09:38:39  PAGE 5
+
+
+  -------         ENDDO         
+  C:01F8H         LINE#         103
+  C:01F8H         LINE#         104
+  C:01F8H         LINE#         109
+  C:0212H         LINE#         110
+  C:0220H         LINE#         111
+  C:0232H         LINE#         113
+  C:0239H         LINE#         114
+  C:0240H         LINE#         115
+  C:0240H         LINE#         116
+  C:0245H         LINE#         117
+  C:0257H         LINE#         118
+  C:025EH         LINE#         119
+  C:025EH         LINE#         120
+  C:026CH         LINE#         121
+  C:026CH         LINE#         122
+  C:0273H         LINE#         123
+  C:0273H         LINE#         124
+  C:027AH         LINE#         125
+  C:027AH         LINE#         126
+  C:027AH         LINE#         127
+  -------         ENDPROC       _UART_PUT_VOLTAGE
+  -------         PROC          READ_ADC0809
+  -------         DO            
+  D:0007H         SYMBOL        value
+  -------         ENDDO         
+  C:03CFH         LINE#         130
+  C:03CFH         LINE#         131
+  C:03CFH         LINE#         134
+  C:03D2H         LINE#         135
+  C:03D4H         LINE#         137
+  C:03D6H         LINE#         138
+  C:03D8H         LINE#         139
+  C:03DBH         LINE#         140
+  C:03DDH         LINE#         141
+  C:03DFH         LINE#         143
+  C:03E2H         LINE#         144
+  C:03E2H         LINE#         145
+  C:03E2H         LINE#         147
+  C:03E4H         LINE#         148
+  C:03E7H         LINE#         149
+  C:03E9H         LINE#         150
+  C:03EBH         LINE#         152
+  C:03EBH         LINE#         153
+  -------         ENDPROC       READ_ADC0809
+  -------         PROC          _UPDATE_DISPLAY_BUF
+  D:0007H         SYMBOL        value
+  C:03ECH         LINE#         155
+  C:03ECH         LINE#         156
+  C:03ECH         LINE#         157
+  C:03F3H         LINE#         158
+  C:03FFH         LINE#         159
+  C:0407H         LINE#         160
+  -------         ENDPROC       _UPDATE_DISPLAY_BUF
+  -------         PROC          DISPLAY_SCAN_ONCE
+  C:038BH         LINE#         162
+  C:038BH         LINE#         163
+BL51 BANKED LINKER/LOCATER V6.22                                                      05/05/2026  09:38:39  PAGE 6
+
+
+  C:038BH         LINE#         164
+  C:038EH         LINE#         165
+  C:0393H         LINE#         166
+  C:0396H         LINE#         167
+  C:0399H         LINE#         168
+  C:039BH         LINE#         169
+  C:039EH         LINE#         170
+  C:03A1H         LINE#         171
+  C:03A6H         LINE#         172
+  C:03A9H         LINE#         173
+  C:03ACH         LINE#         174
+  -------         ENDPROC       DISPLAY_SCAN_ONCE
+  -------         PROC          HANDLE_UART_COMMAND
+  -------         DO            
+  D:0007H         SYMBOL        c
+  -------         ENDDO         
+  C:030DH         LINE#         176
+  C:030DH         LINE#         177
+  C:030DH         LINE#         180
+  C:0310H         LINE#         181
+  C:0310H         LINE#         182
+  C:0312H         LINE#         183
+  C:0314H         LINE#         184
+  C:0320H         LINE#         185
+  C:0320H         LINE#         186
+  C:0325H         LINE#         187
+  C:032EH         LINE#         188
+  C:0335H         LINE#         189
+  C:033EH         LINE#         190
+  C:033EH         LINE#         191
+  C:033EH         LINE#         192
+  -------         ENDPROC       HANDLE_UART_COMMAND
+  -------         PROC          SEND_SAMPLE
+  C:033FH         LINE#         194
+  C:033FH         LINE#         195
+  C:033FH         LINE#         196
+  C:0348H         LINE#         197
+  C:034FH         LINE#         198
+  C:0358H         LINE#         199
+  C:035DH         LINE#         200
+  -------         ENDPROC       SEND_SAMPLE
+  -------         PROC          MAIN
+  -------         DO            
+  D:0008H         SYMBOL        loop_count
+  -------         ENDDO         
+  C:02CAH         LINE#         203
+  C:02CAH         LINE#         204
+  C:02CAH         LINE#         205
+  C:02CFH         LINE#         207
+  C:02D2H         LINE#         208
+  C:02D5H         LINE#         209
+  C:02D8H         LINE#         210
+  C:02DBH         LINE#         211
+  C:02DEH         LINE#         212
+  C:02E0H         LINE#         213
+  C:02E2H         LINE#         214
+  C:02E4H         LINE#         216
+BL51 BANKED LINKER/LOCATER V6.22                                                      05/05/2026  09:38:39  PAGE 7
+
+
+  C:02E4H         LINE#         217
+  C:02E4H         LINE#         218
+  C:02E7H         LINE#         219
+  C:02ECH         LINE#         220
+  C:02EFH         LINE#         221
+  C:02F2H         LINE#         223
+  C:02FAH         LINE#         224
+  C:0303H         LINE#         225
+  C:0303H         LINE#         226
+  C:0308H         LINE#         227
+  C:030BH         LINE#         228
+  C:030BH         LINE#         229
+  -------         ENDPROC       MAIN
+  -------         ENDMOD        EX5_ADC_SERIAL_ADVANCED_PROTEUS
+
+  -------         MODULE        ?C?CLDPTR
+  C:0003H         PUBLIC        ?C?CLDPTR
+  -------         ENDMOD        ?C?CLDPTR
+
+  -------         MODULE        ?C?UIDIV
+  C:001CH         PUBLIC        ?C?UIDIV
+  -------         ENDMOD        ?C?UIDIV
+
+  -------         MODULE        ?C?ULDIV
+  C:00ADH         PUBLIC        ?C?ULDIV
+  -------         ENDMOD        ?C?ULDIV
+
+  -------         MODULE        ?C?LIMUL
+  C:013FH         PUBLIC        ?C?LIMUL
+  -------         ENDMOD        ?C?LIMUL
+
+Program Size: data=22.0 xdata=0 code=1106
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)
