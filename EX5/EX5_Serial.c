@@ -4,9 +4,9 @@ void uart_init(void)
 {
     SCON = 0x50;
     TMOD = (TMOD & 0x0F) | 0x20;
-    PCON = 0x80;
-    TH1 = 0xFD;
-    TL1 = 0xFD;
+    PCON = 0x00;
+    TH1 = 0xF3;
+    TL1 = 0xF3;
     TR1 = 1;
     TI = 1;
 }

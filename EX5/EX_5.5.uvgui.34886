@@ -75,8 +75,8 @@
       <flags>2</flags>
       <showCmd>3</showCmd>
       <MinPosition>
-        <xPos>-1</xPos>
-        <yPos>-1</yPos>
+        <xPos>-32000</xPos>
+        <yPos>-32000</yPos>
       </MinPosition>
       <MaxPosition>
         <xPos>-1</xPos>
@@ -92,8 +92,8 @@
     <MDIClientArea>
       <RegID>0</RegID>
       <MDITabState>
-        <Len>295</Len>
-        <Data>0100000004000000010000000100000001000000010000000000000002000000000000000100000001000000000000002800000028000000010000000100000000000000010000004B443A5C4D6963726F636F6E74726F6C6C6572735F616E645F456D6265646465645F53797374656D735C4558345C4558345F446F744D61747269785F31367831365F54656D706C6174652E63000000001E4558345F446F744D61747269785F31367831365F54656D706C6174652E6300000000FFDC7800FFFFFFFF0100000010000000C5D4F200FFDC7800BECEA100F0A0A100BCA8E1009CC1B600F7B88600D9ADC200A5C2D700B3A6BE00EAD6A300F6FA7D00B5E99D005FC3CF00C1838300CACAD500010000000000000002000000C200000066000000D5050000E7020000</Data>
+        <Len>309</Len>
+        <Data>01000000040000000100000001000000010000000100000000000000020000000000000001000000010000000000000028000000280000000100000001000000000000000100000052443A5C4D6963726F636F6E74726F6C6C6572735F616E645F456D6265646465645F53797374656D735C4558355C4558355F414443303830345F53657269616C5F416476616E6365645F50726F746575732E6300000000254558355F414443303830345F53657269616C5F416476616E6365645F50726F746575732E6300000000C5D4F200FFFFFFFF0100000010000000C5D4F200FFDC7800BECEA100F0A0A100BCA8E1009CC1B600F7B88600D9ADC200A5C2D700B3A6BE00EAD6A300F6FA7D00B5E99D005FC3CF00C1838300CACAD500010000000000000002000000C200000066000000D5050000E7020000</Data>
       </MDITabState>
     </MDIClientArea>
     <ViewEx>
@@ -168,7 +168,7 @@
         <IsActivated>0</IsActivated>
         <MRUWidth>32767</MRUWidth>
         <PinState>0</PinState>
-        <RecentFrameAlignment>4096</RecentFrameAlignment>
+        <RecentFrameAlignment>32768</RecentFrameAlignment>
         <RecentRowIndex>0</RecentRowIndex>
         <RectRecentDocked>
           <Len>16</Len>
@@ -176,7 +176,7 @@
         </RectRecentDocked>
         <RectRecentFloat>
           <Len>16</Len>
-          <Data>700000008700000098020000FE000000</Data>
+          <Data>EB02000078010000C105000017020000</Data>
         </RectRecentFloat>
       </Window>
       <Window>
@@ -308,7 +308,7 @@
         <IsActivated>0</IsActivated>
         <MRUWidth>32767</MRUWidth>
         <PinState>0</PinState>
-        <RecentFrameAlignment>4096</RecentFrameAlignment>
+        <RecentFrameAlignment>32768</RecentFrameAlignment>
         <RecentRowIndex>0</RecentRowIndex>
         <RectRecentDocked>
           <Len>16</Len>
@@ -316,7 +316,7 @@
         </RectRecentDocked>
         <RectRecentFloat>
           <Len>16</Len>
-          <Data>70000000870000000002000017020000</Data>
+          <Data>EA02000017020000C8050000A1020000</Data>
         </RectRecentFloat>
       </Window>
       <Window>
@@ -1346,10 +1346,10 @@
       <Size>100</Size>
       <ActiveTab>0</ActiveTab>
       <Doc>
-        <Name>.\EX4_DotMatrix_16x16_Template.c</Name>
-        <ColumnNumber>18</ColumnNumber>
-        <TopLine>2</TopLine>
-        <CurrentLine>16</CurrentLine>
+        <Name>.\EX5_ADC0804_Serial_Advanced_Proteus.c</Name>
+        <ColumnNumber>0</ColumnNumber>
+        <TopLine>1</TopLine>
+        <CurrentLine>1</CurrentLine>
         <Folding>1</Folding>
         <ContractedFolders></ContractedFolders>
         <PaneID>0</PaneID>

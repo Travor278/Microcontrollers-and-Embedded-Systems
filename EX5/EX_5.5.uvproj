@@ -45,7 +45,7 @@
             <InvalidFlash>1</InvalidFlash>
           </TargetStatus>
           <OutputDirectory>.\Objects\</OutputDirectory>
-          <OutputName>EX_5.4</OutputName>
+          <OutputName>EX_5.5</OutputName>
           <CreateExecutable>1</CreateExecutable>
           <CreateLib>0</CreateLib>
           <CreateHexFile>1</CreateHexFile>
@@ -364,9 +364,9 @@
           <GroupName>Source Group 1</GroupName>
           <Files>
             <File>
-              <FileName>EX5_ADC_Serial_Advanced_Proteus.c</FileName>
+              <FileName>EX5_ADC0804_Serial_Advanced_Proteus.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\EX5_ADC_Serial_Advanced_Proteus.c</FilePath>
+              <FilePath>.\EX5_ADC0804_Serial_Advanced_Proteus.c</FilePath>
             </File>
           </Files>
         </Group>

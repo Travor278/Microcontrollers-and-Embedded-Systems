@@ -1,0 +1,160 @@
+BL51 BANKED LINKER/LOCATER V6.22                                                        05/06/2026  12:05:29  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22, INVOKED BY:
+D:\C51\BIN\BL51.EXE .\Objects\EX5_Serial.obj TO .\Objects\EX_5_1 PRINT (.\Listings\EX_5_1.m51) RAMSIZE (256)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  .\Objects\EX5_Serial.obj (EX5_SERIAL)
+  D:\C51\LIB\C51S.LIB (?C_STARTUP)
+  D:\C51\LIB\C51S.LIB (?C?CLDPTR)
+  D:\C51\LIB\C51S.LIB (?C?SLCMP)
+
+
+LINK MAP OF MODULE:  .\Objects\EX_5_1 (EX5_SERIAL)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            DATA    0008H     0003H     UNIT         _DATA_GROUP_
+            IDATA   000BH     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+            CODE    0003H     002FH     UNIT         ?C?LIB_CODE
+            CODE    0032H     0025H     UNIT         ?PR?_UART_PUTS?EX5_SERIAL
+            CODE    0057H     001AH     UNIT         ?PR?DELAY?EX5_SERIAL
+            CODE    0071H     0019H     UNIT         ?PR?UART_INIT?EX5_SERIAL
+            CODE    008AH     0015H     UNIT         ?CO?EX5_SERIAL
+            CODE    009FH     0011H     UNIT         ?PR?MAIN?EX5_SERIAL
+            CODE    00B0H     000CH     UNIT         ?C_C51STARTUP
+            CODE    00BCH     0008H     UNIT         ?PR?_UART_PUTC?EX5_SERIAL
+
+
+
+OVERLAY MAP OF MODULE:   .\Objects\EX_5_1 (EX5_SERIAL)
+
+
+SEGMENT                             DATA_GROUP 
+  +--> CALLED SEGMENT             START    LENGTH
+-------------------------------------------------
+?C_C51STARTUP                     -----    -----
+  +--> ?PR?MAIN?EX5_SERIAL
+
+?PR?MAIN?EX5_SERIAL               -----    -----
+  +--> ?PR?UART_INIT?EX5_SERIAL
+  +--> ?CO?EX5_SERIAL
+  +--> ?PR?_UART_PUTS?EX5_SERIAL
+  +--> ?PR?DELAY?EX5_SERIAL
+
+?PR?_UART_PUTS?EX5_SERIAL         0008H    0003H
+  +--> ?PR?_UART_PUTC?EX5_SERIAL
+
+
+
+BL51 BANKED LINKER/LOCATER V6.22                                                      05/06/2026  12:05:29  PAGE 2
+
+
+SYMBOL TABLE OF MODULE:  .\Objects\EX_5_1 (EX5_SERIAL)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        EX5_SERIAL
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:0090H         PUBLIC        P1
+  D:00B0H         PUBLIC        P3
+  D:00A8H         PUBLIC        IE
+  C:0057H         PUBLIC        delay
+  D:00B8H         PUBLIC        IP
+  B:0098H.1       PUBLIC        TI
+  C:009FH         PUBLIC        main
+  D:0099H         PUBLIC        SBUF
+  D:0087H         PUBLIC        PCON
+  D:0098H         PUBLIC        SCON
+  D:0089H         PUBLIC        TMOD
+  D:0088H         PUBLIC        TCON
+  D:008DH         PUBLIC        TH1
+  D:008BH         PUBLIC        TL1
+  C:0071H         PUBLIC        uart_init
+  B:0088H.6       PUBLIC        TR1
+  C:00BCH         PUBLIC        _uart_putc
+  D:00C8H         PUBLIC        T2CON
+  C:0032H         PUBLIC        _uart_puts
+  D:00D0H         PUBLIC        PSW
+  -------         PROC          UART_INIT
+  C:0071H         LINE#         3
+  C:0071H         LINE#         4
+  C:0071H         LINE#         5
+  C:0074H         LINE#         6
+  C:007CH         LINE#         7
+  C:007FH         LINE#         8
+  C:0082H         LINE#         9
+  C:0085H         LINE#         10
+  C:0087H         LINE#         11
+  C:0089H         LINE#         12
+  -------         ENDPROC       UART_INIT
+  -------         PROC          _UART_PUTC
+  D:0007H         SYMBOL        c
+  C:00BCH         LINE#         14
+  C:00BCH         LINE#         15
+  C:00BCH         LINE#         16
+  C:00BEH         LINE#         17
+  C:00C1H         LINE#         18
+  C:00C1H         LINE#         19
+  C:00C1H         LINE#         20
+  C:00C3H         LINE#         21
+  -------         ENDPROC       _UART_PUTC
+  -------         PROC          _UART_PUTS
+  D:0008H         SYMBOL        s
+  C:0032H         LINE#         23
+  C:0038H         LINE#         24
+  C:0038H         LINE#         25
+  C:0043H         LINE#         26
+  C:0043H         LINE#         27
+BL51 BANKED LINKER/LOCATER V6.22                                                      05/06/2026  12:05:29  PAGE 3
+
+
+  C:0054H         LINE#         28
+  C:0056H         LINE#         29
+  -------         ENDPROC       _UART_PUTS
+  -------         PROC          DELAY
+  -------         DO            
+  D:0082H         SYMBOL        i
+  -------         ENDDO         
+  C:0057H         LINE#         31
+  C:0057H         LINE#         32
+  C:0057H         LINE#         34
+  C:006DH         LINE#         35
+  C:006DH         LINE#         36
+  C:0070H         LINE#         37
+  -------         ENDPROC       DELAY
+  -------         PROC          MAIN
+  C:009FH         LINE#         39
+  C:009FH         LINE#         40
+  C:009FH         LINE#         41
+  C:00A2H         LINE#         43
+  C:00A2H         LINE#         44
+  C:00A2H         LINE#         45
+  C:00ABH         LINE#         46
+  C:00AEH         LINE#         47
+  -------         ENDPROC       MAIN
+  -------         ENDMOD        EX5_SERIAL
+
+  -------         MODULE        ?C?CLDPTR
+  C:0003H         PUBLIC        ?C?CLDPTR
+  -------         ENDMOD        ?C?CLDPTR
+
+  -------         MODULE        ?C?SLCMP
+  C:001CH         PUBLIC        ?C?SLCMP
+  -------         ENDMOD        ?C?SLCMP
+
+Program Size: data=12.0 xdata=0 code=196
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

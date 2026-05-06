@@ -1,10 +1,28 @@
 #include "SST89x5x4.h"
-#include "ABSACC.H"
 
-#define STARTAD  XBYTE[0x7F00]
-#define ADRESULT XBYTE[0x7F08]
+/*
+ * Proteus-friendly ADC0804 version of experiment 5 advanced task.
+ *
+ * ADC0804:
+ *   DB0-DB7 -> P0.0-P0.7
+ *   INTR    -> P3.3
+ *   CS      -> P3.4
+ *   WR      -> P3.5
+ *   RD      -> P3.6
+ *
+ * Serial:
+ *   P3.1/TXD -> Virtual Terminal RXD
+ *   P3.0/RXD -> Virtual Terminal TXD
+ *
+ * Display:
+ *   P2.0-P2.7 -> seven-segment segment bus a,b,c,d,e,f,g,dp.
+ *   P1.0-P1.2 -> digit enables for hundreds/tens/ones, active low.
+ */
 
-sbit ADBUSY = P3^3;
+sbit ADC_INTR = P3^3;
+sbit ADC_CS   = P3^4;
+sbit ADC_WR   = P3^5;
+sbit ADC_RD   = P3^6;
 
 unsigned char code seg_cc[10] = {
     0x3F, 0x06, 0x5B, 0x4F, 0x66,
@@ -14,6 +32,14 @@ unsigned char code seg_cc[10] = {
 unsigned char data ad_value = 0;
 unsigned char data precision = 2;
 unsigned char data display_buf[3] = {0, 0, 0};
+
+void delay_short(void)
+{
+    unsigned int i;
+    for (i = 0; i < 500; i++)
+    {
+    }
+}
 
 void uart_init(void)
 {
@@ -98,22 +124,28 @@ void uart_put_voltage(unsigned char value)
     uart_putc('V');
 }
 
-void delay_short(void)
+unsigned char read_adc0804(void)
 {
-    unsigned int i;
-    for (i = 0; i < 500; i++)
-    {
-    }
-}
+    unsigned char value;
 
-unsigned char read_adc0809(void)
-{
-    STARTAD = 0x00;
-    while (ADBUSY)
+    P0 = 0xFF;
+    ADC_CS = 0;
+    ADC_RD = 1;
+
+    ADC_WR = 0;
+    delay_short();
+    ADC_WR = 1;
+
+    while (ADC_INTR)
     {
     }
+
+    ADC_RD = 0;
     delay_short();
-    return ADRESULT;
+    value = P0;
+    ADC_RD = 1;
+
+    return value;
 }
 
 void update_display_buf(unsigned char value)
@@ -126,13 +158,13 @@ void update_display_buf(unsigned char value)
 void display_scan_once(void)
 {
     P1 = 0xFE;
-    P0 = seg_cc[display_buf[0]];
+    P2 = seg_cc[display_buf[0]];
     delay_short();
     P1 = 0xFD;
-    P0 = seg_cc[display_buf[1]];
+    P2 = seg_cc[display_buf[1]];
     delay_short();
     P1 = 0xFB;
-    P0 = seg_cc[display_buf[2]];
+    P2 = seg_cc[display_buf[2]];
     delay_short();
     P1 = 0xFF;
 }
@@ -169,13 +201,17 @@ void main(void)
     unsigned int loop_count = 0;
 
     uart_init();
+    P0 = 0xFF;
     P1 = 0xFF;
+    P2 = 0x00;
+    ADC_CS = 0;
+    ADC_WR = 1;
+    ADC_RD = 1;
 
     while (1)
     {
         handle_uart_command();
-        ad_value = read_adc0809();
-        P2 = ad_value;
+        ad_value = read_adc0804();
         update_display_buf(ad_value);
         display_scan_once();
 
