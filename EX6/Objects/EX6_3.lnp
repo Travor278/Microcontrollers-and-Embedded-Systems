@@ -1,0 +1,3 @@
+".\Objects\EX6_DC_Control_Advanced.obj" 
+TO ".\Objects\EX6_3" 
+PRINT(".\Listings\EX6_3.m51") RAMSIZE(256) 

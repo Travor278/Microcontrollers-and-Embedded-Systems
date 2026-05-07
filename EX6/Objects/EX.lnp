@@ -1,0 +1,3 @@
+".\Objects\EX6_Stepper.obj" 
+TO ".\Objects\EX" 
+PRINT(".\Listings\EX.m51") RAMSIZE(256) 

@@ -1,0 +1,459 @@
+BL51 BANKED LINKER/LOCATER V6.22                                                        05/07/2026  01:37:24  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22, INVOKED BY:
+D:\C51\BIN\BL51.EXE .\Objects\EX6_DC_Control_Advanced.obj TO .\Objects\EX6_3 PRINT (.\Listings\EX6_3.m51) RAMSIZE (256)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  .\Objects\EX6_DC_Control_Advanced.obj (EX6_DC_CONTROL_ADVANCED)
+  D:\C51\LIB\C51S.LIB (?C_STARTUP)
+  D:\C51\LIB\C51S.LIB (?C?CLDPTR)
+  D:\C51\LIB\C51S.LIB (?C_INIT)
+
+
+LINK MAP OF MODULE:  .\Objects\EX6_3 (EX6_DC_CONTROL_ADVANCED)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            DATA    0008H     0006H     UNIT         ?DT?EX6_DC_CONTROL_ADVANCED
+            DATA    000EH     0003H     UNIT         _DATA_GROUP_
+                    0011H     000FH                  *** GAP ***
+            BIT     0020H.0   0000H.2   UNIT         ?BI?EX6_DC_CONTROL_ADVANCED
+                    0020H.2   0000H.6                *** GAP ***
+            IDATA   0021H     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+            CODE    0003H     0008H     UNIT         ?PR?_UART_PUTC?EX6_DC_CONTROL_ADVANCED
+            CODE    000BH     0003H     ABSOLUTE     
+            CODE    000EH     008CH     UNIT         ?C_C51STARTUP
+            CODE    009AH     0081H     UNIT         ?PR?TIMER0_ISR?EX6_DC_CONTROL_ADVANCED
+            CODE    011BH     0047H     UNIT         ?PR?HANDLE_KEYS?EX6_DC_CONTROL_ADVANCED
+            CODE    0162H     003AH     UNIT         ?PR?HANDLE_UART?EX6_DC_CONTROL_ADVANCED
+            CODE    019CH     002CH     UNIT         ?PR?SEND_STATUS?EX6_DC_CONTROL_ADVANCED
+            CODE    01C8H     0028H     UNIT         ?CO?EX6_DC_CONTROL_ADVANCED
+            CODE    01F0H     0027H     UNIT         ?PR?MAIN?EX6_DC_CONTROL_ADVANCED
+            CODE    0217H     0025H     UNIT         ?PR?_UART_PUTS?EX6_DC_CONTROL_ADVANCED
+            CODE    023CH     0019H     UNIT         ?PR?UART_INIT?EX6_DC_CONTROL_ADVANCED
+            CODE    0255H     0019H     UNIT         ?C?LIB_CODE
+            CODE    026EH     0013H     UNIT         ?PR?TIMER0_INIT?EX6_DC_CONTROL_ADVANCED
+            CODE    0281H     0013H     UNIT         ?C_INITSEG
+            CODE    0294H     0010H     UNIT         ?PR?DISPLAY_STATE?EX6_DC_CONTROL_ADVANCED
+            CODE    02A4H     000FH     UNIT         ?PR?TRIGGER_ERROR?EX6_DC_CONTROL_ADVANCED
+            CODE    02B3H     000FH     UNIT         ?PR?DELAY_KEY?EX6_DC_CONTROL_ADVANCED
+            CODE    02C2H     000EH     UNIT         ?PR?SPEED_UP?EX6_DC_CONTROL_ADVANCED
+            CODE    02D0H     000EH     UNIT         ?PR?SPEED_DOWN?EX6_DC_CONTROL_ADVANCED
+            CODE    02DEH     0007H     UNIT         ?PR?_UART_PUT_DIGIT?EX6_DC_CONTROL_ADVANCED
+
+
+
+OVERLAY MAP OF MODULE:   .\Objects\EX6_3 (EX6_DC_CONTROL_ADVANCED)
+
+
+SEGMENT                                            DATA_GROUP 
+BL51 BANKED LINKER/LOCATER V6.22                                                      05/07/2026  01:37:24  PAGE 2
+
+
+  +--> CALLED SEGMENT                            START    LENGTH
+----------------------------------------------------------------
+?PR?TIMER0_ISR?EX6_DC_CONTROL_ADVANCED           -----    -----
+  +--> ?CO?EX6_DC_CONTROL_ADVANCED
+
+*** NEW ROOT ***************************************************
+
+?C_C51STARTUP                                    -----    -----
+  +--> ?PR?MAIN?EX6_DC_CONTROL_ADVANCED
+  +--> ?C_INITSEG
+
+?PR?MAIN?EX6_DC_CONTROL_ADVANCED                 -----    -----
+  +--> ?PR?UART_INIT?EX6_DC_CONTROL_ADVANCED
+  +--> ?PR?TIMER0_INIT?EX6_DC_CONTROL_ADVANCED
+  +--> ?PR?SEND_STATUS?EX6_DC_CONTROL_ADVANCED
+  +--> ?PR?HANDLE_KEYS?EX6_DC_CONTROL_ADVANCED
+  +--> ?PR?HANDLE_UART?EX6_DC_CONTROL_ADVANCED
+  +--> ?PR?DISPLAY_STATE?EX6_DC_CONTROL_ADVA...
+
+?PR?SEND_STATUS?EX6_DC_CONTROL_ADVANCED          -----    -----
+  +--> ?CO?EX6_DC_CONTROL_ADVANCED
+  +--> ?PR?_UART_PUTS?EX6_DC_CONTROL_ADVANCED
+  +--> ?PR?_UART_PUT_DIGIT?EX6_DC_CONTROL_AD...
+
+?PR?_UART_PUTS?EX6_DC_CONTROL_ADVANCED           000EH    0003H
+  +--> ?PR?_UART_PUTC?EX6_DC_CONTROL_ADVANCED
+
+?PR?_UART_PUT_DIGIT?EX6_DC_CONTROL_AD...         -----    -----
+  +--> ?PR?_UART_PUTC?EX6_DC_CONTROL_ADVANCED
+
+?PR?HANDLE_KEYS?EX6_DC_CONTROL_ADVANCED          -----    -----
+  +--> ?PR?DELAY_KEY?EX6_DC_CONTROL_ADVANCED
+  +--> ?PR?SEND_STATUS?EX6_DC_CONTROL_ADVANCED
+  +--> ?PR?SPEED_UP?EX6_DC_CONTROL_ADVANCED
+  +--> ?PR?SPEED_DOWN?EX6_DC_CONTROL_ADVANCED
+
+?PR?SPEED_UP?EX6_DC_CONTROL_ADVANCED             -----    -----
+  +--> ?PR?TRIGGER_ERROR?EX6_DC_CONTROL_ADVA...
+
+?PR?TRIGGER_ERROR?EX6_DC_CONTROL_ADVA...         -----    -----
+  +--> ?CO?EX6_DC_CONTROL_ADVANCED
+  +--> ?PR?_UART_PUTS?EX6_DC_CONTROL_ADVANCED
+
+?PR?SPEED_DOWN?EX6_DC_CONTROL_ADVANCED           -----    -----
+  +--> ?PR?TRIGGER_ERROR?EX6_DC_CONTROL_ADVA...
+
+?PR?HANDLE_UART?EX6_DC_CONTROL_ADVANCED          -----    -----
+  +--> ?PR?SPEED_UP?EX6_DC_CONTROL_ADVANCED
+  +--> ?PR?SPEED_DOWN?EX6_DC_CONTROL_ADVANCED
+  +--> ?PR?SEND_STATUS?EX6_DC_CONTROL_ADVANCED
+
+?PR?DISPLAY_STATE?EX6_DC_CONTROL_ADVA...         -----    -----
+  +--> ?CO?EX6_DC_CONTROL_ADVANCED
+
+
+
+SYMBOL TABLE OF MODULE:  .\Objects\EX6_3 (EX6_DC_CONTROL_ADVANCED)
+BL51 BANKED LINKER/LOCATER V6.22                                                      05/07/2026  01:37:24  PAGE 3
+
+
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        EX6_DC_CONTROL_ADVANCED
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  C:0294H         PUBLIC        display_state
+  D:0090H         PUBLIC        P1
+  D:00A0H         PUBLIC        P2
+  D:00B0H         PUBLIC        P3
+  B:00B0H.5       PUBLIC        KEY_DOWN
+  C:009AH         PUBLIC        timer0_isr
+  B:0020H.0       PUBLIC        running
+  B:00A8H.7       PUBLIC        EA
+  C:02A4H         PUBLIC        trigger_error
+  D:00A8H         PUBLIC        IE
+  C:0162H         PUBLIC        handle_uart
+  C:011BH         PUBLIC        handle_keys
+  B:00B0H.3       PUBLIC        KEY_STOP
+  D:0008H         PUBLIC        speed
+  D:00B8H         PUBLIC        IP
+  B:0098H.0       PUBLIC        RI
+  B:0098H.1       PUBLIC        TI
+  B:0090H.0       PUBLIC        ALARM_LED
+  C:01F0H         PUBLIC        main
+  C:02D0H         PUBLIC        speed_down
+  D:0099H         PUBLIC        SBUF
+  D:0087H         PUBLIC        PCON
+  C:01EBH         PUBLIC        duty_table
+  D:0098H         PUBLIC        SCON
+  C:019CH         PUBLIC        send_status
+  D:0089H         PUBLIC        TMOD
+  D:0088H         PUBLIC        TCON
+  C:02B3H         PUBLIC        delay_key
+  B:0020H.1       PUBLIC        status_due
+  B:00A8H.1       PUBLIC        ET0
+  D:008CH         PUBLIC        TH0
+  D:008DH         PUBLIC        TH1
+  B:0090H.7       PUBLIC        PWM_OUT
+  D:008AH         PUBLIC        TL0
+  D:0009H         PUBLIC        alarm_ms
+  D:008BH         PUBLIC        TL1
+  C:023CH         PUBLIC        uart_init
+  B:0088H.4       PUBLIC        TR0
+  B:0088H.6       PUBLIC        TR1
+  C:02C2H         PUBLIC        speed_up
+  B:00B0H.2       PUBLIC        KEY_START
+  C:0003H         PUBLIC        _uart_putc
+  D:000BH         PUBLIC        pwm_count
+  B:0090H.1       PUBLIC        BUZZER
+  C:01E1H         PUBLIC        seg_cc
+  D:00C8H         PUBLIC        T2CON
+  C:026EH         PUBLIC        timer0_init
+  C:0217H         PUBLIC        _uart_puts
+  D:000CH         PUBLIC        ms_count
+  C:02DEH         PUBLIC        _uart_put_digit
+  B:00B0H.4       PUBLIC        KEY_UP
+BL51 BANKED LINKER/LOCATER V6.22                                                      05/07/2026  01:37:24  PAGE 4
+
+
+  D:00D0H         PUBLIC        PSW
+  -------         PROC          UART_INIT
+  C:023CH         LINE#         31
+  C:023CH         LINE#         32
+  C:023CH         LINE#         33
+  C:023FH         LINE#         34
+  C:0247H         LINE#         35
+  C:024AH         LINE#         36
+  C:024DH         LINE#         37
+  C:0250H         LINE#         38
+  C:0252H         LINE#         39
+  C:0254H         LINE#         40
+  -------         ENDPROC       UART_INIT
+  -------         PROC          _UART_PUTC
+  D:0007H         SYMBOL        c
+  C:0003H         LINE#         42
+  C:0003H         LINE#         43
+  C:0003H         LINE#         44
+  C:0005H         LINE#         45
+  C:0008H         LINE#         46
+  C:0008H         LINE#         47
+  C:0008H         LINE#         48
+  C:000AH         LINE#         49
+  -------         ENDPROC       _UART_PUTC
+  -------         PROC          _UART_PUTS
+  D:000EH         SYMBOL        s
+  C:0217H         LINE#         51
+  C:021DH         LINE#         52
+  C:021DH         LINE#         53
+  C:0228H         LINE#         54
+  C:0228H         LINE#         55
+  C:0239H         LINE#         56
+  C:023BH         LINE#         57
+  -------         ENDPROC       _UART_PUTS
+  -------         PROC          _UART_PUT_DIGIT
+  D:0007H         SYMBOL        v
+  C:02DEH         LINE#         59
+  C:02DEH         LINE#         60
+  C:02DEH         LINE#         61
+  -------         ENDPROC       _UART_PUT_DIGIT
+  -------         PROC          TIMER0_INIT
+  C:026EH         LINE#         64
+  C:026EH         LINE#         65
+  C:026EH         LINE#         66
+  C:0276H         LINE#         67
+  C:0279H         LINE#         68
+  C:027CH         LINE#         69
+  C:027EH         LINE#         70
+  C:0280H         LINE#         71
+  -------         ENDPROC       TIMER0_INIT
+  -------         PROC          TIMER0_ISR
+  C:009AH         LINE#         73
+  C:00A7H         LINE#         75
+  C:00AAH         LINE#         76
+  C:00ADH         LINE#         78
+  C:00AFH         LINE#         79
+  C:00B6H         LINE#         80
+BL51 BANKED LINKER/LOCATER V6.22                                                      05/07/2026  01:37:24  PAGE 5
+
+
+  C:00B6H         LINE#         81
+  C:00B9H         LINE#         82
+  C:00B9H         LINE#         84
+  C:00C9H         LINE#         85
+  C:00C9H         LINE#         86
+  C:00CBH         LINE#         87
+  C:00CDH         LINE#         89
+  C:00CDH         LINE#         90
+  C:00CFH         LINE#         91
+  C:00CFH         LINE#         93
+  C:00DAH         LINE#         94
+  C:00DAH         LINE#         95
+  C:00E2H         LINE#         96
+  C:00E4H         LINE#         97
+  C:00EFH         LINE#         98
+  C:00F1H         LINE#         100
+  C:00F1H         LINE#         101
+  C:00F3H         LINE#         102
+  C:00F5H         LINE#         103
+  C:00F5H         LINE#         105
+  C:00FDH         LINE#         106
+  C:0108H         LINE#         107
+  C:0108H         LINE#         108
+  C:010EH         LINE#         109
+  C:0110H         LINE#         110
+  C:0110H         LINE#         111
+  -------         ENDPROC       TIMER0_ISR
+  -------         PROC          DISPLAY_STATE
+  C:0294H         LINE#         113
+  C:0294H         LINE#         114
+  C:0294H         LINE#         115
+  C:0297H         LINE#         116
+  C:0297H         LINE#         117
+  C:029FH         LINE#         118
+  C:02A0H         LINE#         120
+  C:02A0H         LINE#         121
+  C:02A3H         LINE#         122
+  C:02A3H         LINE#         123
+  -------         ENDPROC       DISPLAY_STATE
+  -------         PROC          SEND_STATUS
+  C:019CH         LINE#         125
+  C:019CH         LINE#         126
+  C:019CH         LINE#         127
+  C:01A5H         LINE#         128
+  C:01B1H         LINE#         129
+  C:01BAH         LINE#         130
+  C:01BFH         LINE#         131
+  -------         ENDPROC       SEND_STATUS
+  -------         PROC          TRIGGER_ERROR
+  C:02A4H         LINE#         134
+  C:02A4H         LINE#         135
+  C:02A4H         LINE#         136
+  C:02AAH         LINE#         137
+  -------         ENDPROC       TRIGGER_ERROR
+  -------         PROC          SPEED_UP
+  C:02C2H         LINE#         140
+  C:02C2H         LINE#         141
+BL51 BANKED LINKER/LOCATER V6.22                                                      05/07/2026  01:37:24  PAGE 6
+
+
+  C:02C2H         LINE#         142
+  C:02C9H         LINE#         143
+  C:02C9H         LINE#         144
+  C:02CBH         LINE#         145
+  C:02CCH         LINE#         147
+  C:02CCH         LINE#         148
+  C:02CFH         LINE#         149
+  C:02CFH         LINE#         150
+  -------         ENDPROC       SPEED_UP
+  -------         PROC          SPEED_DOWN
+  C:02D0H         LINE#         152
+  C:02D0H         LINE#         153
+  C:02D0H         LINE#         154
+  C:02D7H         LINE#         155
+  C:02D7H         LINE#         156
+  C:02D9H         LINE#         157
+  C:02DAH         LINE#         159
+  C:02DAH         LINE#         160
+  C:02DDH         LINE#         161
+  C:02DDH         LINE#         162
+  -------         ENDPROC       SPEED_DOWN
+  -------         PROC          DELAY_KEY
+  -------         DO            
+  D:0006H         SYMBOL        i
+  -------         ENDDO         
+  C:02B3H         LINE#         164
+  C:02B3H         LINE#         165
+  C:02B3H         LINE#         167
+  C:02B6H         LINE#         168
+  C:02B6H         LINE#         169
+  C:02C1H         LINE#         170
+  -------         ENDPROC       DELAY_KEY
+  -------         PROC          HANDLE_KEYS
+  C:011BH         LINE#         172
+  C:011BH         LINE#         173
+  C:011BH         LINE#         174
+  C:011EH         LINE#         175
+  C:011EH         LINE#         176
+  C:0121H         LINE#         177
+  C:0124H         LINE#         178
+  C:0124H         LINE#         179
+  C:0126H         LINE#         180
+  C:0129H         LINE#         181
+  C:012CH         LINE#         182
+  C:012CH         LINE#         183
+  C:012CH         LINE#         184
+  C:012CH         LINE#         185
+  C:012CH         LINE#         187
+  C:012FH         LINE#         188
+  C:012FH         LINE#         189
+  C:0132H         LINE#         190
+  C:0135H         LINE#         191
+  C:0135H         LINE#         192
+  C:0137H         LINE#         193
+  C:013AH         LINE#         194
+  C:013DH         LINE#         195
+  C:013DH         LINE#         196
+BL51 BANKED LINKER/LOCATER V6.22                                                      05/07/2026  01:37:24  PAGE 7
+
+
+  C:013DH         LINE#         197
+  C:013DH         LINE#         198
+  C:013DH         LINE#         200
+  C:0140H         LINE#         201
+  C:0140H         LINE#         202
+  C:0143H         LINE#         203
+  C:0146H         LINE#         204
+  C:0146H         LINE#         205
+  C:0149H         LINE#         206
+  C:014CH         LINE#         207
+  C:014FH         LINE#         208
+  C:014FH         LINE#         209
+  C:014FH         LINE#         210
+  C:014FH         LINE#         211
+  C:014FH         LINE#         213
+  C:0152H         LINE#         214
+  C:0152H         LINE#         215
+  C:0155H         LINE#         216
+  C:0158H         LINE#         217
+  C:0158H         LINE#         218
+  C:015BH         LINE#         219
+  C:015EH         LINE#         220
+  C:0161H         LINE#         221
+  C:0161H         LINE#         222
+  C:0161H         LINE#         223
+  C:0161H         LINE#         224
+  C:0161H         LINE#         225
+  -------         ENDPROC       HANDLE_KEYS
+  -------         PROC          HANDLE_UART
+  -------         DO            
+  D:0007H         SYMBOL        c
+  -------         ENDDO         
+  C:0162H         LINE#         227
+  C:0162H         LINE#         228
+  C:0162H         LINE#         231
+  C:0165H         LINE#         232
+  C:0165H         LINE#         233
+  C:0167H         LINE#         234
+  C:0169H         LINE#         235
+  C:016CH         LINE#         236
+  C:016CH         LINE#         237
+  C:016EH         LINE#         238
+  C:0170H         LINE#         239
+  C:0173H         LINE#         240
+  C:0173H         LINE#         241
+  C:0175H         LINE#         242
+  C:0177H         LINE#         243
+  C:017AH         LINE#         244
+  C:017AH         LINE#         245
+  C:017DH         LINE#         246
+  C:017FH         LINE#         247
+  C:0182H         LINE#         248
+  C:0182H         LINE#         249
+  C:0185H         LINE#         250
+  C:0187H         LINE#         251
+  C:0193H         LINE#         252
+  C:0193H         LINE#         253
+BL51 BANKED LINKER/LOCATER V6.22                                                      05/07/2026  01:37:24  PAGE 8
+
+
+  C:0198H         LINE#         254
+  C:0198H         LINE#         255
+  C:019BH         LINE#         256
+  C:019BH         LINE#         257
+  -------         ENDPROC       HANDLE_UART
+  -------         PROC          MAIN
+  C:01F0H         LINE#         259
+  C:01F0H         LINE#         260
+  C:01F0H         LINE#         261
+  C:01F3H         LINE#         262
+  C:01F6H         LINE#         263
+  C:01F9H         LINE#         265
+  C:01FCH         LINE#         266
+  C:01FFH         LINE#         267
+  C:0201H         LINE#         269
+  C:0204H         LINE#         271
+  C:0204H         LINE#         272
+  C:0204H         LINE#         273
+  C:0207H         LINE#         274
+  C:020AH         LINE#         275
+  C:020DH         LINE#         277
+  C:0210H         LINE#         278
+  C:0210H         LINE#         279
+  C:0212H         LINE#         280
+  C:0215H         LINE#         281
+  C:0215H         LINE#         282
+  -------         ENDPROC       MAIN
+  -------         ENDMOD        EX6_DC_CONTROL_ADVANCED
+
+  -------         MODULE        ?C?CLDPTR
+  C:0255H         PUBLIC        ?C?CLDPTR
+  -------         ENDMOD        ?C?CLDPTR
+
+Program Size: data=18.2 xdata=0 code=741
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)
