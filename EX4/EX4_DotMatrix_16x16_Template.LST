@@ -1,4 +1,4 @@
-C51 COMPILER V9.54   EX4_DOTMATRIX_16X16_TEMPLATE                                          05/08/2026 05:10:48 PAGE 1   
+C51 COMPILER V9.54   EX4_DOTMATRIX_16X16_TEMPLATE                                          05/08/2026 06:57:09 PAGE 1   
 
 
 C51 COMPILER V9.54, COMPILATION OF MODULE EX4_DOTMATRIX_16X16_TEMPLATE
@@ -8,178 +8,281 @@ COMPILER INVOKED BY: D:\C51\BIN\C51.exe EX4_DotMatrix_16x16_Template.c INCDIR(D:
 line level    source
 
    1          #include "SST89x5x4.h"
-   2          #include "intrins.h"
-   3          
-   4          /*
-   5           * 16x16 dot-matrix template for the new experiment box.
-   6           * The concrete driver pins depend on the SM16206/SM5166 wiring
-   7           * on the laboratory hardware. Use the pin names below as a mapping layer,
-   8           * Name displayed: Jin Yi Fan.
-   9           * P3.2 controls the horizontal moving direction.
-  10           */
-  11          
-  12          sbit DIR_SW = P3^2;
-  13          sbit ROW_A = P1^0;
-  14          sbit ROW_B = P1^1;
-  15          sbit ROW_C = P1^2;
-  16          sbit ROW_D = P1^3;
-  17          sbit COL_DATA = P1^4;
-  18          sbit COL_CLK = P1^5;
-  19          sbit COL_LAT = P1^6;
-  20          sbit COL_OE = P1^7;
-  21          
-  22          unsigned char code name_font[][32] = {
-  23              {
-  24                  0x00, 0x00, 0x01, 0x80, 0x03, 0x80, 0x06, 0xC0,
-  25                  0x0C, 0x70, 0x18, 0x38, 0x3F, 0xFE, 0x6F, 0xF2,
-  26                  0x01, 0x80, 0x1F, 0xF8, 0x1F, 0xF8, 0x09, 0x98,
-  27                  0x0D, 0xB0, 0x05, 0xB0, 0x3F, 0xFE, 0x00, 0x00
-  28              },
-  29              {
-  30                  0x00, 0x00, 0x01, 0x80, 0x3F, 0xFE, 0x3F, 0xFE,
-  31                  0x12, 0x60, 0x3A, 0x68, 0x76, 0x6C, 0x26, 0xE4,
-  32                  0x1C, 0xC0, 0x09, 0x80, 0x7F, 0xFE, 0x03, 0xC0,
-  33                  0x03, 0x60, 0x0E, 0x38, 0x78, 0x1E, 0x20, 0x00
-  34              },
-  35              {
-  36                  0x18, 0x00, 0x18, 0xF8, 0x18, 0xC8, 0x7E, 0x88,
-  37                  0x5A, 0xE8, 0x5A, 0xA8, 0x5A, 0xB8, 0x5A, 0xB8,
-  38                  0x5A, 0xB8, 0x5A, 0x88, 0x5F, 0x88, 0x5D, 0x8A,
-  39                  0x1B, 0x0E, 0x1B, 0x0E, 0x00, 0x00, 0x00, 0x00
-  40              }
-  41          };
-  42          
-  43          void delay_short(void)
-  44          {
-  45   1          unsigned char i;
-  46   1          for (i = 0; i < 20; i++)
-  47   1          {
-  48   2              _nop_();
-  49   2          }
-  50   1      }
-  51          
-  52          void select_row(unsigned char row)
-  53          {
-  54   1          ROW_A = row & 0x01;
-  55   1          ROW_B = (row >> 1) & 0x01;
-C51 COMPILER V9.54   EX4_DOTMATRIX_16X16_TEMPLATE                                          05/08/2026 05:10:48 PAGE 2   
+   2          
+   3          /*
+   4           * 16x16 dot-matrix display for the new experiment box.
+   5           *
+   6           * Row driver:
+   7           *   P1.0 -> RA0
+   8           *   P1.1 -> RA1
+   9           *   P1.2 -> RA2
+  10           *   P1.3 -> ROE, 0 = upper half, 1 = lower half
+  11           *
+  12           * Column driver:
+  13           *   P0.0 -> CSDI
+  14           *   P0.1 -> CSDK
+  15           *   P0.2 -> CLE
+  16           *   P0.3 -> COE
+  17           *
+  18           * Direction switches, active low:
+  19           *   K1=P3.2, K2=P3.3
+  20           *   K1=1 K2=1: left
+  21           *   K1=0 K2=1: right
+  22           *   K1=1 K2=0: up
+  23           *   K1=0 K2=0: down
+  24           *
+  25           * Display content: Jin Yi Fan.
+  26           */
+  27          
+  28          sbit RA0 = P1^0;
+  29          sbit RA1 = P1^1;
+  30          sbit RA2 = P1^2;
+  31          sbit ROE = P1^3;
+  32          
+  33          sbit CSDI = P0^0;
+  34          sbit CSDK = P0^1;
+  35          sbit CLE  = P0^2;
+  36          sbit COE  = P0^3;
+  37          
+  38          sbit K1 = P3^2;
+  39          sbit K2 = P3^3;
+  40          
+  41          #define CHAR_CNT    3
+  42          #define SCROLL_RATE 25
+  43          #define TOTAL_ROWS  (CHAR_CNT * 16)
+  44          
+  45          /*
+  46           * 16x16 Chinese font data.
+  47           * Each character has 32 bytes, two bytes per row.
+  48           * Byte order follows the reference program: low byte first, high byte second.
+  49           */
+  50          unsigned char code hzdot[CHAR_CNT * 32] = {
+  51              /* Jin */
+  52              0x00, 0x00, 0x80, 0x01, 0x80, 0x03, 0xC0, 0x06,
+  53              0x70, 0x0C, 0x38, 0x18, 0xFE, 0x3F, 0xF2, 0x6F,
+  54              0x80, 0x01, 0xF8, 0x1F, 0xF8, 0x1F, 0x98, 0x09,
+  55              0xB0, 0x0D, 0xB0, 0x05, 0xFE, 0x3F, 0x00, 0x00,
+C51 COMPILER V9.54   EX4_DOTMATRIX_16X16_TEMPLATE                                          05/08/2026 06:57:09 PAGE 2   
 
-  56   1          ROW_C = (row >> 2) & 0x01;
-  57   1          ROW_D = (row >> 3) & 0x01;
-  58   1      }
-  59          
-  60          void shift_out16(unsigned int value)
-  61          {
-  62   1          unsigned char i;
-  63   1          for (i = 0; i < 16; i++)
-  64   1          {
-  65   2              COL_DATA = (value & 0x8000) ? 1 : 0;
-  66   2              COL_CLK = 0;
-  67   2              COL_CLK = 1;
-  68   2              value <<= 1;
-  69   2          }
-  70   1          COL_LAT = 0;
-  71   1          COL_LAT = 1;
-  72   1      }
-  73          
-  74          unsigned int rotate_left16(unsigned int value, unsigned char shift)
-  75          {
-  76   1          while (shift--)
-  77   1          {
-  78   2              value = (unsigned int)((value << 1) | ((value & 0x8000) ? 1 : 0));
-  79   2          }
-  80   1          return value;
-  81   1      }
-  82          
-  83          unsigned int rotate_right16(unsigned int value, unsigned char shift)
-  84          {
-  85   1          while (shift--)
-  86   1          {
-  87   2              value = (unsigned int)((value >> 1) | ((value & 0x0001) ? 0x8000 : 0));
-  88   2          }
-  89   1          return value;
-  90   1      }
-  91          
-  92          void scan_char(unsigned char char_index, unsigned char shift)
-  93          {
-  94   1          unsigned char row;
-  95   1          unsigned int col;
-  96   1      
-  97   1          for (row = 0; row < 16; row++)
-  98   1          {
-  99   2              col = ((unsigned int)name_font[char_index][row * 2] << 8) |
- 100   2                    name_font[char_index][row * 2 + 1];
- 101   2              if (DIR_SW)
- 102   2              {
- 103   3                  col = rotate_left16(col, shift);
- 104   3              }
- 105   2              else
- 106   2              {
- 107   3                  col = rotate_right16(col, shift);
- 108   3              }
- 109   2      
- 110   2              COL_OE = 1;
- 111   2              select_row(row);
- 112   2              shift_out16(col);
- 113   2              COL_OE = 0;
- 114   2              delay_short();
- 115   2          }
- 116   1      }
- 117          
-C51 COMPILER V9.54   EX4_DOTMATRIX_16X16_TEMPLATE                                          05/08/2026 05:10:48 PAGE 3   
+  56          
+  57              /* Yi */
+  58              0x00, 0x00, 0x80, 0x01, 0xFE, 0x3F, 0xFE, 0x3F,
+  59              0x60, 0x12, 0x68, 0x3A, 0x6C, 0x76, 0xE4, 0x26,
+  60              0xC0, 0x1C, 0x80, 0x09, 0xFE, 0x7F, 0xC0, 0x03,
+  61              0x60, 0x03, 0x38, 0x0E, 0x1E, 0x78, 0x00, 0x20,
+  62          
+  63              /* Fan */
+  64              0x00, 0x18, 0xF8, 0x18, 0xC8, 0x18, 0x88, 0x7E,
+  65              0xE8, 0x5A, 0xA8, 0x5A, 0xB8, 0x5A, 0xB8, 0x5A,
+  66              0xB8, 0x5A, 0x88, 0x5A, 0x88, 0x5F, 0x8A, 0x5D,
+  67              0x0E, 0x1B, 0x0E, 0x1B, 0x00, 0x00, 0x00, 0x00
+  68          };
+  69          
+  70          unsigned char x_off = 0;
+  71          unsigned char y_off = 0;
+  72          unsigned char char_index = 0;
+  73          unsigned int scroll_cnt = 0;
+  74          
+  75          void delay_hold(void)
+  76          {
+  77   1          unsigned char t;
+  78   1          t = 200;
+  79   1          while (--t)
+  80   1          {
+  81   2          }
+  82   1      }
+  83          
+  84          unsigned int rotate_left16(unsigned int value, unsigned char shift)
+  85          {
+  86   1          while (shift--)
+  87   1          {
+  88   2              value = (unsigned int)((value << 1) | ((value & 0x8000) ? 1 : 0));
+  89   2          }
+  90   1          return value;
+  91   1      }
+  92          
+  93          unsigned int rotate_right16(unsigned int value, unsigned char shift)
+  94          {
+  95   1          while (shift--)
+  96   1          {
+  97   2              value = (unsigned int)((value >> 1) | ((value & 0x0001) ? 0x8000 : 0));
+  98   2          }
+  99   1          return value;
+ 100   1      }
+ 101          
+ 102          void send_col_data(unsigned int dat)
+ 103          {
+ 104   1          unsigned char i;
+ 105   1          unsigned int mask;
+ 106   1      
+ 107   1          mask = 0x8000;
+ 108   1          for (i = 0; i < 16; i++)
+ 109   1          {
+ 110   2              CSDI = (dat & mask) ? 1 : 0;
+ 111   2              CSDK = 0;
+ 112   2              CSDK = 1;
+ 113   2              mask >>= 1;
+ 114   2          }
+ 115   1      
+ 116   1          CLE = 0;
+ 117   1          CLE = 1;
+C51 COMPILER V9.54   EX4_DOTMATRIX_16X16_TEMPLATE                                          05/08/2026 06:57:09 PAGE 3   
 
- 118          void main(void)
- 119          {
- 120   1          unsigned char char_index = 0;
- 121   1          unsigned char shift = 0;
- 122   1          unsigned int frame_count = 0;
- 123   1      
- 124   1          P1 = 0xFF;
- 125   1          while (1)
- 126   1          {
- 127   2              scan_char(char_index, shift);
- 128   2              frame_count++;
- 129   2      
- 130   2              if (frame_count >= 40)
- 131   2              {
- 132   3                  frame_count = 0;
- 133   3                  shift++;
- 134   3                  if (shift >= 16)
- 135   3                  {
- 136   4                      shift = 0;
- 137   4                      if (DIR_SW)
- 138   4                      {
- 139   5                          char_index++;
- 140   5                          if (char_index >= 3)
- 141   5                          {
- 142   6                              char_index = 0;
- 143   6                          }
- 144   5                      }
- 145   4                      else
- 146   4                      {
- 147   5                          if (char_index == 0)
- 148   5                          {
- 149   6                              char_index = 2;
- 150   6                          }
- 151   5                          else
- 152   5                          {
- 153   6                              char_index--;
- 154   6                          }
- 155   5                      }
- 156   4                  }
- 157   3              }
- 158   2          }
- 159   1      }
+ 118   1      }
+ 119          
+ 120          unsigned int get_row_data(unsigned char screen_row)
+ 121          {
+ 122   1          unsigned int idx;
+ 123   1          unsigned int dat;
+ 124   1          unsigned char source_row;
+ 125   1      
+ 126   1          if ((K1 && K2) || (!K1 && K2))
+ 127   1          {
+ 128   2              source_row = (unsigned char)(char_index * 16 + screen_row);
+ 129   2          }
+ 130   1          else
+ 131   1          {
+ 132   2              source_row = screen_row + y_off;
+ 133   2              while (source_row >= TOTAL_ROWS)
+ 134   2              {
+ 135   3                  source_row -= TOTAL_ROWS;
+ 136   3              }
+ 137   2          }
+ 138   1      
+ 139   1          idx = ((unsigned int)source_row) * 2;
+ 140   1          dat = ((unsigned int)hzdot[idx + 1] << 8) | hzdot[idx];
+ 141   1      
+ 142   1          if (K1 && K2)
+ 143   1          {
+ 144   2              dat = rotate_left16(dat, x_off);
+ 145   2          }
+ 146   1          else if (!K1 && K2)
+ 147   1          {
+ 148   2              dat = rotate_right16(dat, x_off);
+ 149   2          }
+ 150   1      
+ 151   1          return dat;
+ 152   1      }
+ 153          
+ 154          void select_row(unsigned char row, bit lower_half)
+ 155          {
+ 156   1          RA0 = row & 0x01;
+ 157   1          RA1 = (row >> 1) & 0x01;
+ 158   1          RA2 = (row >> 2) & 0x01;
+ 159   1          ROE = lower_half ? 1 : 0;
+ 160   1      }
+ 161          
+ 162          void scan_frame(void)
+ 163          {
+ 164   1          unsigned char row;
+ 165   1          unsigned int dat;
+ 166   1      
+ 167   1          for (row = 0; row < 8; row++)
+ 168   1          {
+ 169   2              dat = get_row_data(row);
+ 170   2              COE = 1;
+ 171   2              select_row(row, 0);
+ 172   2              send_col_data(dat);
+ 173   2              COE = 0;
+ 174   2              delay_hold();
+ 175   2      
+ 176   2              dat = get_row_data(row + 8);
+ 177   2              COE = 1;
+ 178   2              select_row(row, 1);
+ 179   2              send_col_data(dat);
+C51 COMPILER V9.54   EX4_DOTMATRIX_16X16_TEMPLATE                                          05/08/2026 06:57:09 PAGE 4   
+
+ 180   2              COE = 0;
+ 181   2              delay_hold();
+ 182   2          }
+ 183   1      }
+ 184          
+ 185          void update_offset(void)
+ 186          {
+ 187   1          scroll_cnt++;
+ 188   1          if (scroll_cnt < SCROLL_RATE)
+ 189   1          {
+ 190   2              return;
+ 191   2          }
+ 192   1          scroll_cnt = 0;
+ 193   1      
+ 194   1          if (K1 && K2)
+ 195   1          {
+ 196   2              x_off++;
+ 197   2              if (x_off >= 16)
+ 198   2              {
+ 199   3                  x_off = 0;
+ 200   3                  char_index++;
+ 201   3                  if (char_index >= CHAR_CNT)
+ 202   3                  {
+ 203   4                      char_index = 0;
+ 204   4                  }
+ 205   3              }
+ 206   2          }
+ 207   1          else if (!K1 && K2)
+ 208   1          {
+ 209   2              if (x_off == 0)
+ 210   2              {
+ 211   3                  x_off = 15;
+ 212   3                  if (char_index == 0)
+ 213   3                  {
+ 214   4                      char_index = CHAR_CNT - 1;
+ 215   4                  }
+ 216   3                  else
+ 217   3                  {
+ 218   4                      char_index--;
+ 219   4                  }
+ 220   3              }
+ 221   2              else
+ 222   2              {
+ 223   3                  x_off--;
+ 224   3              }
+ 225   2          }
+ 226   1          else if (K1 && !K2)
+ 227   1          {
+ 228   2              y_off++;
+ 229   2              if (y_off >= TOTAL_ROWS)
+ 230   2              {
+ 231   3                  y_off = 0;
+ 232   3              }
+ 233   2          }
+ 234   1          else
+ 235   1          {
+ 236   2              if (y_off == 0)
+ 237   2              {
+ 238   3                  y_off = TOTAL_ROWS - 1;
+ 239   3              }
+ 240   2              else
+ 241   2              {
+C51 COMPILER V9.54   EX4_DOTMATRIX_16X16_TEMPLATE                                          05/08/2026 06:57:09 PAGE 5   
+
+ 242   3                  y_off--;
+ 243   3              }
+ 244   2          }
+ 245   1      }
+ 246          
+ 247          void main(void)
+ 248          {
+ 249   1          P0 = 0x00;
+ 250   1          P1 = 0x00;
+ 251   1          P3 |= 0x0C;
+ 252   1      
+ 253   1          while (1)
+ 254   1          {
+ 255   2              scan_frame();
+ 256   2              update_offset();
+ 257   2          }
+ 258   1      }
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =    355    ----
+   CODE SIZE        =    466    ----
    CONSTANT SIZE    =     96    ----
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----
-   DATA SIZE        =   ----       9
+   DATA SIZE        =      5       4
    IDATA SIZE       =   ----    ----
-   BIT SIZE         =   ----    ----
+   BIT SIZE         =   ----       1
 END OF MODULE INFORMATION.
 
 
