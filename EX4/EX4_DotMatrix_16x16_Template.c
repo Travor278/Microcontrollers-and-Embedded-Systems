@@ -6,7 +6,7 @@
  * The concrete driver pins depend on the SM16206/SM5166 wiring
  * on the laboratory hardware. Use the pin names below as a mapping layer,
  * Name displayed: Jin Yi Fan.
- * P3.2 controls the cyclic display direction.
+ * P3.2 controls the horizontal moving direction.
  */
 
 sbit DIR_SW = P3^2;
@@ -71,7 +71,25 @@ void shift_out16(unsigned int value)
     COL_LAT = 1;
 }
 
-void scan_char(unsigned char char_index)
+unsigned int rotate_left16(unsigned int value, unsigned char shift)
+{
+    while (shift--)
+    {
+        value = (unsigned int)((value << 1) | ((value & 0x8000) ? 1 : 0));
+    }
+    return value;
+}
+
+unsigned int rotate_right16(unsigned int value, unsigned char shift)
+{
+    while (shift--)
+    {
+        value = (unsigned int)((value >> 1) | ((value & 0x0001) ? 0x8000 : 0));
+    }
+    return value;
+}
+
+void scan_char(unsigned char char_index, unsigned char shift)
 {
     unsigned char row;
     unsigned int col;
@@ -80,9 +98,18 @@ void scan_char(unsigned char char_index)
     {
         col = ((unsigned int)name_font[char_index][row * 2] << 8) |
               name_font[char_index][row * 2 + 1];
+        if (DIR_SW)
+        {
+            col = rotate_left16(col, shift);
+        }
+        else
+        {
+            col = rotate_right16(col, shift);
+        }
+
         COL_OE = 1;
         select_row(row);
-        shift_out16(~col);
+        shift_out16(col);
         COL_OE = 0;
         delay_short();
     }
@@ -91,34 +118,40 @@ void scan_char(unsigned char char_index)
 void main(void)
 {
     unsigned char char_index = 0;
+    unsigned char shift = 0;
     unsigned int frame_count = 0;
 
     P1 = 0xFF;
     while (1)
     {
-        scan_char(char_index);
+        scan_char(char_index, shift);
         frame_count++;
 
-        if (frame_count >= 180)
+        if (frame_count >= 40)
         {
             frame_count = 0;
-            if (DIR_SW)
+            shift++;
+            if (shift >= 16)
             {
-                char_index++;
-                if (char_index >= 3)
+                shift = 0;
+                if (DIR_SW)
                 {
-                    char_index = 0;
-                }
-            }
-            else
-            {
-                if (char_index == 0)
-                {
-                    char_index = 2;
+                    char_index++;
+                    if (char_index >= 3)
+                    {
+                        char_index = 0;
+                    }
                 }
                 else
                 {
-                    char_index--;
+                    if (char_index == 0)
+                    {
+                        char_index = 2;
+                    }
+                    else
+                    {
+                        char_index--;
+                    }
                 }
             }
         }

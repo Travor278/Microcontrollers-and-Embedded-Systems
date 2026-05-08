@@ -1,4 +1,4 @@
-C51 COMPILER V9.54   EX4_DOTMATRIX_16X16_TEMPLATE                                          05/01/2026 05:01:06 PAGE 1   
+C51 COMPILER V9.54   EX4_DOTMATRIX_16X16_TEMPLATE                                          05/08/2026 05:11:02 PAGE 1   
 
 
 C51 COMPILER V9.54, COMPILATION OF MODULE EX4_DOTMATRIX_16X16_TEMPLATE
@@ -16,7 +16,7 @@ line level    source
    6           * The concrete driver pins depend on the SM16206/SM5166 wiring
    7           * on the laboratory hardware. Use the pin names below as a mapping layer,
    8           * Name displayed: Jin Yi Fan.
-   9           * P3.2 controls the cyclic display direction.
+   9           * P3.2 controls the horizontal moving direction.
   10           */
   11          
   12          sbit DIR_SW = P3^2;
@@ -62,7 +62,7 @@ line level    source
   52          void select_row(unsigned char row)
   53          {
   54   1          ROW_A = row & 0x01;
-C51 COMPILER V9.54   EX4_DOTMATRIX_16X16_TEMPLATE                                          05/01/2026 05:01:06 PAGE 2   
+C51 COMPILER V9.54   EX4_DOTMATRIX_16X16_TEMPLATE                                          05/08/2026 05:11:02 PAGE 2   
 
   55   1          ROW_B = (row >> 1) & 0x01;
   56   1          ROW_C = (row >> 2) & 0x01;
@@ -83,69 +83,102 @@ line level    source
   71   1          COL_LAT = 1;
   72   1      }
   73          
-  74          void scan_char(unsigned char char_index)
+  74          unsigned int rotate_left16(unsigned int value, unsigned char shift)
   75          {
-  76   1          unsigned char row;
-  77   1          unsigned int col;
-  78   1      
-  79   1          for (row = 0; row < 16; row++)
-  80   1          {
-  81   2              col = ((unsigned int)name_font[char_index][row * 2] << 8) |
-  82   2                    name_font[char_index][row * 2 + 1];
-  83   2              COL_OE = 1;
-  84   2              select_row(row);
-  85   2              shift_out16(~col);
-  86   2              COL_OE = 0;
-  87   2              delay_short();
+  76   1          while (shift--)
+  77   1          {
+  78   2              value = (unsigned int)((value << 1) | ((value & 0x8000) ? 1 : 0));
+  79   2          }
+  80   1          return value;
+  81   1      }
+  82          
+  83          unsigned int rotate_right16(unsigned int value, unsigned char shift)
+  84          {
+  85   1          while (shift--)
+  86   1          {
+  87   2              value = (unsigned int)((value >> 1) | ((value & 0x0001) ? 0x8000 : 0));
   88   2          }
-  89   1      }
-  90          
-  91          void main(void)
-  92          {
-  93   1          unsigned char char_index = 0;
-  94   1          unsigned int frame_count = 0;
-  95   1      
-  96   1          P1 = 0xFF;
-  97   1          while (1)
+  89   1          return value;
+  90   1      }
+  91          
+  92          void scan_char(unsigned char char_index, unsigned char shift)
+  93          {
+  94   1          unsigned char row;
+  95   1          unsigned int col;
+  96   1      
+  97   1          for (row = 0; row < 16; row++)
   98   1          {
-  99   2              scan_char(char_index);
- 100   2              frame_count++;
- 101   2      
- 102   2              if (frame_count >= 180)
- 103   2              {
- 104   3                  frame_count = 0;
- 105   3                  if (DIR_SW)
- 106   3                  {
- 107   4                      char_index++;
- 108   4                      if (char_index >= 3)
- 109   4                      {
- 110   5                          char_index = 0;
- 111   5                      }
- 112   4                  }
- 113   3                  else
- 114   3                  {
- 115   4                      if (char_index == 0)
- 116   4                      {
-C51 COMPILER V9.54   EX4_DOTMATRIX_16X16_TEMPLATE                                          05/01/2026 05:01:06 PAGE 3   
+  99   2              col = ((unsigned int)name_font[char_index][row * 2] << 8) |
+ 100   2                    name_font[char_index][row * 2 + 1];
+ 101   2              if (DIR_SW)
+ 102   2              {
+ 103   3                  col = rotate_left16(col, shift);
+ 104   3              }
+ 105   2              else
+ 106   2              {
+ 107   3                  col = rotate_right16(col, shift);
+ 108   3              }
+ 109   2      
+ 110   2              COL_OE = 1;
+ 111   2              select_row(row);
+ 112   2              shift_out16(col);
+ 113   2              COL_OE = 0;
+ 114   2              delay_short();
+ 115   2          }
+ 116   1      }
+C51 COMPILER V9.54   EX4_DOTMATRIX_16X16_TEMPLATE                                          05/08/2026 05:11:02 PAGE 3   
 
- 117   5                          char_index = 2;
- 118   5                      }
- 119   4                      else
- 120   4                      {
- 121   5                          char_index--;
- 122   5                      }
- 123   4                  }
- 124   3              }
- 125   2          }
- 126   1      }
+ 117          
+ 118          void main(void)
+ 119          {
+ 120   1          unsigned char char_index = 0;
+ 121   1          unsigned char shift = 0;
+ 122   1          unsigned int frame_count = 0;
+ 123   1      
+ 124   1          P1 = 0xFF;
+ 125   1          while (1)
+ 126   1          {
+ 127   2              scan_char(char_index, shift);
+ 128   2              frame_count++;
+ 129   2      
+ 130   2              if (frame_count >= 40)
+ 131   2              {
+ 132   3                  frame_count = 0;
+ 133   3                  shift++;
+ 134   3                  if (shift >= 16)
+ 135   3                  {
+ 136   4                      shift = 0;
+ 137   4                      if (DIR_SW)
+ 138   4                      {
+ 139   5                          char_index++;
+ 140   5                          if (char_index >= 3)
+ 141   5                          {
+ 142   6                              char_index = 0;
+ 143   6                          }
+ 144   5                      }
+ 145   4                      else
+ 146   4                      {
+ 147   5                          if (char_index == 0)
+ 148   5                          {
+ 149   6                              char_index = 2;
+ 150   6                          }
+ 151   5                          else
+ 152   5                          {
+ 153   6                              char_index--;
+ 154   6                          }
+ 155   5                      }
+ 156   4                  }
+ 157   3              }
+ 158   2          }
+ 159   1      }
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =    219    ----
+   CODE SIZE        =    355    ----
    CONSTANT SIZE    =     96    ----
    XDATA SIZE       =   ----    ----
    PDATA SIZE       =   ----    ----
-   DATA SIZE        =   ----       4
+   DATA SIZE        =   ----       9
    IDATA SIZE       =   ----    ----
    BIT SIZE         =   ----    ----
 END OF MODULE INFORMATION.
