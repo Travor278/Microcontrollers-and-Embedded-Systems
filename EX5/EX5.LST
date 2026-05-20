@@ -1,0 +1,318 @@
+C51 COMPILER V9.54   EX5                                                                   05/15/2026 07:14:05 PAGE 1   
+
+
+C51 COMPILER V9.54, COMPILATION OF MODULE EX5
+OBJECT MODULE PLACED IN EX5.OBJ
+COMPILER INVOKED BY: D:\C51\BIN\C51.exe EX5.c INCDIR(D:\C51\INC,D:\C51\INC\SST)
+
+line level    source
+
+   1          #include "SST89x5x4.H"
+   2          #include "Absacc.h"
+   3          
+   4          /* =====================================================
+   5             A/D ?? + ??????
+   6          
+   7             AD0809:
+   8             STARTAD  = XBYTE[0x7F00]  ?? A/D ??
+   9             ADRESULT = XBYTE[0x7F08]  ?? A/D ????
+  10             ADBUSY   = P3.3           ?????
+  11          
+  12             ??:
+  13             ? UART #1 ???? ADV ????
+  14          
+  15             ??:
+  16             ??????
+  17             ?????? 1 ???
+  18             ===================================================== */
+  19          
+  20          #define STARTAD   XBYTE[0x7F00]
+  21          #define ADRESULT  XBYTE[0x7F08]
+  22          
+  23          sbit ADBUSY = P3^3;
+  24          
+  25          /* ?? 1 ??? */
+  26          unsigned char voltage_precision = 1;
+  27          
+  28          
+  29          /* =====================================================
+  30             ????
+  31             ????,??????
+  32             ===================================================== */
+  33          void Delay(unsigned int t)
+  34          {
+  35   1          unsigned int i;
+  36   1          unsigned int j;
+  37   1      
+  38   1          for(i = 0; i < t; i++)
+  39   1          {
+  40   2              for(j = 0; j < 120; j++)
+  41   2              {
+  42   3                  ;
+  43   3              }
+  44   2          }
+  45   1      }
+  46          
+  47          
+  48          /* =====================================================
+  49             ?????
+  50             11.0592MHz ??,19200bps
+  51             ????????? 9600,??????? TH1
+  52             ===================================================== */
+  53          void UART_Init(void)
+  54          {
+  55   1          TMOD &= 0x0F;
+C51 COMPILER V9.54   EX5                                                                   05/15/2026 07:14:05 PAGE 2   
+
+  56   1          TMOD |= 0x20;      /* ???1,??2,???? */
+  57   1      
+  58   1          PCON |= 0x80;      /* SMOD=1,????? */
+  59   1      
+  60   1          TH1 = 0xFD;        /* 19200bps,11.0592MHz */
+  61   1          TL1 = 0xFD;
+  62   1      
+  63   1          SCON = 0x50;       /* ????1,???? */
+  64   1      
+  65   1          TR1 = 1;           /* ?????1 */
+  66   1          TI = 1;
+  67   1      }
+  68          
+  69          
+  70          /* =====================================================
+  71             ????????
+  72             ===================================================== */
+  73          void UART_SendChar(unsigned char dat)
+  74          {
+  75   1          SBUF = dat;
+  76   1          while(TI == 0);
+  77   1          TI = 0;
+  78   1      }
+  79          
+  80          
+  81          /* =====================================================
+  82             ???????
+  83             ===================================================== */
+  84          void UART_SendString(unsigned char *str)
+  85          {
+  86   1          while(*str != '\0')
+  87   1          {
+  88   2              UART_SendChar(*str);
+  89   2              str++;
+  90   2          }
+  91   1      }
+  92          
+  93          
+  94          /* =====================================================
+  95             ???????
+  96             ===================================================== */
+  97          void UART_SendNumber(unsigned int num)
+  98          {
+  99   1          unsigned char buf[5];
+ 100   1          unsigned char i;
+ 101   1      
+ 102   1          if(num == 0)
+ 103   1          {
+ 104   2              UART_SendChar('0');
+ 105   2              return;
+ 106   2          }
+ 107   1      
+ 108   1          i = 0;
+ 109   1      
+ 110   1          while(num > 0)
+ 111   1          {
+ 112   2              buf[i] = num % 10;
+ 113   2              num = num / 10;
+ 114   2              i++;
+ 115   2          }
+ 116   1      
+ 117   1          while(i > 0)
+C51 COMPILER V9.54   EX5                                                                   05/15/2026 07:14:05 PAGE 3   
+
+ 118   1          {
+ 119   2              i--;
+ 120   2              UART_SendChar(buf[i] + '0');
+ 121   2          }
+ 122   1      }
+ 123          
+ 124          
+ 125          /* =====================================================
+ 126             ?? ADC0809
+ 127             ===================================================== */
+ 128          unsigned char AD0809_Read(void)
+ 129          {
+ 130   1          unsigned char result;
+ 131   1          unsigned int timeout;
+ 132   1      
+ 133   1          STARTAD = 0x00;       /* ?? A/D ?? */
+ 134   1      
+ 135   1          timeout = 50000;
+ 136   1      
+ 137   1          while((ADBUSY == 1) && (timeout > 0))
+ 138   1          {
+ 139   2              timeout--;
+ 140   2          }
+ 141   1      
+ 142   1          Delay(1);
+ 143   1      
+ 144   1          result = ADRESULT;    /* ?????? */
+ 145   1      
+ 146   1          return result;
+ 147   1      }
+ 148          
+ 149          
+ 150          /* =====================================================
+ 151             ?????
+ 152          
+ 153             ADC0809 ? 8 ?:
+ 154             ADV = 0   ?? 0V
+ 155             ADV = 255 ?? 5V
+ 156          
+ 157             ?? mV = ADV * 5000 / 255
+ 158             ===================================================== */
+ 159          void SendVoltage(unsigned char adv)
+ 160          {
+ 161   1          unsigned long mv;
+ 162   1          unsigned int integer_part;
+ 163   1          unsigned int decimal_part;
+ 164   1      
+ 165   1          mv = ((unsigned long)adv * 5000UL) / 255UL;
+ 166   1      
+ 167   1          integer_part = (unsigned int)(mv / 1000UL);
+ 168   1      
+ 169   1          UART_SendString("ADV=");
+ 170   1          UART_SendNumber(adv);
+ 171   1      
+ 172   1          UART_SendString("    Voltage=");
+ 173   1          UART_SendNumber(integer_part);
+ 174   1          UART_SendChar('.');
+ 175   1      
+ 176   1          if(voltage_precision == 0)
+ 177   1          {
+ 178   2              UART_SendChar('0');
+ 179   2          }
+C51 COMPILER V9.54   EX5                                                                   05/15/2026 07:14:05 PAGE 4   
+
+ 180   1          else if(voltage_precision == 1)
+ 181   1          {
+ 182   2              decimal_part = (unsigned int)((mv % 1000UL) / 100UL);
+ 183   2              UART_SendNumber(decimal_part);
+ 184   2          }
+ 185   1          else if(voltage_precision == 2)
+ 186   1          {
+ 187   2              decimal_part = (unsigned int)((mv % 1000UL) / 10UL);
+ 188   2      
+ 189   2              if(decimal_part < 10)
+ 190   2              {
+ 191   3                  UART_SendChar('0');
+ 192   3              }
+ 193   2      
+ 194   2              UART_SendNumber(decimal_part);
+ 195   2          }
+ 196   1          else
+ 197   1          {
+ 198   2              decimal_part = (unsigned int)(mv % 1000UL);
+ 199   2      
+ 200   2              if(decimal_part < 100)
+ 201   2              {
+ 202   3                  UART_SendChar('0');
+ 203   3              }
+ 204   2      
+ 205   2              if(decimal_part < 10)
+ 206   2              {
+ 207   3                  UART_SendChar('0');
+ 208   3              }
+ 209   2      
+ 210   2              UART_SendNumber(decimal_part);
+ 211   2          }
+ 212   1      
+ 213   1          UART_SendString(" V\r\n");
+ 214   1      }
+ 215          
+ 216          
+ 217          /* =====================================================
+ 218             ??????
+ 219             0:?? 0 ???
+ 220             1:?? 1 ???
+ 221             2:?? 2 ???
+ 222             3:?? 3 ???
+ 223          
+ 224             ???????,????? 1 ?????
+ 225             ===================================================== */
+ 226          void Check_UART_Command(void)
+ 227          {
+ 228   1          unsigned char dat;
+ 229   1      
+ 230   1          if(RI == 1)
+ 231   1          {
+ 232   2              RI = 0;
+ 233   2              dat = SBUF;
+ 234   2      
+ 235   2              if(dat == '0')
+ 236   2              {
+ 237   3                  voltage_precision = 0;
+ 238   3                  UART_SendString("Set precision: 0 decimal\r\n");
+ 239   3              }
+ 240   2              else if(dat == '1')
+ 241   2              {
+C51 COMPILER V9.54   EX5                                                                   05/15/2026 07:14:05 PAGE 5   
+
+ 242   3                  voltage_precision = 1;
+ 243   3                  UART_SendString("Set precision: 1 decimal\r\n");
+ 244   3              }
+ 245   2              else if(dat == '2')
+ 246   2              {
+ 247   3                  voltage_precision = 2;
+ 248   3                  UART_SendString("Set precision: 2 decimals\r\n");
+ 249   3              }
+ 250   2              else if(dat == '3')
+ 251   2              {
+ 252   3                  voltage_precision = 3;
+ 253   3                  UART_SendString("Set precision: 3 decimals\r\n");
+ 254   3              }
+ 255   2          }
+ 256   1      }
+ 257          
+ 258          
+ 259          /* =====================================================
+ 260             ???
+ 261             ===================================================== */
+ 262          void main(void)
+ 263          {
+ 264   1          unsigned char adv;
+ 265   1      
+ 266   1          UART_Init();
+ 267   1      
+ 268   1          UART_SendString("A/D Conversion Experiment Start\r\n");
+ 269   1          UART_SendString("Default: 1 decimal output\r\n");
+ 270   1          UART_SendString("Input 0/1/2/3 to change voltage precision.\r\n\r\n");
+ 271   1      
+ 272   1          while(1)
+ 273   1          {
+ 274   2              Check_UART_Command();
+ 275   2      
+ 276   2              adv = AD0809_Read();
+ 277   2      
+ 278   2              SendVoltage(adv);
+ 279   2      
+ 280   2              /*
+ 281   2                 ???????
+ 282   2                 ?? UART #1 ????,?? 300 ??,?? 600?1000?
+ 283   2                 ????,???,?? 100?200?
+ 284   2              */
+ 285   2              Delay(300);
+ 286   2          }
+ 287   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    596    ----
+   CONSTANT SIZE    =    242    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      1      17
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
