@@ -21,6 +21,7 @@
 - `EX6_Stepper.c`：步进电机基本题。
 - `EX6_DC_PWM.c`：直流电机 PWM 基本题。
 - `EX6_DC_Control_Advanced.c`：直流电机综合控制提高题。
+- `EX6.c`：提高题真机脱机运行版，支持按键和上位机串口命令控制。
 - `Paper/实验六算法流程图_mermaid.md`：报告流程图草稿。
 
 ## 3. 提高题端口约定
