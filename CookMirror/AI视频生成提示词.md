@@ -116,14 +116,7 @@ A middle-aged mother walks out of the kitchen to answer a phone call, leaving a 
 
 ### English
 
-A male chef kneads dough, hands covered in flour. Close-up of his white
-floury palms. He looks up at the CookMirror displaying recipe step 3/8.
-With dough-covered hands, he performs a right-to-left swipe gesture in
-mid-air toward the mirror. The mirror instantly pages to step 4/8 with
-a smooth slide animation. He smiles in satisfaction and continues
-kneading—no device contact needed. 35mm medium focus, blurred background,
-emphasizing the elegance of mid-air gesture-to-mirror interaction,
-8 seconds.
+A male chef kneads dough, hands covered in flour. Close-up of his white floury palms. He looks up at the CookMirror displaying recipe step 3/8. With dough-covered hands, he performs a right-to-left swipe gesture in mid-air toward the mirror. The mirror instantly pages to step 4/8 with a smooth slide animation. He smiles in satisfaction and continues kneading—no device contact needed. 35mm medium focus, blurred background, emphasizing the elegance of mid-air gesture-to-mirror interaction, 8 seconds.
 ```
 
 ### 🔄 转场 5→6
@@ -136,28 +129,13 @@ emphasizing the elegance of mid-air gesture-to-mirror interaction,
 ## 🎬 场景 6:婴幼儿辅食 / 孕妇营养(健康关怀)
 
 ### 中文
-```
-一位年轻妈妈抱着 8 个月大的宝宝站在厨房中,宝宝穿着浅黄色围嘴。
-CookMirror 镜面显示婴幼儿辅食专属界面,卡片上写"8 月龄 · 南瓜
-胡萝卜泥"。镜面右侧弹出营养面板:"含 β-胡萝卜素 ↑,无过敏原 ✓,
-质地:细腻泥状"。镜头切换至灶台,妈妈将蒸熟的南瓜胡萝卜放入
-辅食机,镜面实时显示进度条。最后镜头切到宝宝坐在餐椅上张嘴吃辅食,
-妈妈用手机扫描盘中食物,镜面跳出"本餐 ✓ 已记录,本周 Fe 摄入 +5%"。
-画面温馨柔和,以暖黄色调为主,10 秒。
-```
+
+一位年轻妈妈抱着 8 个月大的宝宝站在厨房中,宝宝穿着浅黄色围嘴。CookMirror 镜面显示婴幼儿辅食专属界面,卡片上写"8 月龄 · 南瓜胡萝卜泥"。镜面右侧弹出营养面板:"含 β-胡萝卜素 ↑,无过敏原 ✓,质地:细腻泥状"。镜头切换至灶台,妈妈将蒸熟的南瓜胡萝卜放入辅食机,镜面实时显示进度条。最后镜头切到宝宝坐在餐椅上张嘴吃辅食,妈妈用手机扫描盘中食物,镜面跳出"本餐 ✓ 已记录,本周 Fe 摄入 +5%"。画面温馨柔和,以暖黄色调为主,10 秒。
+
 
 ### English
-```
-A young mother holds her 8-month-old baby in the kitchen, baby wearing
-a pale yellow bib. The CookMirror displays a baby food interface:
-"8-month  Pumpkin Carrot Puree." A nutrition panel slides in:
-"Beta-carotene high. No allergens. Texture: smooth puree." Cut to the
-stovetop: mother places steamed pumpkin and carrot into a baby food
-processor, mirror shows real-time progress bar. Final cut: baby sitting
-in a high chair eagerly opening mouth for the puree, mother scans the
-plate with her phone, mirror pops up "Meal logged. Weekly Fe intake
-+5%." Warm soft yellow color grade, intimate atmosphere, 10 seconds.
-```
+
+A young mother holds her 8-month-old baby in the kitchen, baby wearing a pale yellow bib. The CookMirror displays a baby food interface: "8-month  Pumpkin Carrot Puree." A nutrition panel slides in: "Beta-carotene high. No allergens. Texture: smooth puree." Cut to the stovetop: mother places steamed pumpkin and carrot into a baby food processor, mirror shows real-time progress bar. Final cut: baby sitting in a high chair eagerly opening mouth for the puree, mother scans the plate with her phone, mirror pops up "Meal logged. Weekly Fe intake +5%." Warm soft yellow color grade, intimate atmosphere, 10 seconds.
 
 ### 🔄 转场 6→7(全片情感高潮的关键转场)
 
@@ -169,32 +147,13 @@ plate with her phone, mirror pops up "Meal logged. Weekly Fe intake
 ## 🎬 场景 7:家庭食谱传承(催泪情感)
 
 ### 中文
-```
-昏黄温暖的厨房灯光下,一位 70 岁满头银发的奶奶系着围裙,正在
-炒一道红烧肉。CookMirror 镜面以"传承模式"运行,屏幕分上下两栏:
-上栏实时绿色框线追踪奶奶的手部动作,显示"翻面 ✓ 加冰糖 ✓
-小火慢炖 30 分钟 ✓";下栏自动生成数字食谱,文字一行行浮现
-"奶奶的红烧肉 · 第 1 代秘方"。镜头切换:几年后,同一个厨房,
-长大的孙女(20 岁)独自站在锅前,镜面播放奶奶当年的做菜视频,
-旁边显示步骤同步。孙女眼眶湿润,嘴角带笑,锅中红烧肉冒着热气。
-最后镜头特写镜面,显示"奶奶的红烧肉 · 第 2 代传承"。
-画面催泪感强,色调温暖怀旧,12 秒。
+
+昏黄温暖的厨房灯光下,一位 70 岁满头银发的奶奶系着围裙,正在炒一道红烧肉。CookMirror 镜面以"传承模式"运行,屏幕分上下两栏:上栏实时绿色框线追踪奶奶的手部动作,显示"翻面 ✓ 加冰糖 ✓小火慢炖 30 分钟 ✓";下栏自动生成数字食谱,文字一行行浮现"奶奶的红烧肉 · 第 1 代秘方"。镜头切换:几年后,同一个厨房,长大的孙女(20 岁)独自站在锅前,镜面播放奶奶当年的做菜视频,旁边显示步骤同步。孙女眼眶湿润,嘴角带笑,锅中红烧肉冒着热气。最后镜头特写镜面,显示"奶奶的红烧肉 · 第 2 代传承"。画面催泪感强,色调温暖怀旧,12 秒。
 ```
 
 ### English
-```
-A 70-year-old silver-haired grandmother in a warm dimly-lit kitchen,
-wearing an apron, cooks braised pork. The CookMirror runs in "Heritage
-Mode," screen split into two: top half tracks her hand movements with
-green outlines, displaying "Flip done. Rock sugar added. Slow simmer
-30min done"; bottom half generates a digital recipe with text appearing
-line by line: "Grandma's Braised Pork  Generation 1." Cut to years
-later, same kitchen: the granddaughter, now 20, stands alone at the stove.
-The mirror plays grandma's original cooking video alongside synchronized
-steps. Granddaughter's eyes well up, a smile crosses her lips, steam rises
-from the pot. Final close-up of mirror: "Grandma's Braised Pork
-Generation 2 Inherited." Deeply emotional, warm nostalgic color grade,
-12 seconds.
+
+A 70-year-old silver-haired grandmother in a warm dimly-lit kitchen, wearing an apron, cooks braised pork. The CookMirror runs in "Heritage Mode," screen split into two: top half tracks her hand movements with green outlines, displaying "Flip done. Rock sugar added. Slow simmer 30min done"; bottom half generates a digital recipe with text appearing line by line: "Grandma's Braised Pork  Generation 1." Cut to years later, same kitchen: the granddaughter, now 20, stands alone at the stove. The mirror plays grandma's original cooking video alongside synchronized steps. Granddaughter's eyes well up, a smile crosses her lips, steam rises from the pot. Final close-up of mirror: "Grandma's Braised Pork Generation 2 Inherited." Deeply emotional, warm nostalgic color grade, 12 seconds.
 ```
 
 ### 🔄 转场 7→8
@@ -207,29 +166,13 @@ Generation 2 Inherited." Deeply emotional, warm nostalgic color grade,
 ## 🎬 场景 8:异地同步做饭(亲情远程)
 
 ### 中文
-```
-分屏画面:左侧是上海公寓的厨房,女儿(25 岁)站在 CookMirror 前;
-右侧是老家小镇厨房,妈妈(55 岁)站在另一面 CookMirror 前。
-两面镜面同步显示同一道菜"番茄牛腩"步骤 5/10。
-妈妈对着镜面说话"乖,牛腩要先焯水再炖,记得吗?",声音通过
-女儿一侧的镜面喇叭清晰传出。女儿笑着点头"妈我学会啦",
-镜头中女儿翻动锅铲,妈妈一侧镜面同步出现女儿的实时画面。
-两位都在做饭,但通过镜面仿佛在同一个厨房。
-窗外都是傍晚的橘红夕阳。10 秒,温暖团圆感。
-```
+
+分屏画面:左侧是上海公寓的厨房,女儿(25 岁)站在 CookMirror 前;右侧是老家小镇厨房,妈妈(55 岁)站在另一面 CookMirror 前。两面镜面同步显示同一道菜"番茄牛腩"步骤 5/10。妈妈对着镜面说话"乖,牛腩要先焯水再炖,记得吗?",声音通过女儿一侧的镜面喇叭清晰传出。女儿笑着点头"妈我学会啦",镜头中女儿翻动锅铲,妈妈一侧镜面同步出现女儿的实时画面。两位都在做饭,但通过镜面仿佛在同一个厨房。窗外都是傍晚的橘红夕阳。10 秒,温暖团圆感。
+
 
 ### English
-```
-Split screen: left side shows a Shanghai apartment kitchen, daughter
-(25) standing before her CookMirror; right side shows a small-town home
-kitchen, mother (55) standing before another CookMirror. Both mirrors
-synchronously display the same recipe "Tomato Beef Brisket  Step 5/10."
-Mother speaks toward her mirror: "Sweetie, blanch the brisket first before
-stewing, remember?" Her voice clearly emerges from the daughter's mirror
-speaker. The daughter smiles and nods, "Got it, mom." She stirs the pot;
-mother's mirror simultaneously shows daughter's live video. Both cooking,
-yet connected as if in the same kitchen. Both windows reveal orange
-sunset light. 10 seconds, warm reunion vibe.
+
+Split screen: left side shows a Shanghai apartment kitchen, daughter (25) standing before her CookMirror; right side shows a small-town home kitchen, mother (55) standing before another CookMirror. Both mirrors synchronously display the same recipe "Tomato Beef Brisket  Step 5/10." Mother speaks toward her mirror: "Sweetie, blanch the brisket first before stewing, remember?" Her voice clearly emerges from the daughter's mirror speaker. The daughter smiles and nods, "Got it, mom." She stirs the pot; mother's mirror simultaneously shows daughter's live video. Both cooking, yet connected as if in the same kitchen. Both windows reveal orange sunset light. 10 seconds, warm reunion vibe.
 ```
 
 ### 🔄 转场 8→9
@@ -242,30 +185,21 @@ sunset light. 10 seconds, warm reunion vibe.
 ## 🎬 场景 9:多产品生态全景(立意拔高)
 
 ### 中文
-```
+
 一个未来感家庭场景的剖面图,镜头缓缓平移展示三个房间:
 - 客厅:健身镜前一位男性正在锻炼,镜面显示骨骼追踪线条
 - 厨房:CookMirror 前妻子做晚餐,镜面 AR 箭头指引
-- 婴儿房:婴儿床上方雷达守护仪发出柔和绿光,母亲手机推送
-"宝宝平稳入睡"
-三个房间通过半透明数据流光线连接,汇入中央云端图标"AI 家庭健康
-生态"。整体画面有未来感和宏大叙事感,色调冷蓝带暖光点缀。
-8 秒慢镜头横移。
-```
+- 婴儿房:婴儿床上方雷达守护仪发出柔和绿光,母亲手机推送"宝宝平稳入睡"三个房间通过半透明数据流光线连接,汇入中央云端图标"AI 家庭健康生态"。整体画面有未来感和宏大叙事感,色调冷蓝带暖光点缀。8 秒慢镜头横移。
 
 ### English
-```
+
 Cutaway cross-section view of a futuristic family home. Camera slowly
 pans across three rooms:
 - Living room: a man exercises before a FitMirror displaying skeletal
   tracking lines
 - Kitchen: wife prepares dinner before CookMirror with AR arrow guidance
-- Nursery: a guardian radar above the crib glows soft green, mother's
-  phone shows "Baby sleeping peacefully"
-Three rooms connected by translucent flowing data streams converging into
-a central cloud icon labeled "AI Family Wellness Ecosystem." Grand
-futuristic narrative, cool blue with warm accent lighting, 8-second
-slow lateral pan.
+- Nursery: a guardian radar above the crib glows soft green, mother's phone shows "Baby sleeping peacefully"
+Three rooms connected by translucent flowing data streams converging into a central cloud icon labeled "AI Family Wellness Ecosystem." Grand futuristic narrative, cool blue with warm accent lighting, 8-second slow lateral pan.
 ```
 
 ### 🔄 转场 9→10
@@ -278,20 +212,14 @@ slow lateral pan.
 ## 🎬 场景 10:LOGO 定版
 
 ### 中文
-```
-纯黑背景,中央 CookMirror 产品外形从虚化逐渐聚焦,镜面亮起蓝色光晕。
-镜面正中央慢慢浮现金属质感 LOGO "CookMirror · 厨魔镜",
-下方一行小字 slogan:"放大每一位厨师"。光晕缓缓扩散后定格。
-极简优雅,6 秒。
+
+纯黑背景,中央 CookMirror 产品外形从虚化逐渐聚焦,镜面亮起蓝色光晕。镜面正中央慢慢浮现金属质感 LOGO "CookMirror · 厨魔镜",下方一行小字 slogan:"放大每一位厨师"。光晕缓缓扩散后定格。极简优雅,6 秒。
 ```
 
 ### English
-```
-Pure black background. CookMirror product silhouette gradually focuses
-from blur, mirror glows blue. Metallic logo "CookMirror" slowly emerges
-at center, with tagline beneath: "Amplify Every Cook." Glow softly
-expands and freezes. Minimalist and elegant, 6 seconds.
-```
+
+Pure black background. CookMirror product silhouette gradually focuses from blur, mirror glows blue. Metallic logo "CookMirror" slowly emerges at center, with tagline beneath: "Amplify Every Cook." Glow softly expands and freezes. Minimalist and elegant, 6 seconds.
+
 
 ---
 
