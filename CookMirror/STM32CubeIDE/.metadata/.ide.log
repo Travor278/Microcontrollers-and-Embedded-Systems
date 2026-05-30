@@ -1,0 +1,845 @@
+2026-05-28 19:55:11,548 [INFO] Activator:170 - 
+
+
+2026-05-28 19:55:11,557 [INFO] Activator:171 - !SESSION log4j initialized
+2026-05-28 19:55:19,986 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] [Fatal Error] :1:1: ????????????
+2026-05-28 19:55:19,989 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] 
+2026-05-28 19:55:20,383 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] [Fatal Error] :1:1: ????????????
+2026-05-28 19:55:20,384 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] 
+2026-05-28 19:55:20,615 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] [Fatal Error] :1:1: ????????????
+2026-05-28 19:55:20,616 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] 
+2026-05-28 19:55:25,078 [INFO] McuFinderGlobals:40 - Set McuFinder mode to 2 (CubeIDE integrated)
+2026-05-28 19:55:25,361 [INFO] ApplicationProperties:181 - Using Application install path: D:\STM32CubeIDE_1.5.0\STM32CubeIDE\plugins\com.st.stm32cube.common.mx_6.1.0.202011121557
+2026-05-28 19:55:25,373 [INFO] DbMcusXml:71 - Set database path to: D:\STM32CubeIDE_1.5.0\STM32CubeIDE\plugins\com.st.stm32cube.common.mx_6.1.0.202011121557\\db\/mcu/
+2026-05-28 19:55:25,375 [INFO] DbBoardsPdsc:57 - Set plugin database path to: D:\STM32CubeIDE_1.5.0\STM32CubeIDE\plugins\com.st.stm32cube.common.mx_6.1.0.202011121557\\db\/plugins/boardmanager/
+2026-05-28 19:55:25,375 [INFO] DbMcus:259 - Set plugin images path to: D:\STM32CubeIDE_1.5.0\STM32CubeIDE\plugins\com.st.stm32cube.common.mx_6.1.0.202011121557\\db\/plugins/mcufinder/images/
+2026-05-28 19:55:25,376 [INFO] DbBoards:265 - Set plugin images path to: D:\STM32CubeIDE_1.5.0\STM32CubeIDE\plugins\com.st.stm32cube.common.mx_6.1.0.202011121557\\db\/plugins/mcufinder/images/
+2026-05-28 19:55:25,377 [INFO] DbExamples:329 - Set plugin images path to: D:\STM32CubeIDE_1.5.0\STM32CubeIDE\plugins\com.st.stm32cube.common.mx_6.1.0.202011121557\\db\/plugins/mcufinder/images/
+2026-05-28 19:55:25,384 [INFO] DbMcusDocs:112 - Set database path to: C:\Users\34886\.stmcufinder\plugins\mcufinder//mcu/
+2026-05-28 19:55:25,386 [INFO] DbMcusJson:63 - Set database path to: C:\Users\34886\.stmcufinder\plugins\mcufinder//mcu/
+2026-05-28 19:55:25,387 [INFO] DbBoardsDocs:112 - Set database path to: C:\Users\34886\.stmcufinder\plugins\mcufinder//mcu/
+2026-05-28 19:55:25,388 [INFO] DbBoardsJson:56 - Set database path to: C:\Users\34886\.stmcufinder\plugins\mcufinder//mcu/
+2026-05-28 19:55:25,390 [INFO] CrossReferenceDbSqlite:196 - Set database path to: C:\Users\34886\.stmcufinder\plugins\mcufinder//mcu/cs/
+2026-05-28 19:55:25,392 [INFO] DbExamplesSqlite:699 - Set database path to: C:\Users\34886\.stmcufinder\plugins\mcufinder//mcu/
+2026-05-28 19:55:25,492 [INFO] RulesReader:52 - Compatibility file has been processed (228 Rules)
+2026-05-28 19:55:25,574 [INFO] MicroXplorer:565 - Detected Java Version = 1.8.0_272
+2026-05-28 19:55:25,574 [INFO] DbMcusXml:71 - Set database path to: D:\STM32CubeIDE_1.5.0\STM32CubeIDE\plugins\com.st.stm32cube.common.mx_6.1.0.202011121557\\db\/mcu/
+2026-05-28 19:55:25,575 [INFO] DbBoardsPdsc:57 - Set plugin database path to: D:\STM32CubeIDE_1.5.0\STM32CubeIDE\plugins\com.st.stm32cube.common.mx_6.1.0.202011121557\\db\/plugins/boardmanager/
+2026-05-28 19:55:25,575 [INFO] DbMcus:259 - Set plugin images path to: D:\STM32CubeIDE_1.5.0\STM32CubeIDE\plugins\com.st.stm32cube.common.mx_6.1.0.202011121557\\db\/plugins/mcufinder/images/
+2026-05-28 19:55:25,575 [INFO] DbBoards:265 - Set plugin images path to: D:\STM32CubeIDE_1.5.0\STM32CubeIDE\plugins\com.st.stm32cube.common.mx_6.1.0.202011121557\\db\/plugins/mcufinder/images/
+2026-05-28 19:55:25,575 [INFO] DbExamples:329 - Set plugin images path to: D:\STM32CubeIDE_1.5.0\STM32CubeIDE\plugins\com.st.stm32cube.common.mx_6.1.0.202011121557\\db\/plugins/mcufinder/images/
+2026-05-28 19:55:25,575 [WARN] DbFile:36 - Overriding database path with different value: C:\Users\34886\.stmcufinder\plugins\mcufinder/ => C:\Users\34886\.stmcufinder\plugins\mcufinder
+2026-05-28 19:55:25,575 [INFO] DbMcusDocs:112 - Set database path to: C:\Users\34886\.stmcufinder\plugins\mcufinder//mcu/
+2026-05-28 19:55:25,575 [WARN] DbFile:36 - Overriding database path with different value: C:\Users\34886\.stmcufinder\plugins\mcufinder/ => C:\Users\34886\.stmcufinder\plugins\mcufinder
+2026-05-28 19:55:25,575 [INFO] DbMcusJson:63 - Set database path to: C:\Users\34886\.stmcufinder\plugins\mcufinder//mcu/
+2026-05-28 19:55:25,575 [WARN] DbFile:36 - Overriding database path with different value: C:\Users\34886\.stmcufinder\plugins\mcufinder/ => C:\Users\34886\.stmcufinder\plugins\mcufinder
+2026-05-28 19:55:25,576 [INFO] DbBoardsDocs:112 - Set database path to: C:\Users\34886\.stmcufinder\plugins\mcufinder//mcu/
+2026-05-28 19:55:25,576 [WARN] DbFile:36 - Overriding database path with different value: C:\Users\34886\.stmcufinder\plugins\mcufinder/ => C:\Users\34886\.stmcufinder\plugins\mcufinder
+2026-05-28 19:55:25,576 [INFO] DbBoardsJson:56 - Set database path to: C:\Users\34886\.stmcufinder\plugins\mcufinder//mcu/
+2026-05-28 19:55:25,576 [WARN] DbFile:36 - Overriding database path with different value: C:\Users\34886\.stmcufinder\plugins\mcufinder/ => C:\Users\34886\.stmcufinder\plugins\mcufinder
+2026-05-28 19:55:25,576 [WARN] DbFile:36 - Overriding database path with different value: C:\Users\34886\.stmcufinder\plugins\mcufinder/ => C:\Users\34886\.stmcufinder\plugins\mcufinder
+2026-05-28 19:55:25,577 [INFO] CrossReferenceDbSqlite:196 - Set database path to: C:\Users\34886\.stmcufinder\plugins\mcufinder//mcu/cs/
+2026-05-28 19:55:25,578 [WARN] DbFile:36 - Overriding database path with different value: C:\Users\34886\.stmcufinder\plugins\mcufinder/ => C:\Users\34886\.stmcufinder\plugins\mcufinder
+2026-05-28 19:55:25,578 [INFO] DbExamplesSqlite:699 - Set database path to: C:\Users\34886\.stmcufinder\plugins\mcufinder//mcu/
+2026-05-28 19:55:25,625 [INFO] MainPanel:190 - HeapMemory: 268435456
+2026-05-28 19:55:25,683 [INFO] DbMcusXml:71 - Set database path to: D:\STM32CubeIDE_1.5.0\STM32CubeIDE\plugins\com.st.stm32cube.common.mx_6.1.0.202011121557\\db\/mcu/
+2026-05-28 19:55:25,683 [INFO] DbBoardsPdsc:57 - Set plugin database path to: D:\STM32CubeIDE_1.5.0\STM32CubeIDE\plugins\com.st.stm32cube.common.mx_6.1.0.202011121557\\db\/plugins/boardmanager/
+2026-05-28 19:55:25,683 [INFO] DbMcus:259 - Set plugin images path to: D:\STM32CubeIDE_1.5.0\STM32CubeIDE\plugins\com.st.stm32cube.common.mx_6.1.0.202011121557\\db\/plugins/mcufinder/images/
+2026-05-28 19:55:25,683 [INFO] DbBoards:265 - Set plugin images path to: D:\STM32CubeIDE_1.5.0\STM32CubeIDE\plugins\com.st.stm32cube.common.mx_6.1.0.202011121557\\db\/plugins/mcufinder/images/
+2026-05-28 19:55:25,683 [INFO] DbExamples:329 - Set plugin images path to: D:\STM32CubeIDE_1.5.0\STM32CubeIDE\plugins\com.st.stm32cube.common.mx_6.1.0.202011121557\\db\/plugins/mcufinder/images/
+2026-05-28 19:55:25,683 [WARN] DbFile:36 - Overriding database path with different value: C:\Users\34886\.stmcufinder\plugins\mcufinder/ => C:\Users\34886\.stmcufinder\plugins\mcufinder
+2026-05-28 19:55:25,684 [INFO] DbMcusDocs:112 - Set database path to: C:\Users\34886\.stmcufinder\plugins\mcufinder//mcu/
+2026-05-28 19:55:25,684 [WARN] DbFile:36 - Overriding database path with different value: C:\Users\34886\.stmcufinder\plugins\mcufinder/ => C:\Users\34886\.stmcufinder\plugins\mcufinder
+2026-05-28 19:55:25,684 [INFO] DbMcusJson:63 - Set database path to: C:\Users\34886\.stmcufinder\plugins\mcufinder//mcu/
+2026-05-28 19:55:25,684 [WARN] DbFile:36 - Overriding database path with different value: C:\Users\34886\.stmcufinder\plugins\mcufinder/ => C:\Users\34886\.stmcufinder\plugins\mcufinder
+2026-05-28 19:55:25,684 [INFO] DbBoardsDocs:112 - Set database path to: C:\Users\34886\.stmcufinder\plugins\mcufinder//mcu/
+2026-05-28 19:55:25,684 [WARN] DbFile:36 - Overriding database path with different value: C:\Users\34886\.stmcufinder\plugins\mcufinder/ => C:\Users\34886\.stmcufinder\plugins\mcufinder
+2026-05-28 19:55:25,684 [INFO] DbBoardsJson:56 - Set database path to: C:\Users\34886\.stmcufinder\plugins\mcufinder//mcu/
+2026-05-28 19:55:25,684 [WARN] DbFile:36 - Overriding database path with different value: C:\Users\34886\.stmcufinder\plugins\mcufinder/ => C:\Users\34886\.stmcufinder\plugins\mcufinder
+2026-05-28 19:55:25,684 [WARN] DbFile:36 - Overriding database path with different value: C:\Users\34886\.stmcufinder\plugins\mcufinder/ => C:\Users\34886\.stmcufinder\plugins\mcufinder
+2026-05-28 19:55:25,686 [INFO] CrossReferenceDbSqlite:196 - Set database path to: C:\Users\34886\.stmcufinder\plugins\mcufinder//mcu/cs/
+2026-05-28 19:55:25,686 [WARN] DbFile:36 - Overriding database path with different value: C:\Users\34886\.stmcufinder\plugins\mcufinder/ => C:\Users\34886\.stmcufinder\plugins\mcufinder
+2026-05-28 19:55:25,686 [INFO] DbExamplesSqlite:699 - Set database path to: C:\Users\34886\.stmcufinder\plugins\mcufinder//mcu/
+2026-05-28 19:55:25,698 [INFO] ApplicationProperties:181 - Using Application install path: D:\STM32CubeIDE_1.5.0\STM32CubeIDE\plugins\com.st.stm32cube.common.mx_6.1.0.202011121557
+2026-05-28 19:55:25,698 [INFO] PluginManage:178 - Search for loadable plugins [exclusion list=, ]
+2026-05-28 19:55:25,698 [INFO] PluginManage:292 - Check plugin analytics
+2026-05-28 19:55:30,781 [INFO] AnalyticsPlugin:225 - Accepted Software Licenses: 
+2026-05-28 19:55:30,781 [INFO] AnalyticsPlugin:227 - Accepted CMSIS Pack Licenses: 
+2026-05-28 19:55:30,782 [INFO] AnalyticsPlugin:229 - Accepted Firmware Licenses: 
+2026-05-28 19:55:30,783 [INFO] PluginManage:342 - Loaded plugin analytics (category:tool,tabindex:-1)
+2026-05-28 19:55:30,783 [INFO] PluginManage:292 - Check plugin clock
+2026-05-28 19:55:30,801 [INFO] PluginManage:342 - Loaded plugin clock (category:base,tabindex:2)
+2026-05-28 19:55:30,801 [INFO] PluginManage:292 - Check plugin ddr
+2026-05-28 19:55:30,803 [INFO] PluginManage:342 - Loaded plugin ddr (category:tool,tabindex:6)
+2026-05-28 19:55:30,804 [INFO] PluginManage:292 - Check plugin filemanager
+2026-05-28 19:55:30,893 [INFO] PluginManage:342 - Loaded plugin filemanager (category:base,tabindex:10)
+2026-05-28 19:55:30,894 [INFO] PluginManage:292 - Check plugin ipmanager
+2026-05-28 19:55:30,900 [INFO] PluginManage:342 - Loaded plugin ipmanager (category:base,tabindex:5)
+2026-05-28 19:55:30,900 [INFO] PluginManage:292 - Check plugin pinoutandconfiguration
+2026-05-28 19:55:30,907 [INFO] PluginManage:342 - Loaded plugin pinoutandconfiguration (category:base,tabindex:1)
+2026-05-28 19:55:30,907 [INFO] PluginManage:292 - Check plugin pinoutconfig
+2026-05-28 19:55:30,922 [INFO] PluginManage:342 - Loaded plugin pinoutconfig (category:base,tabindex:0)
+2026-05-28 19:55:30,922 [INFO] PluginManage:292 - Check plugin power
+2026-05-28 19:55:30,929 [INFO] PluginManage:342 - Loaded plugin power (category:power,tabindex:4)
+2026-05-28 19:55:30,929 [INFO] PluginManage:292 - Check plugin projectmanager
+2026-05-28 19:55:30,940 [INFO] PluginManage:342 - Loaded plugin projectmanager (category:projectmanager,tabindex:3)
+2026-05-28 19:55:30,940 [INFO] PluginManage:292 - Check plugin thirdparty
+2026-05-28 19:55:31,015 [INFO] PluginManage:342 - Loaded plugin thirdparty (category:base,tabindex:-1)
+2026-05-28 19:55:31,015 [INFO] PluginManage:292 - Check plugin tools
+2026-05-28 19:55:31,015 [WARN] IntegrityCheckThread:59 - waiting for thirdparty lock release [integrity check]
+2026-05-28 19:55:31,015 [INFO] IntegrityCheckThread:61 - entering critical section [integrity check]
+2026-05-28 19:55:31,015 [INFO] ThirdPartyUpdaterWithRetryManager:56 - Updater plugin not ready yet. [1/15]
+2026-05-28 19:55:31,017 [INFO] PluginManage:342 - Loaded plugin tools (category:base,tabindex:7)
+2026-05-28 19:55:31,017 [INFO] PluginManage:292 - Check plugin tutovideos
+2026-05-28 19:55:31,286 [INFO] PluginManage:342 - Loaded plugin tutovideos (category:base,tabindex:-1)
+2026-05-28 19:55:31,286 [INFO] PluginManage:292 - Check plugin updater
+2026-05-28 19:55:31,308 [INFO] PluginManage:342 - Loaded plugin updater (category:base,tabindex:12)
+2026-05-28 19:55:31,309 [INFO] PluginManage:265 - PluginManage : Loaded plugins [13]
+2026-05-28 19:55:31,714 [INFO] PinOutPanel:1434 - setPackage(No Configuration,No Configuration)
+2026-05-28 19:55:31,977 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2026-05-28 19:55:31,978 [INFO] PluginManager:203 - loadIPPluginJar : add adc
+2026-05-28 19:55:31,986 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2026-05-28 19:55:31,986 [INFO] PluginManager:203 - loadIPPluginJar : add aes
+2026-05-28 19:55:31,988 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2026-05-28 19:55:31,993 [INFO] PluginManager:203 - loadIPPluginJar : add can
+2026-05-28 19:55:31,998 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2026-05-28 19:55:31,998 [INFO] PluginManager:203 - loadIPPluginJar : add comp
+2026-05-28 19:55:32,006 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2026-05-28 19:55:32,006 [INFO] PluginManager:203 - loadIPPluginJar : add cryp
+2026-05-28 19:55:32,012 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2026-05-28 19:55:32,012 [INFO] PluginManager:203 - loadIPPluginJar : add dfsdm
+2026-05-28 19:55:32,026 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2026-05-28 19:55:32,026 [INFO] PluginManager:203 - loadIPPluginJar : add dma
+2026-05-28 19:55:32,031 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2026-05-28 19:55:32,031 [INFO] PluginManager:203 - loadIPPluginJar : add fatfs
+2026-05-28 19:55:32,042 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2026-05-28 19:55:32,042 [INFO] PluginManager:203 - loadIPPluginJar : add fmc
+2026-05-28 19:55:32,059 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2026-05-28 19:55:32,059 [INFO] PluginManager:203 - loadIPPluginJar : add freertos
+2026-05-28 19:55:32,063 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2026-05-28 19:55:32,063 [INFO] PluginManager:203 - loadIPPluginJar : add genericplugin
+2026-05-28 19:55:32,065 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] [Fatal Error] :1:1: Premature end of file.
+2026-05-28 19:55:32,065 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] 
+2026-05-28 19:55:32,067 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2026-05-28 19:55:32,067 [INFO] PluginManager:203 - loadIPPluginJar : add gfxmmu
+2026-05-28 19:55:32,075 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2026-05-28 19:55:32,075 [INFO] PluginManager:203 - loadIPPluginJar : add gic
+2026-05-28 19:55:32,079 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2026-05-28 19:55:32,079 [INFO] PluginManager:203 - loadIPPluginJar : add gpio
+2026-05-28 19:55:32,085 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2026-05-28 19:55:32,085 [INFO] PluginManager:203 - loadIPPluginJar : add gtzc
+2026-05-28 19:55:32,088 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2026-05-28 19:55:32,088 [INFO] PluginManager:203 - loadIPPluginJar : add hash
+2026-05-28 19:55:32,090 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2026-05-28 19:55:32,092 [INFO] PluginManager:203 - loadIPPluginJar : add i2c
+2026-05-28 19:55:32,094 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2026-05-28 19:55:32,094 [INFO] PluginManager:203 - loadIPPluginJar : add i2s
+2026-05-28 19:55:32,097 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2026-05-28 19:55:32,102 [INFO] PluginManager:203 - loadIPPluginJar : add ipddr
+2026-05-28 19:55:32,113 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2026-05-28 19:55:32,113 [INFO] PluginManager:203 - loadIPPluginJar : add lorawan
+2026-05-28 19:55:32,121 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2026-05-28 19:55:32,121 [INFO] PluginManager:203 - loadIPPluginJar : add ltdc
+2026-05-28 19:55:32,131 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2026-05-28 19:55:32,131 [INFO] PluginManager:203 - loadIPPluginJar : add mdma
+2026-05-28 19:55:32,142 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2026-05-28 19:55:32,142 [INFO] PluginManager:203 - loadIPPluginJar : add nvic
+2026-05-28 19:55:32,148 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2026-05-28 19:55:32,149 [INFO] PluginManager:203 - loadIPPluginJar : add opamp
+2026-05-28 19:55:32,156 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2026-05-28 19:55:32,156 [INFO] PluginManager:203 - loadIPPluginJar : add openamp
+2026-05-28 19:55:32,164 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2026-05-28 19:55:32,165 [INFO] PluginManager:203 - loadIPPluginJar : add pdm2pcm
+2026-05-28 19:55:32,177 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2026-05-28 19:55:32,182 [INFO] PluginManager:203 - loadIPPluginJar : add plateformsettings
+2026-05-28 19:55:32,186 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2026-05-28 19:55:32,187 [INFO] PluginManager:203 - loadIPPluginJar : add quadspi
+2026-05-28 19:55:32,196 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2026-05-28 19:55:32,200 [INFO] PluginManager:203 - loadIPPluginJar : add resmgrutility
+2026-05-28 19:55:32,210 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2026-05-28 19:55:32,210 [INFO] PluginManager:203 - loadIPPluginJar : add sai
+2026-05-28 19:55:32,215 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2026-05-28 19:55:32,217 [INFO] PluginManager:203 - loadIPPluginJar : add spi
+2026-05-28 19:55:32,224 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2026-05-28 19:55:32,224 [INFO] PluginManager:203 - loadIPPluginJar : add stm32_wpan
+2026-05-28 19:55:32,230 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2026-05-28 19:55:32,231 [INFO] PluginManager:203 - loadIPPluginJar : add tim
+2026-05-28 19:55:32,240 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2026-05-28 19:55:32,240 [INFO] PluginManager:203 - loadIPPluginJar : add touchsensing
+2026-05-28 19:55:32,244 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2026-05-28 19:55:32,245 [INFO] PluginManager:203 - loadIPPluginJar : add tracer_emb
+2026-05-28 19:55:32,249 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2026-05-28 19:55:32,250 [INFO] PluginManager:203 - loadIPPluginJar : add ts
+2026-05-28 19:55:32,254 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2026-05-28 19:55:32,254 [INFO] PluginManager:203 - loadIPPluginJar : add tsc
+2026-05-28 19:55:32,256 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2026-05-28 19:55:32,256 [INFO] PluginManager:203 - loadIPPluginJar : add ucpd
+2026-05-28 19:55:32,262 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2026-05-28 19:55:32,265 [INFO] PluginManager:203 - loadIPPluginJar : add usart
+2026-05-28 19:55:32,314 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] [Fatal Error] :1:1: Premature end of file.
+2026-05-28 19:55:32,314 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] 
+2026-05-28 19:55:32,573 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] [Fatal Error] :1:1: Premature end of file.
+2026-05-28 19:55:32,574 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] 
+2026-05-28 19:55:32,777 [FATAL] Updater:284 - Updater called before beeing initialized
+2026-05-28 19:55:33,011 [FATAL] Updater:284 - Updater called before beeing initialized
+2026-05-28 19:55:33,111 [WARN] DetailPanel:347 - Failed to get advertising image, set to default
+2026-05-28 19:55:33,118 [FATAL] Updater:284 - Updater called before beeing initialized
+2026-05-28 19:55:33,119 [WARN] DetailPanel:347 - Failed to get advertising image, set to default
+2026-05-28 19:55:33,236 [FATAL] Updater:284 - Updater called before beeing initialized
+2026-05-28 19:55:33,237 [WARN] ThirdParty:783 - waiting for thirdparty lock release [close project]
+2026-05-28 19:55:34,018 [INFO] ThirdPartyUpdaterWithRetryManager:56 - Updater plugin not ready yet. [2/15]
+2026-05-28 19:55:37,027 [FATAL] Updater:284 - Updater called before beeing initialized
+2026-05-28 19:55:37,027 [ERROR] AbstractThirdPartyUpdaterManager:153 - java.lang.Integer cannot be cast to java.util.List
+2026-05-28 19:55:37,027 [INFO] ThirdParty:887 - Integrity check success = false
+2026-05-28 19:55:37,027 [INFO] IntegrityCheckThread:75 - exiting critical section [integrity check]
+2026-05-28 19:55:37,027 [INFO] IntegrityCheckThread:78 - End integrity checks thread
+2026-05-28 19:55:37,027 [INFO] ThirdParty:785 - entering critical section [close project]
+2026-05-28 19:55:37,042 [INFO] ThirdParty:796 - exiting critical section [close project]
+2026-05-28 19:55:37,053 [INFO] PinOutPanel:1434 - setPackage(No Configuration,No Configuration)
+2026-05-28 19:55:37,056 [FATAL] Updater:284 - Updater called before beeing initialized
+2026-05-28 19:55:37,080 [ERROR] Updater:1065 - MainUpdater not yet initialized. External WinMGr cannot be set.
+2026-05-28 19:55:37,090 [INFO] Updater:1002 - Updater Version found : 6.1.0
+2026-05-28 19:55:37,138 [INFO] ApplicationProperties:181 - Using Application install path: D:\STM32CubeIDE_1.5.0\STM32CubeIDE\plugins\com.st.stm32cube.common.mx_6.1.0.202011121557
+2026-05-28 19:55:39,649 [INFO] MainUpdater:2644 - connection check result : 10
+2026-05-28 19:55:39,650 [INFO] MainUpdater:3332 - Updater definition file requires update
+2026-05-28 19:55:39,651 [INFO] MainUpdater:249 - Updater Check For Update Now.
+2026-05-28 19:55:39,651 [INFO] MicroXplorer:415 - Change Database Version : DB.6.0.10
+2026-05-28 19:55:41,547 [INFO] ServerAccessManage:348 - Download File updaters.zip
+2026-05-28 19:55:42,269 [INFO] FileExtend:225 - Unzip File : updaters.zip
+2026-05-28 19:55:42,269 [INFO] FileExtend:240 - Standard Zip Deflate
+2026-05-28 19:55:45,689 [INFO] ServerAccessManage:348 - Download File PacksControlFlags.xml
+2026-05-28 19:55:47,930 [INFO] ServerAccessManage:348 - Download File cubemx.pidx
+2026-05-28 19:55:50,315 [INFO] ServerAccessManage:348 - Download File STMicroelectronics.FP-SNS-MOTENVWB1.pdsc
+2026-05-28 19:55:50,515 [INFO] MainUpdater:2644 - connection check result : 10
+2026-05-28 19:56:00,316 [INFO] ServerAccessManage:348 - Download File STMicroelectronics.FP-SNS-STAIOTCFT.pdsc
+2026-05-28 19:56:01,569 [INFO] MainUpdater:2644 - connection check result : 10
+2026-05-28 19:56:06,483 [INFO] ServerAccessManage:348 - Download File STMicroelectronics.X-CUBE-FREERTOS.pdsc
+2026-05-28 19:56:12,522 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] java.lang.NullPointerException
+2026-05-28 19:56:12,529 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] 	at com.st.stm32cube.common.projectcreation.ui.wizard.TargetSetupPageAbstract.createControl(TargetSetupPageAbstract.java:130)
+2026-05-28 19:56:12,532 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] 	at org.eclipse.jface.wizard.Wizard.createPageControls(Wizard.java:178)
+2026-05-28 19:56:12,535 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] 	at org.eclipse.jface.wizard.WizardDialog.createPageControls(WizardDialog.java:743)
+2026-05-28 19:56:12,537 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] 	at org.eclipse.jface.wizard.WizardDialog.createContents(WizardDialog.java:635)
+2026-05-28 19:56:12,538 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] 	at org.eclipse.jface.window.Window.create(Window.java:431)
+2026-05-28 19:56:12,541 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] 	at org.eclipse.jface.dialogs.Dialog.create(Dialog.java:1094)
+2026-05-28 19:56:12,542 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] 	at org.eclipse.jface.window.Window.open(Window.java:788)
+2026-05-28 19:56:12,545 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] 	at com.st.stm32cube.ide.mcu.informationcenter.WelcomePageAction.run(WelcomePageAction.java:54)
+2026-05-28 19:56:12,548 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] 	at org.eclipse.ui.internal.intro.impl.model.url.IntroURL.runAction(IntroURL.java:280)
+2026-05-28 19:56:12,551 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] 	at org.eclipse.ui.internal.intro.impl.model.url.IntroURL.doExecute(IntroURL.java:191)
+2026-05-28 19:56:12,555 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] 	at org.eclipse.ui.internal.intro.impl.model.url.IntroURL.lambda$0(IntroURL.java:146)
+2026-05-28 19:56:12,557 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] 	at org.eclipse.swt.custom.BusyIndicator.showWhile(BusyIndicator.java:72)
+2026-05-28 19:56:12,560 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] 	at org.eclipse.ui.internal.intro.impl.model.url.IntroURL.execute(IntroURL.java:146)
+2026-05-28 19:56:12,563 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] 	at org.eclipse.ui.internal.intro.impl.presentations.BrowserIntroPartLocationListener.changing(BrowserIntroPartLocationListener.java:130)
+2026-05-28 19:56:12,564 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] 	at org.eclipse.swt.browser.IE.lambda$6(IE.java:525)
+2026-05-28 19:56:12,565 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] 	at org.eclipse.swt.ole.win32.OleEventTable.sendEvent(OleEventTable.java:58)
+2026-05-28 19:56:12,565 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] 	at org.eclipse.swt.ole.win32.OleEventSink.notifyListener(OleEventSink.java:160)
+2026-05-28 19:56:12,567 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] 	at org.eclipse.swt.ole.win32.OleEventSink.Invoke(OleEventSink.java:128)
+2026-05-28 19:56:12,568 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] 	at org.eclipse.swt.ole.win32.OleEventSink.access$1(OleEventSink.java:105)
+2026-05-28 19:56:12,570 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] 	at org.eclipse.swt.ole.win32.OleEventSink$1.method6(OleEventSink.java:79)
+2026-05-28 19:56:12,571 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] 	at org.eclipse.swt.internal.ole.win32.COMObject.callback6(COMObject.java:120)
+2026-05-28 19:56:12,574 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] 	at org.eclipse.swt.internal.win32.OS.DispatchMessage(Native Method)
+2026-05-28 19:56:12,576 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] 	at org.eclipse.swt.widgets.Display.readAndDispatch(Display.java:3628)
+2026-05-28 19:56:12,579 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] 	at com.st.stm32cube.common.mx.oss.core.awtswtbridge.SwtInputBlocker.open(SwtInputBlocker.java:55)
+2026-05-28 19:56:12,581 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] 	at com.st.stm32cube.common.mx.oss.core.awtswtbridge.SwtInputBlocker.block(SwtInputBlocker.java:111)
+2026-05-28 19:56:12,583 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] 	at com.st.stm32cube.common.mx.oss.core.awtswtbridge.AwtEnvironment.invokeAwt(AwtEnvironment.java:179)
+2026-05-28 19:56:12,584 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] 	at com.st.stm32cube.common.mx.oss.core.awtswtbridge.AwtEnvironment.invokeAwtAndBlockSwt(AwtEnvironment.java:206)
+2026-05-28 19:56:12,586 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] 	at com.st.stm32cube.common.mx.targetselector.TargetSelectorAdapter.launchMCUFinder(TargetSelectorAdapter.java:192)
+2026-05-28 19:56:12,588 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] 	at com.st.stm32cube.common.mx.targetselector.TargetSelectorAdapter.addTargetSelector(TargetSelectorAdapter.java:143)
+2026-05-28 19:56:12,591 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] 	at com.st.stm32cube.common.projectcreation.ui.wizard.TargetSetupPageAbstract.createControl(TargetSetupPageAbstract.java:126)
+2026-05-28 19:56:12,592 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] 	at org.eclipse.jface.wizard.Wizard.createPageControls(Wizard.java:178)
+2026-05-28 19:56:12,593 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] 	at org.eclipse.jface.wizard.WizardDialog.createPageControls(WizardDialog.java:743)
+2026-05-28 19:56:12,595 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] 	at org.eclipse.jface.wizard.WizardDialog.createContents(WizardDialog.java:635)
+2026-05-28 19:56:12,595 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] 	at org.eclipse.jface.window.Window.create(Window.java:431)
+2026-05-28 19:56:12,596 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] 	at org.eclipse.jface.dialogs.Dialog.create(Dialog.java:1094)
+2026-05-28 19:56:12,597 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] 	at org.eclipse.ui.internal.actions.NewWizardShortcutAction.run(NewWizardShortcutAction.java:119)
+2026-05-28 19:56:12,598 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] 	at org.eclipse.jface.action.Action.runWithEvent(Action.java:474)
+2026-05-28 19:56:12,599 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] 	at org.eclipse.jface.action.ActionContributionItem.handleWidgetSelection(ActionContributionItem.java:579)
+2026-05-28 19:56:12,601 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] 	at org.eclipse.jface.action.ActionContributionItem.lambda$4(ActionContributionItem.java:413)
+2026-05-28 19:56:12,602 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] 	at org.eclipse.swt.widgets.EventTable.sendEvent(EventTable.java:89)
+2026-05-28 19:56:12,604 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] 	at org.eclipse.swt.widgets.Display.sendEvent(Display.java:4213)
+2026-05-28 19:56:12,605 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] 	at org.eclipse.swt.widgets.Widget.sendEvent(Widget.java:1037)
+2026-05-28 19:56:12,607 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] 	at org.eclipse.swt.widgets.Display.runDeferredEvents(Display.java:4030)
+2026-05-28 19:56:12,608 [INFO] CrossSelectorPresenter:1330 - Cross Selector saved comparison directory: C:\Users\34886\.stmcufinder\plugins\mcufinder\mcu\cs_comparisons_mx
+2026-05-28 19:56:12,609 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] 	at org.eclipse.swt.widgets.Display.readAndDispatch(Display.java:3630)
+2026-05-28 19:56:12,610 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] 	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine$5.run(PartRenderingEngine.java:1158)
+2026-05-28 19:56:12,611 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] 	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:338)
+2026-05-28 19:56:12,612 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] 	at org.eclipse.e4.ui.internal.workbench.swt.PartRenderingEngine.run(PartRenderingEngine.java:1047)
+2026-05-28 19:56:12,613 [INFO] MultiScanPanel:198 - Auto-refresh data requested => check proxy status ongoing
+2026-05-28 19:56:12,613 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] 	at org.eclipse.e4.ui.internal.workbench.E4Workbench.createAndRunUI(E4Workbench.java:155)
+2026-05-28 19:56:12,614 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] 	at org.eclipse.ui.internal.Workbench.lambda$3(Workbench.java:658)
+2026-05-28 19:56:12,615 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] 	at org.eclipse.core.databinding.observable.Realm.runWithDefault(Realm.java:338)
+2026-05-28 19:56:12,616 [INFO] FinderPluginLoader:87 - Searching for filters in installed packs
+2026-05-28 19:56:12,617 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] 	at org.eclipse.ui.internal.Workbench.createAndRunWorkbench(Workbench.java:557)
+2026-05-28 19:56:12,617 [INFO] DbMcusXml:97 - Load MCU database from D:\STM32CubeIDE_1.5.0\STM32CubeIDE\plugins\com.st.stm32cube.common.mx_6.1.0.202011121557\\db\/mcu/families.xml
+2026-05-28 19:56:12,617 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] 	at org.eclipse.ui.PlatformUI.createAndRunWorkbench(PlatformUI.java:154)
+2026-05-28 19:56:12,618 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] 	at org.eclipse.ui.internal.ide.application.IDEApplication.start(IDEApplication.java:150)
+2026-05-28 19:56:12,620 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] 	at org.eclipse.equinox.internal.app.EclipseAppHandle.run(EclipseAppHandle.java:203)
+2026-05-28 19:56:12,622 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] 	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.runApplication(EclipseAppLauncher.java:137)
+2026-05-28 19:56:12,624 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] 	at org.eclipse.core.runtime.internal.adaptor.EclipseAppLauncher.start(EclipseAppLauncher.java:107)
+2026-05-28 19:56:12,625 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] 	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:401)
+2026-05-28 19:56:12,626 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] 	at org.eclipse.core.runtime.adaptor.EclipseStarter.run(EclipseStarter.java:255)
+2026-05-28 19:56:12,627 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+2026-05-28 19:56:12,628 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+2026-05-28 19:56:12,629 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+2026-05-28 19:56:12,630 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] 	at java.lang.reflect.Method.invoke(Method.java:498)
+2026-05-28 19:56:12,631 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] 	at org.eclipse.equinox.launcher.Main.invokeFramework(Main.java:657)
+2026-05-28 19:56:12,632 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] 	at org.eclipse.equinox.launcher.Main.basicRun(Main.java:594)
+2026-05-28 19:56:12,632 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] 	at org.eclipse.equinox.launcher.Main.run(Main.java:1447)
+2026-05-28 19:56:13,033 [INFO] DbMcusJson:92 - JSON generation date=Tue Nov 16 10:17:54 CST 2021 (1637079474)
+2026-05-28 19:56:13,464 [INFO] DbMcus:176 - Found 1835 MCUs (1796 are supported by CubeMX, 1920 are visible in CubeMX)
+2026-05-28 19:56:13,464 [INFO] ApiDb:238 - Load user favorites file C:\Users\34886/.stm32cubeide/favorites.mcus.txt: 0 item(s)
+2026-05-28 19:56:13,464 [INFO] ApiDb:242 - User favorites MCUs=[]
+2026-05-28 19:56:13,464 [INFO] DbMcus:188 - Set 0 / 0 favorites MCUs
+2026-05-28 19:56:13,707 [WARN] DetailPanel:347 - Failed to get advertising image, set to default
+2026-05-28 19:56:13,890 [INFO] McuFilterPanel:245 - Update 0 favorites MCUs
+2026-05-28 19:56:13,952 [INFO] DbBoardsPdsc:91 - Found 24 items
+2026-05-28 19:56:13,954 [INFO] DbBoardsPdsc:91 - Found 9 items
+2026-05-28 19:56:13,955 [INFO] DbBoardsPdsc:91 - Found 32 items
+2026-05-28 19:56:13,956 [INFO] DbBoardsPdsc:91 - Found 1 items
+2026-05-28 19:56:13,958 [INFO] DbBoardsPdsc:91 - Found 45 items
+2026-05-28 19:56:13,961 [INFO] DbBoardsPdsc:91 - Found 41 items
+2026-05-28 19:56:13,962 [INFO] DbBoardsPdsc:91 - Found 2 items
+2026-05-28 19:56:13,964 [INFO] DbBoardsPdsc:91 - Found 4 items
+2026-05-28 19:56:13,968 [WARN] DbBoardsPdsc:255 - Board STM32H7B3I-DK: unknown feature type=Audio, name=, username=Audio stereo codec with Headphone Amp (CS42L51-CNZ), n=1
+2026-05-28 19:56:13,968 [WARN] DbBoardsPdsc:255 - Board STM32H735G-DK: unknown feature type=Audio, name=, username=Audio stereo codec with Headphone Amp (WM8994ECS/R), n=1
+2026-05-28 19:56:13,969 [WARN] DbBoardsPdsc:255 - Board STM32H7B3I-EVAL: unknown feature type=Audio, name=, username=Multi-Channel Audio Codec (CS42L51-CNZ), n=1
+2026-05-28 19:56:13,969 [WARN] DbBoardsPdsc:255 - Board STM32H7B3I-EVAL: unknown feature type=Meter, name=, username=Power-metering and Temperature-monitoring with sigma-delta modulators, n=1
+2026-05-28 19:56:13,969 [WARN] DbBoardsPdsc:255 - Board STM32H7B3I-EVAL: unknown feature type=Motor, name=, username=Motor Control, n=1
+2026-05-28 19:56:13,977 [INFO] DbBoardsJson:85 - JSON generation date=Tue Nov 16 10:17:54 CST 2021 (1637079474)
+2026-05-28 19:56:13,980 [INFO] DbBoards:118 - Found 168 boards (155 are supported by CubeMX)
+2026-05-28 19:56:13,982 [INFO] DbBoardsDocs:145 - JSON generation date=Tue Nov 16 10:17:54 CST 2021 (1637079474)
+2026-05-28 19:56:13,984 [INFO] DbBoardsDocs:81 - Found 209 boards documents
+2026-05-28 19:56:13,984 [WARN] DbBoards:128 - board B-L475E-IOT01A2 has no document id list !
+2026-05-28 19:56:13,984 [WARN] DbBoards:128 - board NUCLEO-H743ZI has no document id list !
+2026-05-28 19:56:13,984 [WARN] DbBoards:128 - board NUCLEO-WL55JC1 has no document id list !
+2026-05-28 19:56:13,984 [WARN] DbBoards:128 - board NUCLEO-WL55JC2 has no document id list !
+2026-05-28 19:56:13,985 [WARN] DbBoards:128 - board P-NUCLEO-WB55-Nucleo has no document id list !
+2026-05-28 19:56:13,985 [WARN] DbBoards:128 - board P-NUCLEO-WB55-USBDongle has no document id list !
+2026-05-28 19:56:13,985 [WARN] DbBoards:128 - board STEVAL-BFA001V1B has no document id list !
+2026-05-28 19:56:13,985 [WARN] DbBoards:128 - board STEVAL-BFA001V2B has no document id list !
+2026-05-28 19:56:13,985 [WARN] DbBoards:128 - board STEVAL-IDP005V1 has no document id list !
+2026-05-28 19:56:13,985 [WARN] DbBoards:128 - board STEVAL-IDP005V2 has no document id list !
+2026-05-28 19:56:13,985 [WARN] DbBoards:128 - board STEVAL-MKSBOX1V1 has no document id list !
+2026-05-28 19:56:13,985 [WARN] DbBoards:128 - board STEVAL-STWINKT1 has no document id list !
+2026-05-28 19:56:13,985 [WARN] DbBoards:128 - board STEVAL-STWINKT1B has no document id list !
+2026-05-28 19:56:13,985 [WARN] DbBoards:128 - board STM32439I-EVAL2 has no document id list !
+2026-05-28 19:56:13,985 [WARN] DbBoards:128 - board STM32F401C-DISCO has no document id list !
+2026-05-28 19:56:13,985 [WARN] DbBoards:128 - board STM32F769I-DISC1 has no document id list !
+2026-05-28 19:56:13,985 [WARN] DbBoards:128 - board STM32G474E-EVAL1 has no document id list !
+2026-05-28 19:56:13,985 [WARN] DbBoards:128 - board STM32H743I-EVAL2 has no document id list !
+2026-05-28 19:56:13,985 [WARN] DbBoards:128 - board STM32H747I-DISC1 has no document id list !
+2026-05-28 19:56:13,985 [WARN] DbBoards:128 - board STM32H753I-EVAL2 has no document id list !
+2026-05-28 19:56:13,985 [WARN] DbBoards:128 - board STM32L-DISCOVERY has no document id list !
+2026-05-28 19:56:14,062 [ERROR] DbBoards:190 - Image file not found for board B-U585I-IOT02A: D:\STM32CubeIDE_1.5.0\STM32CubeIDE\plugins\com.st.stm32cube.common.mx_6.1.0.202011121557\\db\/plugins/mcufinder/images/boards/B-U585I-IOT02A_small.jpg
+2026-05-28 19:56:14,101 [ERROR] DbBoards:190 - Image file not found for board NUCLEO-F413ZH: D:\STM32CubeIDE_1.5.0\STM32CubeIDE\plugins\com.st.stm32cube.common.mx_6.1.0.202011121557\\db\/plugins/mcufinder/images/boards/nucleo-f413zh_small.jpg
+2026-05-28 19:56:14,178 [ERROR] DbBoards:190 - Image file not found for board NUCLEO-L552ZE-Q: D:\STM32CubeIDE_1.5.0\STM32CubeIDE\plugins\com.st.stm32cube.common.mx_6.1.0.202011121557\\db\/plugins/mcufinder/images/boards/nucleo_l552ze_q_small.jpg
+2026-05-28 19:56:14,178 [ERROR] DbBoards:190 - Image file not found for board NUCLEO-U575ZI-Q: D:\STM32CubeIDE_1.5.0\STM32CubeIDE\plugins\com.st.stm32cube.common.mx_6.1.0.202011121557\\db\/plugins/mcufinder/images/boards/nucleo-u575zi-q_small.jpg
+2026-05-28 19:56:14,178 [ERROR] DbBoards:190 - Image file not found for board NUCLEO-WB15CC: D:\STM32CubeIDE_1.5.0\STM32CubeIDE\plugins\com.st.stm32cube.common.mx_6.1.0.202011121557\\db\/plugins/mcufinder/images/boards/nucleo-wb15cc_small.jpg
+2026-05-28 19:56:14,178 [ERROR] DbBoards:190 - Image file not found for board NUCLEO-WB55RG: D:\STM32CubeIDE_1.5.0\STM32CubeIDE\plugins\com.st.stm32cube.common.mx_6.1.0.202011121557\\db\/plugins/mcufinder/images/boards/nucleo-wb55rg_small.jpg
+2026-05-28 19:56:14,178 [ERROR] DbBoards:190 - Image file not found for board NUCLEO-WL55JC: D:\STM32CubeIDE_1.5.0\STM32CubeIDE\plugins\com.st.stm32cube.common.mx_6.1.0.202011121557\\db\/plugins/mcufinder/images/boards/nucleo-wl55jc-small.jpg
+2026-05-28 19:56:14,317 [ERROR] DbBoards:190 - Image file not found for board STEVAL-STWINKT1B: D:\STM32CubeIDE_1.5.0\STM32CubeIDE\plugins\com.st.stm32cube.common.mx_6.1.0.202011121557\\db\/plugins/mcufinder/images/boards/steval-stwinkt1b_small.jpg
+2026-05-28 19:56:14,563 [ERROR] DbBoards:190 - Image file not found for board STM32H7B3I-EVAL: D:\STM32CubeIDE_1.5.0\STM32CubeIDE\plugins\com.st.stm32cube.common.mx_6.1.0.202011121557\\db\/plugins/mcufinder/images/boards/stm32h7b3ieval_small.jpg
+2026-05-28 19:56:14,674 [ERROR] DbBoards:190 - Image file not found for board STM32U575I-EV: D:\STM32CubeIDE_1.5.0\STM32CubeIDE\plugins\com.st.stm32cube.common.mx_6.1.0.202011121557\\db\/plugins/mcufinder/images/boards/stm32u575i-ev_small.jpg
+2026-05-28 19:56:14,693 [ERROR] DbBoards:190 - Image file not found for board STM32WB5MM-DK: D:\STM32CubeIDE_1.5.0\STM32CubeIDE\plugins\com.st.stm32cube.common.mx_6.1.0.202011121557\\db\/plugins/mcufinder/images/boards/STM32WB5MM-DK_small.jpg
+2026-05-28 19:56:14,693 [INFO] ApiDb:238 - Load user favorites file C:\Users\34886/.stm32cubeide/favorites.boards.txt: 0 item(s)
+2026-05-28 19:56:14,693 [INFO] ApiDb:242 - User favorites Boards=[]
+2026-05-28 19:56:14,693 [INFO] DbBoards:207 - Set 0 / 0 favorites Boards
+2026-05-28 19:56:14,838 [INFO] CrossSelectorPresenter:1330 - Cross Selector saved comparison directory: C:\Users\34886\.stmcufinder\plugins\mcufinder\mcu\cs_comparisons_mx
+2026-05-28 19:56:14,841 [INFO] MultiScanPanel:198 - Auto-refresh data requested => check proxy status ongoing
+2026-05-28 19:56:14,841 [INFO] FinderPluginLoader:87 - Searching for filters in installed packs
+2026-05-28 19:56:14,949 [WARN] DetailPanel:347 - Failed to get advertising image, set to default
+2026-05-28 19:56:15,041 [INFO] McuFilterPanel:245 - Update 0 favorites MCUs
+2026-05-28 19:56:23,589 [INFO] ServerAccessManage:348 - Download File STMicroelectronics.X-CUBE-GNSS1.pdsc
+2026-05-28 19:56:50,209 [ERROR] ServerAccessManage:947 - Problem, file not found on Server
+2026-05-28 19:56:52,553 [ERROR] ServerAccessManage:947 - Problem, file not found on Server
+2026-05-28 19:56:54,807 [ERROR] ServerAccessManage:947 - Problem, file not found on Server
+2026-05-28 19:56:57,309 [ERROR] ServerAccessManage:947 - Problem, file not found on Server
+2026-05-28 19:56:59,339 [ERROR] ServerAccessManage:947 - Problem, file not found on Server
+2026-05-28 19:57:01,596 [ERROR] ServerAccessManage:947 - Problem, file not found on Server
+2026-05-28 19:57:03,825 [INFO] ServerAccessManage:348 - Download File STMicroelectronics.X-CUBE-MEMS1.pdsc
+2026-05-28 19:57:10,921 [INFO] DbMcusDocs:145 - JSON generation date=Tue Nov 16 10:17:54 CST 2021 (1637079474)
+2026-05-28 19:57:10,989 [INFO] DbMcusDocs:81 - Found 682 MCUs documents
+2026-05-28 19:58:03,959 [INFO] ServerAccessManage:348 - Download File STMicroelectronics.X-CUBE-NFC6.pdsc
+2026-05-28 19:58:12,230 [INFO] ServerAccessManage:348 - Download File STMicroelectronics.X-CUBE-ST67W61.pdsc
+2026-05-28 19:58:16,210 [INFO] ServerAccessManage:348 - Download File STMicroelectronics.X-CUBE-STSE01.pdsc
+2026-05-28 19:58:22,306 [INFO] ServerAccessManage:348 - Download File STMicroelectronics.X-CUBE-TOUCHGFX.pdsc
+2026-05-28 19:59:15,363 [INFO] ServerAccessManage:348 - Download File STMicroelectronics.X-CUBE-ALGOBUILD.pdsc
+2026-05-28 19:59:30,582 [INFO] ServerAccessManage:348 - Download File STMicroelectronics.X-CUBE-AZRTOS-H7.pdsc
+2026-05-28 19:59:52,282 [INFO] ServerAccessManage:348 - Download File STMicroelectronics.X-CUBE-WB05N.pdsc
+2026-05-28 19:59:56,515 [INFO] ServerAccessManage:348 - Download File STMicroelectronics.eDS-WB_DPC_VIENNA.pdsc
+2026-05-28 20:00:00,710 [ERROR] ServerAccessManage:947 - Problem, file not found on Server
+2026-05-28 20:00:02,903 [ERROR] ServerAccessManage:947 - Problem, file not found on Server
+2026-05-28 20:00:05,019 [ERROR] ServerAccessManage:947 - Problem, file not found on Server
+2026-05-28 20:00:07,233 [ERROR] ServerAccessManage:947 - Problem, file not found on Server
+2026-05-28 20:00:09,366 [ERROR] ServerAccessManage:947 - Problem, file not found on Server
+2026-05-28 20:00:11,297 [INFO] ServerAccessManage:348 - Download File STMicroelectronics.eDS-WB_DPC_TT-BIDIR.pdsc
+2026-05-28 20:00:15,466 [ERROR] ServerAccessManage:947 - Problem, file not found on Server
+2026-05-28 20:00:17,668 [ERROR] ServerAccessManage:947 - Problem, file not found on Server
+2026-05-28 20:00:19,863 [ERROR] ServerAccessManage:947 - Problem, file not found on Server
+2026-05-28 20:00:22,262 [ERROR] ServerAccessManage:947 - Problem, file not found on Server
+2026-05-28 20:00:24,116 [INFO] ServerAccessManage:348 - Download File STMicroelectronics.eDS-WB_DPC_3PH2L-BIDIR.pdsc
+2026-05-28 20:00:25,991 [INFO] ApiDb:263 - Save user favorites file C:\Users\34886/.stm32cubeide/favorites.mcus.txt: 0 item(s)
+2026-05-28 20:00:25,992 [INFO] ApiDb:267 - User favorites MCUs=[]
+2026-05-28 20:00:26,261 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] [Fatal Error] :1:1: Premature end of file.
+2026-05-28 20:00:26,262 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] 
+2026-05-28 20:00:27,408 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] [Fatal Error] :1:1: Premature end of file.
+2026-05-28 20:00:27,409 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] 
+2026-05-28 20:00:27,643 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] [Fatal Error] :1:1: Premature end of file.
+2026-05-28 20:00:27,644 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] 
+2026-05-28 20:00:27,890 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] [Fatal Error] :1:1: Premature end of file.
+2026-05-28 20:00:27,890 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] 
+2026-05-28 20:00:28,122 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] [Fatal Error] :1:1: Premature end of file.
+2026-05-28 20:00:28,124 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] 
+2026-05-28 20:00:28,364 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] [Fatal Error] :1:1: Premature end of file.
+2026-05-28 20:00:28,364 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] 
+2026-05-28 20:00:28,428 [ERROR] ServerAccessManage:947 - Problem, file not found on Server
+2026-05-28 20:00:30,746 [ERROR] ServerAccessManage:947 - Problem, file not found on Server
+2026-05-28 20:00:32,591 [INFO] ServerAccessManage:348 - Download File WES.I-CUBE-Cesium.pdsc
+2026-05-28 20:00:39,518 [ERROR] ServerAccessManage:947 - Problem, file not found on Server
+2026-05-28 20:00:41,218 [ERROR] ServerAccessManage:947 - Problem, file not found on Server
+2026-05-28 20:00:41,397 [WARN] PopulateThirdPartyThread:90 - Error when creating pack: C:/Users/34886/.stm32cubemx/thirdparties/pdsc/STMicroelectronics.FP-SNS-MOTENVWB1.pdsc
+2026-05-28 20:00:41,402 [WARN] PopulateThirdPartyThread:90 - Error when creating pack: C:/Users/34886/.stm32cubemx/thirdparties/pdsc/STMicroelectronics.FP-SNS-STAIOTCFT.pdsc
+2026-05-28 20:00:41,405 [WARN] PopulateThirdPartyThread:90 - Error when creating pack: C:/Users/34886/.stm32cubemx/thirdparties/pdsc/STMicroelectronics.X-CUBE-FREERTOS.pdsc
+2026-05-28 20:00:41,455 [INFO] CheckServerUpdateThread:102 - End of CheckServer Thread
+2026-05-28 20:00:41,630 [WARN] PopulateThirdPartyThread:90 - Error when creating pack: C:/Users/34886/.stm32cubemx/thirdparties/pdsc/STMicroelectronics.X-CUBE-ST67W61.pdsc
+2026-05-28 20:00:41,679 [WARN] PopulateThirdPartyThread:90 - Error when creating pack: C:/Users/34886/.stm32cubemx/thirdparties/pdsc/STMicroelectronics.eDS-WB_DPC_VIENNA.pdsc
+2026-05-28 20:00:41,680 [WARN] PopulateThirdPartyThread:90 - Error when creating pack: C:/Users/34886/.stm32cubemx/thirdparties/pdsc/STMicroelectronics.eDS-WB_DPC_TT-BIDIR.pdsc
+2026-05-28 20:00:41,682 [WARN] PopulateThirdPartyThread:90 - Error when creating pack: C:/Users/34886/.stm32cubemx/thirdparties/pdsc/STMicroelectronics.eDS-WB_DPC_3PH2L-BIDIR.pdsc
+2026-05-28 20:00:41,696 [WARN] PopulateThirdPartyThread:90 - Error when creating pack: C:/Users/34886/.stm32cubemx/thirdparties/pdsc/WES.I-CUBE-Cesium.pdsc
+2026-05-28 20:00:41,696 [INFO] PopulateThirdPartyThread:50 - Ending populate Thread
+2026-05-28 20:00:41,699 [INFO] ThirdParty:939 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-AZRTOS-H7 3.5.0
+2026-05-28 20:00:41,699 [INFO] ThirdParty:939 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-MEMS1 12.1.0
+2026-05-28 20:00:41,699 [INFO] ThirdParty:939 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-GNSS1 7.1.1
+2026-05-28 20:00:41,699 [INFO] ThirdParty:939 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-STSE01 2.0.0
+2026-05-28 20:00:41,699 [INFO] ThirdParty:939 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-ALGOBUILD 1.5.0
+2026-05-28 20:00:41,699 [INFO] ThirdParty:939 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-TOUCHGFX 4.26.1
+2026-05-28 20:00:41,699 [INFO] ThirdParty:939 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-NFC6 3.2.0
+2026-05-28 20:00:41,699 [INFO] ThirdParty:939 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-WB05N 2.1.0
+2026-05-28 20:00:41,713 [INFO] LoadServerUpdatesThread:329 - End of LoadServerUpdate Thread
+2026-05-28 20:04:48,141 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] [Fatal Error] :1:1: Premature end of file.
+2026-05-28 20:04:48,141 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] 
+2026-05-28 20:04:48,398 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] [Fatal Error] :1:1: Premature end of file.
+2026-05-28 20:04:48,399 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] 
+2026-05-28 20:04:48,633 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] [Fatal Error] :1:1: Premature end of file.
+2026-05-28 20:04:48,633 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] 
+2026-05-28 20:05:11,437 [INFO] RetryExec:97 - I/O exception (org.apache.http.NoHttpResponseException) caught when processing request to {}->http://sw-center.st.com:80: The target server failed to respond
+2026-05-28 20:05:11,440 [INFO] RetryExec:113 - Retrying request to {}->http://sw-center.st.com:80
+2026-05-28 20:12:58,430 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] [Fatal Error] :1:1: Premature end of file.
+2026-05-28 20:12:58,431 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] 
+2026-05-28 20:12:58,660 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] [Fatal Error] :1:1: Premature end of file.
+2026-05-28 20:12:58,661 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] 
+2026-05-28 20:12:58,924 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] [Fatal Error] :1:1: Premature end of file.
+2026-05-28 20:12:58,924 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] 
+2026-05-28 20:15:29,498 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] [Fatal Error] :1:1: Premature end of file.
+2026-05-28 20:15:29,500 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] 
+2026-05-28 20:15:29,725 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] [Fatal Error] :1:1: Premature end of file.
+2026-05-28 20:15:29,725 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] 
+2026-05-28 20:15:29,949 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] [Fatal Error] :1:1: Premature end of file.
+2026-05-28 20:15:29,950 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] 
+2026-05-28 20:15:52,591 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] [Fatal Error] :1:1: Premature end of file.
+2026-05-28 20:15:52,592 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] 
+2026-05-28 20:15:52,829 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] [Fatal Error] :1:1: Premature end of file.
+2026-05-28 20:15:52,830 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] 
+2026-05-28 20:15:53,067 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] [Fatal Error] :1:1: Premature end of file.
+2026-05-28 20:15:53,068 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] 
+2026-05-28 20:16:13,636 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] [Fatal Error] :1:1: Premature end of file.
+2026-05-28 20:16:13,638 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] 
+2026-05-28 20:16:13,875 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] [Fatal Error] :1:1: Premature end of file.
+2026-05-28 20:16:13,876 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] 
+2026-05-28 20:16:14,115 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] [Fatal Error] :1:1: Premature end of file.
+2026-05-28 20:16:14,115 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] 
+2026-05-28 20:16:30,918 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] [Fatal Error] :1:1: Premature end of file.
+2026-05-28 20:16:30,924 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] 
+2026-05-28 20:16:31,156 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] [Fatal Error] :1:1: Premature end of file.
+2026-05-28 20:16:31,158 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] 
+2026-05-28 20:16:31,394 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] [Fatal Error] :1:1: Premature end of file.
+2026-05-28 20:16:31,395 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] 
+2026-05-28 20:17:39,347 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] [Fatal Error] :1:1: Premature end of file.
+2026-05-28 20:17:39,348 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] 
+2026-05-28 20:17:39,585 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] [Fatal Error] :1:1: Premature end of file.
+2026-05-28 20:17:39,585 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] 
+2026-05-28 20:17:39,836 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] [Fatal Error] :1:1: Premature end of file.
+2026-05-28 20:17:39,837 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] 
+2026-05-28 20:18:28,691 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] [Fatal Error] :1:1: Premature end of file.
+2026-05-28 20:18:28,692 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] 
+2026-05-28 20:18:28,927 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] [Fatal Error] :1:1: Premature end of file.
+2026-05-28 20:18:28,927 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] 
+2026-05-28 20:18:29,179 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] [Fatal Error] :1:1: Premature end of file.
+2026-05-28 20:18:29,179 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] 
+2026-05-28 20:21:17,953 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] [Fatal Error] :1:1: Premature end of file.
+2026-05-28 20:21:17,954 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] 
+2026-05-28 20:21:18,179 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] [Fatal Error] :1:1: Premature end of file.
+2026-05-28 20:21:18,180 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] 
+2026-05-28 20:21:18,408 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] [Fatal Error] :1:1: Premature end of file.
+2026-05-28 20:21:18,410 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] 
+2026-05-28 20:23:01,635 [INFO] RetryExec:97 - I/O exception (org.apache.http.NoHttpResponseException) caught when processing request to {}->http://sw-center.st.com:80: The target server failed to respond
+2026-05-28 20:23:01,636 [INFO] RetryExec:113 - Retrying request to {}->http://sw-center.st.com:80
+2026-05-28 20:23:06,642 [INFO] RetryExec:97 - I/O exception (org.apache.http.NoHttpResponseException) caught when processing request to {}->http://sw-center.st.com:80: The target server failed to respond
+2026-05-28 20:23:06,643 [INFO] RetryExec:113 - Retrying request to {}->http://sw-center.st.com:80
+2026-05-28 20:23:11,646 [INFO] RetryExec:97 - I/O exception (org.apache.http.NoHttpResponseException) caught when processing request to {}->http://sw-center.st.com:80: The target server failed to respond
+2026-05-28 20:23:11,646 [INFO] RetryExec:113 - Retrying request to {}->http://sw-center.st.com:80
+2026-05-28 20:23:21,862 [INFO] RetryExec:97 - I/O exception (org.apache.http.NoHttpResponseException) caught when processing request to {}->http://sw-center.st.com:80: The target server failed to respond
+2026-05-28 20:23:21,863 [INFO] RetryExec:113 - Retrying request to {}->http://sw-center.st.com:80
+2026-05-28 20:23:26,867 [INFO] RetryExec:97 - I/O exception (org.apache.http.NoHttpResponseException) caught when processing request to {}->http://sw-center.st.com:80: The target server failed to respond
+2026-05-28 20:23:26,867 [INFO] RetryExec:113 - Retrying request to {}->http://sw-center.st.com:80
+2026-05-28 20:23:31,872 [INFO] RetryExec:97 - I/O exception (org.apache.http.NoHttpResponseException) caught when processing request to {}->http://sw-center.st.com:80: The target server failed to respond
+2026-05-28 20:23:31,872 [INFO] RetryExec:113 - Retrying request to {}->http://sw-center.st.com:80
+2026-05-28 20:23:42,553 [INFO] RetryExec:97 - I/O exception (org.apache.http.NoHttpResponseException) caught when processing request to {}->http://sw-center.st.com:80: The target server failed to respond
+2026-05-28 20:23:42,553 [INFO] RetryExec:113 - Retrying request to {}->http://sw-center.st.com:80
+2026-05-28 20:23:47,559 [INFO] RetryExec:97 - I/O exception (org.apache.http.NoHttpResponseException) caught when processing request to {}->http://sw-center.st.com:80: The target server failed to respond
+2026-05-28 20:23:47,560 [INFO] RetryExec:113 - Retrying request to {}->http://sw-center.st.com:80
+2026-05-28 20:23:52,567 [INFO] RetryExec:97 - I/O exception (org.apache.http.NoHttpResponseException) caught when processing request to {}->http://sw-center.st.com:80: The target server failed to respond
+2026-05-28 20:23:52,569 [INFO] RetryExec:113 - Retrying request to {}->http://sw-center.st.com:80
+2026-05-28 20:24:02,801 [INFO] RetryExec:97 - I/O exception (org.apache.http.NoHttpResponseException) caught when processing request to {}->http://sw-center.st.com:80: The target server failed to respond
+2026-05-28 20:24:02,801 [INFO] RetryExec:113 - Retrying request to {}->http://sw-center.st.com:80
+2026-05-28 20:24:07,806 [INFO] RetryExec:97 - I/O exception (org.apache.http.NoHttpResponseException) caught when processing request to {}->http://sw-center.st.com:80: The target server failed to respond
+2026-05-28 20:24:07,806 [INFO] RetryExec:113 - Retrying request to {}->http://sw-center.st.com:80
+2026-05-28 20:24:12,809 [INFO] RetryExec:97 - I/O exception (org.apache.http.NoHttpResponseException) caught when processing request to {}->http://sw-center.st.com:80: The target server failed to respond
+2026-05-28 20:24:12,809 [INFO] RetryExec:113 - Retrying request to {}->http://sw-center.st.com:80
+2026-05-28 20:24:22,825 [INFO] RetryExec:97 - I/O exception (org.apache.http.NoHttpResponseException) caught when processing request to {}->http://sw-center.st.com:80: The target server failed to respond
+2026-05-28 20:24:22,828 [INFO] RetryExec:113 - Retrying request to {}->http://sw-center.st.com:80
+2026-05-28 20:24:27,833 [INFO] RetryExec:97 - I/O exception (org.apache.http.NoHttpResponseException) caught when processing request to {}->http://sw-center.st.com:80: The target server failed to respond
+2026-05-28 20:24:27,834 [INFO] RetryExec:113 - Retrying request to {}->http://sw-center.st.com:80
+2026-05-28 20:24:32,839 [INFO] RetryExec:97 - I/O exception (org.apache.http.NoHttpResponseException) caught when processing request to {}->http://sw-center.st.com:80: The target server failed to respond
+2026-05-28 20:24:32,839 [INFO] RetryExec:113 - Retrying request to {}->http://sw-center.st.com:80
+2026-05-28 20:24:42,894 [INFO] RetryExec:97 - I/O exception (org.apache.http.NoHttpResponseException) caught when processing request to {}->http://sw-center.st.com:80: The target server failed to respond
+2026-05-28 20:24:42,894 [INFO] RetryExec:113 - Retrying request to {}->http://sw-center.st.com:80
+2026-05-28 20:24:47,900 [INFO] RetryExec:97 - I/O exception (org.apache.http.NoHttpResponseException) caught when processing request to {}->http://sw-center.st.com:80: The target server failed to respond
+2026-05-28 20:24:47,901 [INFO] RetryExec:113 - Retrying request to {}->http://sw-center.st.com:80
+2026-05-28 20:24:52,908 [INFO] RetryExec:97 - I/O exception (org.apache.http.NoHttpResponseException) caught when processing request to {}->http://sw-center.st.com:80: The target server failed to respond
+2026-05-28 20:24:52,909 [INFO] RetryExec:113 - Retrying request to {}->http://sw-center.st.com:80
+2026-05-29 04:14:04,888 [WARN] ServerAccessManage:1026 - Warning during Server Connexion :  timeout Read timed out
+2026-05-29 04:14:05,925 [WARN] ServerAccessManage:1026 - Warning during Server Connexion :  timeout Read timed out
+2026-05-29 04:14:07,006 [WARN] ServerAccessManage:1026 - Warning during Server Connexion :  timeout Read timed out
+2026-05-29 04:14:08,045 [WARN] ServerAccessManage:1026 - Warning during Server Connexion :  timeout Read timed out
+2026-05-29 04:14:08,252 [INFO] MainUpdater:2644 - connection check result : 22
+2026-05-29 04:14:27,194 [WARN] ServerAccessManage:1026 - Warning during Server Connexion :  timeout connect timed out
+2026-05-29 04:14:28,210 [WARN] ServerAccessManage:1026 - Warning during Server Connexion :  timeout connect timed out
+2026-05-29 04:14:29,223 [WARN] ServerAccessManage:1026 - Warning during Server Connexion :  timeout connect timed out
+2026-05-29 04:14:30,229 [WARN] ServerAccessManage:1026 - Warning during Server Connexion :  timeout connect timed out
+2026-05-29 04:14:30,235 [INFO] MainUpdater:2644 - connection check result : 22
+2026-05-29 04:14:31,865 [INFO] CrossSelectorPresenter:1330 - Cross Selector saved comparison directory: C:\Users\34886\.stmcufinder\plugins\mcufinder\mcu\cs_comparisons_mx
+2026-05-29 04:14:31,869 [INFO] MultiScanPanel:198 - Auto-refresh data requested => check proxy status ongoing
+2026-05-29 04:14:31,869 [INFO] FinderPluginLoader:87 - Searching for filters in installed packs
+2026-05-29 04:14:32,649 [WARN] DetailPanel:347 - Failed to get advertising image, set to default
+2026-05-29 04:14:32,781 [INFO] McuFilterPanel:245 - Update 0 favorites MCUs
+2026-05-29 04:16:37,366 [INFO] McuResultTable:777 - Mark MCU STM32F103C8Tx as favorite
+2026-05-29 04:17:38,099 [INFO] MainUpdater:2644 - connection check result : 10
+2026-05-29 04:17:38,099 [INFO] MainUpdater:2644 - connection check result : 10
+2026-05-29 04:17:38,198 [INFO] MicroXplorer:385 - Change Database Path : 
+2026-05-29 04:17:38,198 [INFO] MicroXplorer:415 - Change Database Version : DB.6.0.10
+2026-05-29 04:17:38,198 [WARN] ThirdParty:783 - waiting for thirdparty lock release [close project]
+2026-05-29 04:17:38,198 [INFO] ThirdParty:785 - entering critical section [close project]
+2026-05-29 04:17:38,198 [INFO] ThirdParty:796 - exiting critical section [close project]
+2026-05-29 04:17:38,198 [INFO] PinOutPanel:1434 - setPackage(No Configuration,No Configuration)
+2026-05-29 04:17:38,198 [INFO] UtilMem:74 - Begin LoadConfig() Used Memory: 777235360 Bytes (923795456)
+2026-05-29 04:17:38,203 [INFO] MicroXplorer:385 - Change Database Path : 
+2026-05-29 04:17:38,203 [INFO] MicroXplorer:415 - Change Database Version : DB.6.0.10
+2026-05-29 04:17:38,203 [INFO] OpenFileManager:274 - Change cursor
+2026-05-29 04:17:38,203 [WARN] ThirdParty:204 - Use empty third party IP manager
+2026-05-29 04:17:38,275 [WARN] IntegrityCheckThread:59 - waiting for thirdparty lock release [integrity check]
+2026-05-29 04:17:38,275 [INFO] IntegrityCheckThread:61 - entering critical section [integrity check]
+2026-05-29 04:17:38,990 [ERROR] Engine:500 - C:\Users\34886\.stm32cubemx\thirdparties\pdsc\STMicroelectronics.FP-SNS-MOTENVWB1.1.4.0.pdsc: PDSC version is not supported
+2026-05-29 04:17:39,022 [ERROR] Engine:500 - C:\Users\34886\.stm32cubemx\thirdparties\pdsc\STMicroelectronics.X-CUBE-SMBUS.2.1.0.pdsc: PDSC version is not supported
+2026-05-29 04:17:39,122 [ERROR] Engine:500 - C:\Users\34886\.stm32cubemx\thirdparties\pdsc\STMicroelectronics.FP-SNS-MOTENV1.5.1.0.pdsc: PDSC version is not supported
+2026-05-29 04:17:39,139 [ERROR] Engine:500 - C:\Users\34886\.stm32cubemx\thirdparties\pdsc\WES.I-CUBE-Cesium.1.4.0.pdsc: PDSC version is not supported
+2026-05-29 04:17:39,407 [ERROR] Engine:500 - C:\Users\34886\.stm32cubemx\thirdparties\pdsc\STMicroelectronics.X-CUBE-DISPLAY.3.0.0.pdsc: PDSC version is not supported
+2026-05-29 04:17:39,419 [ERROR] Engine:500 - C:\Users\34886\.stm32cubemx\thirdparties\pdsc\STMicroelectronics.FP-SNS-MOTENVWB1.1.5.0.pdsc: PDSC version is not supported
+2026-05-29 04:17:39,442 [ERROR] Engine:500 - C:\Users\34886\.stm32cubemx\thirdparties\pdsc\STMicroelectronics.X-CUBE-ST60.1.1.0.pdsc: PDSC version is not supported
+2026-05-29 04:17:39,453 [ERROR] Engine:500 - C:\Users\34886\.stm32cubemx\thirdparties\pdsc\emotas.I-CUBE-CANOPEN.1.3.0.pdsc: PDSC version is not supported
+2026-05-29 04:17:39,495 [ERROR] Engine:500 - C:\Users\34886\.stm32cubemx\thirdparties\pdsc\STMicroelectronics.FP-SNS-STBOX1.2.1.0.pdsc: PDSC version is not supported
+2026-05-29 04:17:39,507 [ERROR] Engine:500 - C:\Users\34886\.stm32cubemx\thirdparties\pdsc\STMicroelectronics.FP-SNS-SMARTAG2.1.2.0.pdsc: PDSC version is not supported
+2026-05-29 04:17:39,516 [ERROR] Engine:500 - C:\Users\34886\.stm32cubemx\thirdparties\pdsc\STMicroelectronics.FP-SNS-FLIGHT1.5.1.0.pdsc: PDSC version is not supported
+2026-05-29 04:17:39,552 [INFO] LogOutputStream:76 - [STDOUT_REDIRECT] 1 : Invalid condition id : UX_CORESTACK_Condition cause : null
+2026-05-29 04:17:39,552 [INFO] LogOutputStream:76 - [STDOUT_REDIRECT] 1 : Invalid condition id : UX_CORESTACK_Condition cause : null
+2026-05-29 04:17:39,559 [INFO] LogOutputStream:76 - [STDOUT_REDIRECT] 1 : Invalid condition id : UX_CORESTACK_Condition cause : null
+2026-05-29 04:17:39,563 [INFO] LogOutputStream:76 - [STDOUT_REDIRECT] 1 : Invalid condition id : UX_CORESTACK_Condition cause : null
+2026-05-29 04:17:39,568 [INFO] LogOutputStream:76 - [STDOUT_REDIRECT] 1 : Invalid condition id : UX_CORESTACK_Condition cause : null
+2026-05-29 04:17:39,752 [ERROR] Engine:500 - C:\Users\34886\.stm32cubemx\thirdparties\pdsc\Avnet-IOTCONNECT.X-CUBE-iotc-st67-sdk.1.0.0.pdsc: PDSC version is not supported
+2026-05-29 04:17:39,783 [ERROR] Engine:500 - C:\Users\34886\.stm32cubemx\thirdparties\pdsc\Infineon.AIROC-Wi-Fi-Bluetooth-STM32.1.8.0.pdsc: PDSC version is not supported
+2026-05-29 04:17:39,997 [ERROR] Engine:500 - C:\Users\34886\.stm32cubemx\thirdparties\pdsc\STMicroelectronics.X-CUBE-FREERTOS.1.4.0.pdsc: PDSC version is not supported
+2026-05-29 04:17:40,072 [ERROR] Engine:500 - C:\Users\34886\.stm32cubemx\thirdparties\pdsc\Cesanta.I-CUBE-Mongoose.7.20.0.pdsc: PDSC version is not supported
+2026-05-29 04:17:40,082 [ERROR] Engine:500 - C:\Users\34886\.stm32cubemx\thirdparties\pdsc\STMicroelectronics.X-CUBE-ST67W61.1.1.0.pdsc: PDSC version is not supported
+2026-05-29 04:17:40,088 [ERROR] Engine:500 - C:\Users\34886\.stm32cubemx\thirdparties\pdsc\STMicroelectronics.FP-SNS-STAIOTCFT.1.1.0.pdsc: PDSC version is not supported
+2026-05-29 04:17:40,528 [ERROR] Engine:500 - C:\Users\34886\.stm32cubemx\thirdparties\pdsc\EmbeddedOffice.I-CUBE-FS-RTOS.1.0.1.pdsc: PDSC version is not supported
+2026-05-29 04:17:40,540 [ERROR] Engine:500 - C:\Users\34886\.stm32cubemx\thirdparties\pdsc\STMicroelectronics.X-CUBE-TCPP.4.2.0.pdsc: PDSC version is not supported
+2026-05-29 04:17:40,541 [ERROR] Engine:500 - C:\Users\34886\.stm32cubemx\thirdparties\pdsc\RealThread.X-CUBE-RT-Thread_Nano.4.1.1.pdsc: PDSC version is not supported
+2026-05-29 04:17:40,547 [ERROR] Engine:500 - C:\Users\34886\.stm32cubemx\thirdparties\pdsc\STMicroelectronics.X-CUBE-FREERTOS.1.5.0.pdsc: PDSC version is not supported
+2026-05-29 04:17:40,549 [ERROR] Engine:500 - C:\Users\34886\.stm32cubemx\thirdparties\pdsc\ITTIA_DB.I-CUBE-ITTIADB.8.9.0.pdsc: PDSC version is not supported
+2026-05-29 04:17:40,691 [ERROR] Engine:500 - C:\Users\34886\.stm32cubemx\thirdparties\pdsc\STMicroelectronics.X-CUBE-IPS.3.2.0.pdsc: PDSC version is not supported
+2026-05-29 04:17:40,691 [ERROR] Engine:500 - C:\Users\34886\.stm32cubemx\thirdparties\pdsc\STMicroelectronics.eDS-WB_DPC_TT-BIDIR.2.1.1.pdsc: PDSC version is not supported
+2026-05-29 04:17:40,733 [ERROR] Engine:500 - C:\Users\34886\.stm32cubemx\thirdparties\pdsc\STMicroelectronics.eDS-WB_DPC_VIENNA.1.2.0.pdsc: PDSC version is not supported
+2026-05-29 04:17:40,735 [ERROR] Engine:500 - C:\Users\34886\.stm32cubemx\thirdparties\pdsc\STMicroelectronics.eDS-WB_DPC_3PH2L-BIDIR.1.1.1.pdsc: PDSC version is not supported
+2026-05-29 04:17:40,739 [ERROR] Engine:500 - C:\Users\34886\.stm32cubemx\thirdparties\pdsc\STMicroelectronics.X-CUBE-ST67W61.1.3.0.pdsc: PDSC version is not supported
+2026-05-29 04:17:40,745 [ERROR] Engine:500 - C:\Users\34886\.stm32cubemx\thirdparties\pdsc\STMicroelectronics.FP-SNS-STAIOTCFT.1.0.0.pdsc: PDSC version is not supported
+2026-05-29 04:17:40,802 [ERROR] Engine:500 - C:\Users\34886\.stm32cubemx\thirdparties\pdsc\STMicroelectronics.X-CUBE-DPower.1.3.0.pdsc: PDSC version is not supported
+2026-05-29 04:17:40,818 [WARN] ConditionMgr:437 - getConditionDescription Invalid condition id : LAN8742 Phy interface Condition cause : null
+2026-05-29 04:17:40,820 [WARN] ConditionMgr:1040 - genDependencies : Invalid condition id : LAN8742 Phy interface Condition cause : null
+2026-05-29 04:17:40,820 [WARN] ConditionMgr:1040 - genDependencies : Invalid condition id : LAN8742 Phy interface Condition cause : null
+2026-05-29 04:17:40,822 [WARN] ConditionMgr:1040 - genDependencies : Invalid condition id : LAN8742 Phy interface Condition cause : null
+2026-05-29 04:17:40,832 [ERROR] Engine:500 - C:\Users\34886\.stm32cubemx\thirdparties\pdsc\STMicroelectronics.X-CUBE-BLEMGR.4.1.0.pdsc: PDSC version is not supported
+2026-05-29 04:17:40,837 [WARN] ConditionMgr:437 - getConditionDescription Invalid condition id : UX DEVICE CLASS RTOS Condition cause : null
+2026-05-29 04:17:40,837 [WARN] ConditionMgr:437 - getConditionDescription Invalid condition id : UX DEVICE CLASS RTOS Condition cause : null
+2026-05-29 04:17:40,837 [WARN] ConditionMgr:1040 - genDependencies : Invalid condition id : UX DEVICE CLASS RTOS Condition cause : null
+2026-05-29 04:17:40,837 [WARN] ConditionMgr:1040 - genDependencies : Invalid condition id : UX DEVICE CLASS RTOS Condition cause : null
+2026-05-29 04:17:40,837 [WARN] ConditionMgr:1040 - genDependencies : Invalid condition id : UX DEVICE CLASS RTOS Condition cause : null
+2026-05-29 04:17:40,837 [WARN] ConditionMgr:1040 - genDependencies : Invalid condition id : UX DEVICE CLASS RTOS Condition cause : null
+2026-05-29 04:17:40,837 [WARN] ConditionMgr:1040 - genDependencies : Invalid condition id : UX DEVICE CLASS RTOS Condition cause : null
+2026-05-29 04:17:40,842 [ERROR] Engine:500 - C:\Users\34886\.stm32cubemx\thirdparties\pdsc\quantropi.X-CUBE-qispace-sdk-base.2.1.0.pdsc: PDSC version is not supported
+2026-05-29 04:17:40,876 [ERROR] Engine:500 - C:\Users\34886\.stm32cubemx\thirdparties\pdsc\STMicroelectronics.X-CUBE-ALS.1.0.2.pdsc: PDSC version is not supported
+2026-05-29 04:17:40,879 [ERROR] Engine:500 - C:\Users\34886\.stm32cubemx\thirdparties\pdsc\STMicroelectronics.X-CUBE-TOF1.3.4.3.pdsc: PDSC version is not supported
+2026-05-29 04:17:40,879 [INFO] ThirdParty:887 - Integrity check success = true
+2026-05-29 04:17:40,879 [INFO] IntegrityCheckThread:75 - exiting critical section [integrity check]
+2026-05-29 04:17:40,879 [INFO] IntegrityCheckThread:78 - End integrity checks thread
+2026-05-29 04:17:41,890 [INFO] ImportTextPane:162 - (OptionalMessage_ERROR) Unable to find key (Mcu.ThirdPartyNb) in loaded IOC file
+2026-05-29 04:17:41,890 [INFO] ImportTextPane:162 - (OptionalMessage_ERROR) Unable to find key (Mcu.PinsNb) in loaded IOC file
+2026-05-29 04:17:41,890 [INFO] ImportTextPane:162 - (OptionalMessage_ERROR) Unable to find key (Mcu.IPNb) in loaded IOC file
+2026-05-29 04:17:41,936 [WARN] ApiManager:294 - Cannot register API 'Board Extension:PM33A1' from pack STMicroelectronics.X-CUBE-PM33A1.1.0.0: no header file found
+2026-05-29 04:17:41,936 [WARN] ApiManager:294 - Cannot register API 'Board Extension:NFC09A1' from pack STMicroelectronics.X-CUBE-NFC9.1.0.0: no header file found
+2026-05-29 04:17:41,941 [WARN] ApiManager:294 - Cannot register API 'Wireless:BlueNRG-MS' from pack STMicroelectronics.X-CUBE-BLE1.7.1.0: no header file found
+2026-05-29 04:17:41,941 [WARN] ApiManager:294 - Cannot register API 'Board Extension:EEPRMA2' from pack STMicroelectronics.X-CUBE-EEPRMA1.5.2.0: no header file found
+2026-05-29 04:17:41,941 [WARN] ApiManager:294 - Cannot register API 'Board Extension:PGEEZ1' from pack STMicroelectronics.X-CUBE-EEPRMA1.5.2.0: no header file found
+2026-05-29 04:17:41,941 [WARN] ApiManager:294 - Cannot register API 'Board Extension:EEICA1' from pack STMicroelectronics.X-CUBE-EEPRMA1.5.2.0: no header file found
+2026-05-29 04:17:41,941 [WARN] ApiManager:294 - Cannot register API 'Board Part:M24' from pack STMicroelectronics.X-CUBE-EEPRMA1.5.2.0: no header file found
+2026-05-29 04:17:41,941 [WARN] ApiManager:294 - Cannot register API 'Board Part:M95' from pack STMicroelectronics.X-CUBE-EEPRMA1.5.2.0: no header file found
+2026-05-29 04:17:41,941 [WARN] ApiManager:294 - Cannot register API 'Board Part:M95P32' from pack STMicroelectronics.X-CUBE-EEPRMA1.5.2.0: no header file found
+2026-05-29 04:17:41,941 [WARN] ApiManager:294 - Cannot register API 'Board Part:M24256E-F' from pack STMicroelectronics.X-CUBE-EEPRMA1.5.2.0: no header file found
+2026-05-29 04:17:41,941 [WARN] ApiManager:294 - Cannot register API 'Board Part:M24M01E-F' from pack STMicroelectronics.X-CUBE-EEPRMA1.5.2.0: no header file found
+2026-05-29 04:17:41,941 [WARN] ApiManager:294 - Cannot register API 'PGEEZ1:SPI' from pack STMicroelectronics.X-CUBE-EEPRMA1.5.2.0: no header file found
+2026-05-29 04:17:41,941 [WARN] ApiManager:294 - Cannot register API 'PGEEZ1:QDSPI' from pack STMicroelectronics.X-CUBE-EEPRMA1.5.2.0: no header file found
+2026-05-29 04:17:41,946 [WARN] ApiManager:294 - Cannot register API 'Board Extension:NFC12A1' from pack STMicroelectronics.X-CUBE-NFC12.1.0.0: no header file found
+2026-05-29 04:17:41,953 [WARN] ApiManager:294 - Cannot register API 'Board Extension:NFC06A1' from pack STMicroelectronics.X-CUBE-NFC6.3.1.0: no header file found
+2026-05-29 04:17:41,953 [WARN] ApiManager:294 - Cannot register API 'Board Extension:NFC08A1' from pack STMicroelectronics.X-CUBE-NFC6.3.1.0: no header file found
+2026-05-29 04:17:41,993 [WARN] ApiManager:294 - Cannot register API 'Board Extension:IKS02A1' from pack STMicroelectronics.X-CUBE-MEMS1.12.0.0: no header file found
+2026-05-29 04:17:41,993 [WARN] ApiManager:294 - Cannot register API 'Board Extension:IKS4A1' from pack STMicroelectronics.X-CUBE-MEMS1.12.0.0: no header file found
+2026-05-29 04:17:41,993 [WARN] ApiManager:294 - Cannot register API 'Board Extension:IKS5A1' from pack STMicroelectronics.X-CUBE-MEMS1.12.0.0: no header file found
+2026-05-29 04:17:42,003 [WARN] ApiManager:294 - Cannot register API 'Board Extension:SAFEA1' from pack STMicroelectronics.X-CUBE-STSE01.2.0.0: no header file found
+2026-05-29 04:17:42,003 [WARN] ApiManager:294 - Cannot register API 'Board Extension:ESE01A1' from pack STMicroelectronics.X-CUBE-STSE01.2.0.0: no header file found
+2026-05-29 04:17:42,003 [WARN] ApiManager:294 - Cannot register API 'Board Extension:ESE02A1' from pack STMicroelectronics.X-CUBE-STSE01.2.0.0: no header file found
+2026-05-29 04:17:42,003 [WARN] ApiManager:294 - Cannot register API 'Board Part:STSAFEA110' from pack STMicroelectronics.X-CUBE-STSE01.2.0.0: no header file found
+2026-05-29 04:17:42,003 [WARN] ApiManager:294 - Cannot register API 'Board Part:STSAFEA120' from pack STMicroelectronics.X-CUBE-STSE01.2.0.0: no header file found
+2026-05-29 04:17:42,003 [WARN] ApiManager:294 - Cannot register API 'Board Part:STSAFEL010' from pack STMicroelectronics.X-CUBE-STSE01.2.0.0: no header file found
+2026-05-29 04:17:42,003 [WARN] ApiManager:294 - Cannot register API 'Security:STM32_Cryptographic' from pack STMicroelectronics.X-CUBE-STSE01.2.0.0: no header file found
+2026-05-29 04:17:42,003 [WARN] ApiManager:294 - Cannot register API 'Security:STSELib' from pack STMicroelectronics.X-CUBE-STSE01.2.0.0: no header file found
+2026-05-29 04:17:42,003 [INFO] RtosManager:464 - Registered RTOS mode: class=CMSIS, group=RTOS, mode=CMSIS_V1, owner=FREERTOS
+2026-05-29 04:17:42,003 [INFO] RtosManager:464 - Registered RTOS mode: class=CMSIS, group=RTOS2, mode=CMSIS_V2, owner=FREERTOS
+2026-05-29 04:17:42,003 [INFO] RtosManager:464 - Registered RTOS mode: class=RTOS, group=Core, mode=CMSIS_V1, owner=FREERTOS
+2026-05-29 04:17:42,003 [INFO] RtosManager:464 - Registered RTOS mode: class=RTOS, group=Core, mode=CMSIS_V2, owner=FREERTOS
+2026-05-29 04:17:42,003 [WARN] ModelIntegratedComponent:182 - Missing modes for component STMicroelectronics:FreeRTOS:0.0.1:STMicroelectronics:RTOS:FreeRTOS:Core:::10.2.0:
+2026-05-29 04:17:42,008 [WARN] ApiManager:294 - Cannot register API 'Board Extension:NFC04A1' from pack STMicroelectronics.X-CUBE-NFC4.3.0.0: no header file found
+2026-05-29 04:17:42,011 [WARN] ApiManager:294 - Cannot register API 'Board Extension:S2868A1' from pack STMicroelectronics.X-CUBE-SUBG2.5.0.0: no header file found
+2026-05-29 04:17:42,011 [WARN] ApiManager:294 - Cannot register API 'Board Extension:S2868A2' from pack STMicroelectronics.X-CUBE-SUBG2.5.0.0: no header file found
+2026-05-29 04:17:42,011 [WARN] ApiManager:294 - Cannot register API 'Board Extension:S2915A1' from pack STMicroelectronics.X-CUBE-SUBG2.5.0.0: no header file found
+2026-05-29 04:17:42,011 [WARN] ApiManager:294 - Cannot register API 'Wireless:STM32WB05N' from pack STMicroelectronics.X-CUBE-WB05N.2.0.0: no header file found
+2026-05-29 04:17:42,015 [WARN] ApiManager:294 - Cannot register API 'Board Extension:NFC07A1' from pack STMicroelectronics.X-CUBE-NFC7.2.0.0: no header file found
+2026-05-29 04:17:42,015 [WARN] ApiManager:294 - Cannot register API 'Board Extension:GNSS1A1' from pack STMicroelectronics.X-CUBE-GNSS1.7.1.1: no header file found
+2026-05-29 04:17:42,015 [WARN] ApiManager:294 - Cannot register API 'Board Support:Custom' from pack STMicroelectronics.X-CUBE-GNSS1.7.1.1: no header file found
+2026-05-29 04:17:42,015 [WARN] ApiManager:294 - Cannot register API 'Data Exchange:lib_gnss' from pack STMicroelectronics.X-CUBE-GNSS1.7.1.1: no header file found
+2026-05-29 04:17:42,017 [WARN] ApiManager:294 - Cannot register API 'Board Extension:NFC10A1' from pack STMicroelectronics.X-CUBE-NFC10.1.0.0: no header file found
+2026-05-29 04:17:42,018 [WARN] ModelIntegratedComponent:51 - No mode defined for component null
+2026-05-29 04:17:42,018 [WARN] ModelIntegratedComponent:51 - No mode defined for component null
+2026-05-29 04:17:42,018 [WARN] ModelIntegratedComponent:51 - No mode defined for component null
+2026-05-29 04:17:42,018 [WARN] ModelIntegratedComponent:51 - No mode defined for component null
+2026-05-29 04:17:42,018 [WARN] ModelIntegratedComponent:51 - No mode defined for component null
+2026-05-29 04:17:42,018 [WARN] ModelIntegratedComponent:51 - No mode defined for component null
+2026-05-29 04:17:42,018 [WARN] ModelIntegratedComponent:51 - No mode defined for component null
+2026-05-29 04:17:42,018 [WARN] ModelIntegratedComponent:51 - No mode defined for component null
+2026-05-29 04:17:42,018 [WARN] ModelIntegratedComponent:51 - No mode defined for component null
+2026-05-29 04:17:42,018 [WARN] ModelIntegratedComponent:51 - No mode defined for component null
+2026-05-29 04:17:42,018 [WARN] ModelIntegratedComponent:51 - No mode defined for component null
+2026-05-29 04:17:42,018 [WARN] ModelIntegratedComponent:51 - No mode defined for component null
+2026-05-29 04:17:42,018 [WARN] ModelIntegratedComponent:51 - No mode defined for component null
+2026-05-29 04:17:42,018 [WARN] ModelIntegratedComponent:51 - No mode defined for component null
+2026-05-29 04:17:42,018 [WARN] ModelIntegratedComponent:51 - No mode defined for component null
+2026-05-29 04:17:42,018 [WARN] ModelIntegratedComponent:51 - No mode defined for component null
+2026-05-29 04:17:42,018 [WARN] ModelIntegratedComponent:51 - No mode defined for component null
+2026-05-29 04:17:42,018 [WARN] ModelIntegratedComponent:51 - No mode defined for component null
+2026-05-29 04:17:42,018 [WARN] ModelIntegratedComponent:51 - No mode defined for component null
+2026-05-29 04:17:42,018 [WARN] ModelIntegratedComponent:51 - No mode defined for component null
+2026-05-29 04:17:42,018 [WARN] ModelIntegratedComponent:51 - No mode defined for component null
+2026-05-29 04:17:42,018 [WARN] ModelIntegratedComponent:51 - No mode defined for component null
+2026-05-29 04:17:42,020 [WARN] ModelIntegratedComponent:51 - No mode defined for component null
+2026-05-29 04:17:42,020 [WARN] ModelIntegratedComponent:51 - No mode defined for component null
+2026-05-29 04:17:42,020 [WARN] ModelIntegratedComponent:51 - No mode defined for component null
+2026-05-29 04:17:42,020 [WARN] ModelIntegratedComponent:51 - No mode defined for component null
+2026-05-29 04:17:42,020 [WARN] ModelIntegratedComponent:51 - No mode defined for component null
+2026-05-29 04:17:42,020 [WARN] ModelIntegratedComponent:51 - No mode defined for component null
+2026-05-29 04:17:42,020 [WARN] ModelIntegratedComponent:51 - No mode defined for component null
+2026-05-29 04:17:42,020 [WARN] ModelIntegratedComponent:51 - No mode defined for component null
+2026-05-29 04:17:42,020 [WARN] ModelIntegratedComponent:51 - No mode defined for component null
+2026-05-29 04:17:42,020 [WARN] ModelIntegratedComponent:51 - No mode defined for component null
+2026-05-29 04:17:42,020 [WARN] ModelIntegratedComponent:51 - No mode defined for component null
+2026-05-29 04:17:42,020 [WARN] ModelIntegratedComponent:51 - No mode defined for component null
+2026-05-29 04:17:42,020 [WARN] ModelIntegratedComponent:51 - No mode defined for component null
+2026-05-29 04:17:42,020 [WARN] ModelIntegratedComponent:51 - No mode defined for component null
+2026-05-29 04:17:42,020 [WARN] ModelIntegratedComponent:51 - No mode defined for component null
+2026-05-29 04:17:42,020 [WARN] ModelIntegratedComponent:51 - No mode defined for component null
+2026-05-29 04:17:42,022 [WARN] ApiManager:294 - Cannot register API 'Board Extension:GNSS1A1' from pack STMicroelectronics.X-CUBE-GNSS1.7.1.0: no header file found
+2026-05-29 04:17:42,023 [WARN] ApiManager:294 - Cannot register API 'Board Support:Custom' from pack STMicroelectronics.X-CUBE-GNSS1.7.1.0: no header file found
+2026-05-29 04:17:42,023 [WARN] ApiManager:294 - Cannot register API 'Data Exchange:lib_gnss' from pack STMicroelectronics.X-CUBE-GNSS1.7.1.0: no header file found
+2026-05-29 04:17:42,023 [WARN] ApiManager:294 - Cannot register API 'Board Extension:SAFEA1' from pack STMicroelectronics.X-CUBE-STSE01.1.0.0: no header file found
+2026-05-29 04:17:42,023 [WARN] ApiManager:294 - Cannot register API 'Board Extension:ESE01A1' from pack STMicroelectronics.X-CUBE-STSE01.1.0.0: no header file found
+2026-05-29 04:17:42,023 [WARN] ApiManager:294 - Cannot register API 'Board Part:STSAFEA110' from pack STMicroelectronics.X-CUBE-STSE01.1.0.0: no header file found
+2026-05-29 04:17:42,023 [WARN] ApiManager:294 - Cannot register API 'Board Part:STSAFEA120' from pack STMicroelectronics.X-CUBE-STSE01.1.0.0: no header file found
+2026-05-29 04:17:42,023 [WARN] ApiManager:294 - Cannot register API 'Security:STM32_Cryptographic' from pack STMicroelectronics.X-CUBE-STSE01.1.0.0: no header file found
+2026-05-29 04:17:42,023 [WARN] ApiManager:294 - Cannot register API 'Security:STSELib' from pack STMicroelectronics.X-CUBE-STSE01.1.0.0: no header file found
+2026-05-29 04:17:42,023 [WARN] ApiManager:294 - Cannot register API 'Board Extension:NFC06A1' from pack STMicroelectronics.X-CUBE-NFC6.3.2.0: no header file found
+2026-05-29 04:17:42,023 [WARN] ApiManager:294 - Cannot register API 'Board Extension:NFC08A1' from pack STMicroelectronics.X-CUBE-NFC6.3.2.0: no header file found
+2026-05-29 04:17:42,124 [WARN] ApiManager:294 - Cannot register API 'Board Extension:IKS02A1' from pack STMicroelectronics.X-CUBE-MEMS1.12.1.0: no header file found
+2026-05-29 04:17:42,126 [WARN] ApiManager:294 - Cannot register API 'Board Extension:IKS4A1' from pack STMicroelectronics.X-CUBE-MEMS1.12.1.0: no header file found
+2026-05-29 04:17:42,126 [WARN] ApiManager:294 - Cannot register API 'Board Extension:IKS5A1' from pack STMicroelectronics.X-CUBE-MEMS1.12.1.0: no header file found
+2026-05-29 04:17:42,140 [WARN] ApiManager:294 - Cannot register API 'Board Extension:S2868A1' from pack STMicroelectronics.X-CUBE-SFXS2LP1.4.0.0: no header file found
+2026-05-29 04:17:42,140 [WARN] ApiManager:294 - Cannot register API 'Board Extension:S2868A2' from pack STMicroelectronics.X-CUBE-SFXS2LP1.4.0.0: no header file found
+2026-05-29 04:17:42,140 [WARN] ApiManager:294 - Cannot register API 'Board Extension:S2915A1' from pack STMicroelectronics.X-CUBE-SFXS2LP1.4.0.0: no header file found
+2026-05-29 04:17:42,140 [WARN] ApiManager:294 - Cannot register API 'Wireless:BlueNRG-2' from pack STMicroelectronics.X-CUBE-BLE2.3.3.0: no header file found
+2026-05-29 04:17:42,142 [WARN] ApiManager:294 - Cannot register API 'Wireless:STM32WB05N' from pack STMicroelectronics.X-CUBE-WB05N.2.1.0: no header file found
+2026-05-29 04:17:43,593 [INFO] UtilMem:74 - End LoadConfig() Used Memory: 836598272 Bytes (1035993088)
+2026-05-29 04:17:43,595 [WARN] ThirdParty:749 - waiting for thirdparty lock release [change project]
+2026-05-29 04:17:43,595 [INFO] ThirdParty:751 - entering critical section [change project]
+2026-05-29 04:17:43,595 [INFO] ThirdParty:939 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-AZRTOS-H7 3.5.0
+2026-05-29 04:17:43,595 [INFO] ThirdParty:939 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-PM33A1 1.0.0
+2026-05-29 04:17:43,595 [INFO] ThirdParty:939 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-NFC9 1.0.0
+2026-05-29 04:17:43,595 [INFO] ThirdParty:939 - CMSIS Pack Vendor :STMicroelectronics USB_HOST 2.0.0
+2026-05-29 04:17:43,595 [INFO] ThirdParty:939 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-AZRTOS-F4 1.1.0
+2026-05-29 04:17:43,595 [INFO] ThirdParty:939 - CMSIS Pack Vendor :STMicroelectronics FP-ATR-ASTRA1 2.0.2
+2026-05-29 04:17:43,595 [INFO] ThirdParty:939 - CMSIS Pack Vendor :wolfSSL I-CUBE-wolfSSL 5.8.2
+2026-05-29 04:17:43,595 [INFO] ThirdParty:939 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-BLE1 7.1.0
+2026-05-29 04:17:43,595 [INFO] ThirdParty:939 - CMSIS Pack Vendor :wolfSSL I-CUBE-wolfMQTT 1.19.2
+2026-05-29 04:17:43,595 [INFO] ThirdParty:939 - CMSIS Pack Vendor :STMicroelectronics USB_DEVICE 3.0.0
+2026-05-29 04:17:43,595 [INFO] ThirdParty:939 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-ISPU 2.1.0
+2026-05-29 04:17:43,595 [INFO] ThirdParty:939 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-EEPRMA1 5.2.0
+2026-05-29 04:17:43,595 [INFO] ThirdParty:939 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-AZRTOS-WB 2.0.0
+2026-05-29 04:17:43,595 [INFO] ThirdParty:939 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-NFC12 1.0.0
+2026-05-29 04:17:43,595 [INFO] ThirdParty:939 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-AZRTOS-F7 1.1.0
+2026-05-29 04:17:43,595 [INFO] ThirdParty:939 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-AZRTOS-L5 2.0.0
+2026-05-29 04:17:43,595 [INFO] ThirdParty:939 - CMSIS Pack Vendor :STMicroelectronics USB_DEVICE 2.0.0
+2026-05-29 04:17:43,595 [INFO] ThirdParty:939 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-NFC6 3.1.0
+2026-05-29 04:17:43,595 [INFO] ThirdParty:939 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-MEMS1 12.0.0
+2026-05-29 04:17:43,595 [INFO] ThirdParty:939 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-STSE01 2.0.0
+2026-05-29 04:17:43,595 [INFO] ThirdParty:939 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-ALGOBUILD 1.5.0
+2026-05-29 04:17:43,595 [INFO] ThirdParty:939 - CMSIS Pack Vendor :STMicroelectronics FreeRTOS 0.0.1
+2026-05-29 04:17:43,595 [INFO] ThirdParty:939 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-AZRTOS-G0 1.1.0
+2026-05-29 04:17:43,595 [INFO] ThirdParty:939 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-NFC4 3.0.0
+2026-05-29 04:17:43,595 [INFO] ThirdParty:939 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-SUBG2 5.0.0
+2026-05-29 04:17:43,595 [INFO] ThirdParty:939 - CMSIS Pack Vendor :STMicroelectronics lwIP 2.0.3
+2026-05-29 04:17:43,595 [INFO] ThirdParty:939 - CMSIS Pack Vendor :STMicroelectronics USB_HOST 1.0.0
+2026-05-29 04:17:43,595 [INFO] ThirdParty:939 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-AZRTOS-G4 2.0.0
+2026-05-29 04:17:43,595 [INFO] ThirdParty:939 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-WB05N 2.0.0
+2026-05-29 04:17:43,595 [INFO] ThirdParty:939 - CMSIS Pack Vendor :STMicroelectronics PDM2PCM 3.1.0
+2026-05-29 04:17:43,595 [INFO] ThirdParty:939 - CMSIS Pack Vendor :STMicroelectronics PDM2PCM 3.3.0
+2026-05-29 04:17:43,595 [INFO] ThirdParty:939 - CMSIS Pack Vendor :wolfSSL I-CUBE-wolfTPM 3.8.0
+2026-05-29 04:17:43,595 [INFO] ThirdParty:939 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-AZRTOS-H7 3.4.0
+2026-05-29 04:17:43,595 [INFO] ThirdParty:939 - CMSIS Pack Vendor :wolfSSL I-CUBE-wolfSSH 1.4.20
+2026-05-29 04:17:43,595 [INFO] ThirdParty:939 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-NFC7 2.0.0
+2026-05-29 04:17:43,599 [INFO] ThirdParty:939 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-GNSS1 7.1.1
+2026-05-29 04:17:43,599 [INFO] ThirdParty:939 - CMSIS Pack Vendor :STMicroelectronics FP-ATR-SIGFOX1 3.2.0
+2026-05-29 04:17:43,599 [INFO] ThirdParty:939 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-NFC10 1.0.0
+2026-05-29 04:17:43,599 [INFO] ThirdParty:939 - CMSIS Pack Vendor :STMicroelectronics HAL Drivers 0.0.0
+2026-05-29 04:17:43,599 [INFO] ThirdParty:939 - CMSIS Pack Vendor :STMicroelectronics MBEDTLS 2.16.2
+2026-05-29 04:17:43,599 [INFO] ThirdParty:939 - CMSIS Pack Vendor :STMicroelectronics MBEDTLS 2.14.1
+2026-05-29 04:17:43,599 [INFO] ThirdParty:939 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-GNSS1 7.1.0
+2026-05-29 04:17:43,599 [INFO] ThirdParty:939 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-TOUCHGFX 4.26.0
+2026-05-29 04:17:43,599 [INFO] ThirdParty:939 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-STSE01 1.0.0
+2026-05-29 04:17:43,599 [INFO] ThirdParty:939 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-TOUCHGFX 4.26.1
+2026-05-29 04:17:43,599 [INFO] ThirdParty:939 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-NFC6 3.2.0
+2026-05-29 04:17:43,599 [INFO] ThirdParty:939 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-AI 10.2.0
+2026-05-29 04:17:43,599 [INFO] ThirdParty:939 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-MEMS1 12.1.0
+2026-05-29 04:17:43,599 [INFO] ThirdParty:939 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-AZRTOS-WL 2.0.0
+2026-05-29 04:17:43,599 [INFO] ThirdParty:939 - CMSIS Pack Vendor :SEGGER I-CUBE-embOS 1.3.1
+2026-05-29 04:17:43,599 [INFO] ThirdParty:939 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-ALGOBUILD 1.4.0
+2026-05-29 04:17:43,599 [INFO] ThirdParty:939 - CMSIS Pack Vendor :STMicroelectronics USB_DEVICE 1.0.0
+2026-05-29 04:17:43,599 [INFO] ThirdParty:939 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-AZRTOS-H7RS 1.2.0
+2026-05-29 04:17:43,599 [INFO] ThirdParty:939 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-AZRTOS-L4 2.0.0
+2026-05-29 04:17:43,599 [INFO] ThirdParty:939 - CMSIS Pack Vendor :STMicroelectronics lwIP 2.1.2
+2026-05-29 04:17:43,599 [INFO] ThirdParty:939 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-SFXS2LP1 4.0.0
+2026-05-29 04:17:43,599 [INFO] ThirdParty:939 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-BLE2 3.3.0
+2026-05-29 04:17:43,599 [INFO] ThirdParty:939 - CMSIS Pack Vendor :STMicroelectronics PDM2PCM 3.2.0
+2026-05-29 04:17:43,599 [INFO] ThirdParty:939 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-WB05N 2.1.0
+2026-05-29 04:17:43,599 [INFO] ThirdParty:757 - exiting critical section [change project]
+2026-05-29 04:17:43,731 [INFO] PinOutPanel:1434 - setPackage(No Configuration,No Configuration)
+2026-05-29 04:17:43,733 [INFO] PinOutPanel:1434 - setPackage(STM32F103C8Tx,LQFP48)
+2026-05-29 04:17:44,210 [INFO] UtilMem:74 - Before build in PCC Used Memory: 735194848 Bytes (1035993088)
+2026-05-29 04:17:44,605 [INFO] SharedServices:72 - Folder for power plug-in: C:/Users/34886/.stm32cubemx/plugins/power
+2026-05-29 04:17:44,653 [INFO] SharedServices:72 - Folder for power plug-in: C:/Users/34886/.stm32cubemx/plugins/power
+2026-05-29 04:17:44,720 [INFO] SharedServices:72 - Folder for power plug-in: C:/Users/34886/.stm32cubemx/plugins/power
+2026-05-29 04:17:44,723 [INFO] SharedServices:72 - Folder for power plug-in: C:/Users/34886/.stm32cubemx/plugins/power
+2026-05-29 04:17:44,902 [INFO] UtilMem:74 - After build in PCC Used Memory: 788145896 Bytes (1035993088)
+2026-05-29 04:17:44,917 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2026-05-29 04:17:44,917 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2026-05-29 04:17:44,917 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2026-05-29 04:17:44,917 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2026-05-29 04:17:44,921 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2026-05-29 04:17:44,921 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2026-05-29 04:17:44,921 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2026-05-29 04:17:44,921 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2026-05-29 04:17:44,921 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2026-05-29 04:17:44,921 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2026-05-29 04:17:44,921 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2026-05-29 04:17:44,922 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2026-05-29 04:17:44,922 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2026-05-29 04:17:44,922 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2026-05-29 04:17:44,922 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2026-05-29 04:17:44,922 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2026-05-29 04:17:44,922 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2026-05-29 04:17:44,922 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2026-05-29 04:17:44,922 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2026-05-29 04:17:44,922 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2026-05-29 04:17:44,922 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2026-05-29 04:17:44,922 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2026-05-29 04:17:44,922 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2026-05-29 04:17:44,922 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2026-05-29 04:17:44,922 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2026-05-29 04:17:44,922 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2026-05-29 04:17:44,922 [INFO] IPUIPlugin:64 - create IPUIPlugin
+2026-05-29 04:17:44,944 [INFO] LogOutputStream:76 - [STDOUT_REDIRECT] toolchainItems.length=====1
+2026-05-29 04:17:45,029 [INFO] OpenFileManager:294 - Restore cursor
+2026-05-29 04:17:45,292 [INFO] UtilMem:74 - End SaveConfig() Used Memory: 832140072 Bytes (1035993088)
+2026-05-29 04:17:45,328 [INFO] UtilMem:74 - End SaveConfig() Used Memory: 837909280 Bytes (1035993088)
+2026-05-29 04:17:45,364 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] [Fatal Error] :1:1: Premature end of file.
+2026-05-29 04:17:45,364 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] 
+2026-05-29 04:17:45,415 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] [Fatal Error] :1:1: Premature end of file.
+2026-05-29 04:17:45,415 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] 
+2026-05-29 04:17:45,467 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] [Fatal Error] :1:1: Premature end of file.
+2026-05-29 04:17:45,469 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] 
+2026-05-29 04:17:45,757 [INFO] BlockDiagram:2735 - set Specific Code input for plugin: NVIC
+2026-05-29 04:17:45,757 [INFO] BlockDiagram:2735 - set Specific Code input for plugin: SYS
+2026-05-29 04:17:45,757 [INFO] BlockDiagram:2735 - set Specific Code input for plugin: RCC
+2026-05-29 04:17:45,757 [INFO] CodeGenerator:639 - code generatio: config db path: D:\STM32CubeIDE_1.5.0\STM32CubeIDE\plugins\com.st.stm32cube.common.mx_6.1.0.202011121557\\db\
+2026-05-29 04:17:45,950 [INFO] CodeEngine:229 - oldGeneratedFile, D:\Microcontrollers_and_Embedded_Systems\CookMirror\STM32CubeIDE\CookMirror_Alarm\MXTmpFiles\license.tmp_save
+2026-05-29 04:17:46,286 [INFO] CodeEngine:247 - Generated code: D:\Microcontrollers_and_Embedded_Systems\CookMirror\STM32CubeIDE\CookMirror_Alarm\MXTmpFiles\license.tmp
+2026-05-29 04:17:46,368 [INFO] CodeEngine:229 - oldGeneratedFile, D:\Microcontrollers_and_Embedded_Systems\CookMirror\STM32CubeIDE\CookMirror_Alarm\Core\Src\stm32f1xx_it.c_save
+2026-05-29 04:17:46,494 [INFO] CodeEngine:247 - Generated code: D:\Microcontrollers_and_Embedded_Systems\CookMirror\STM32CubeIDE\CookMirror_Alarm\Core\Src\stm32f1xx_it.c
+2026-05-29 04:17:46,504 [INFO] CodeEngine:229 - oldGeneratedFile, D:\Microcontrollers_and_Embedded_Systems\CookMirror\STM32CubeIDE\CookMirror_Alarm\Core\Inc\stm32f1xx_it.h_save
+2026-05-29 04:17:46,556 [INFO] CodeEngine:247 - Generated code: D:\Microcontrollers_and_Embedded_Systems\CookMirror\STM32CubeIDE\CookMirror_Alarm\Core\Inc\stm32f1xx_it.h
+2026-05-29 04:17:46,600 [INFO] CodeEngine:229 - oldGeneratedFile, D:\Microcontrollers_and_Embedded_Systems\CookMirror\STM32CubeIDE\CookMirror_Alarm\Core\Src\stm32f1xx_hal_msp.c_save
+2026-05-29 04:17:46,694 [INFO] CodeEngine:247 - Generated code: D:\Microcontrollers_and_Embedded_Systems\CookMirror\STM32CubeIDE\CookMirror_Alarm\Core\Src\stm32f1xx_hal_msp.c
+2026-05-29 04:17:46,705 [INFO] CodeEngine:229 - oldGeneratedFile, D:\Microcontrollers_and_Embedded_Systems\CookMirror\STM32CubeIDE\CookMirror_Alarm\MXTmpFiles\system.tmp_save
+2026-05-29 04:17:46,741 [INFO] CodeEngine:247 - Generated code: D:\Microcontrollers_and_Embedded_Systems\CookMirror\STM32CubeIDE\CookMirror_Alarm\MXTmpFiles\system.tmp
+2026-05-29 04:17:46,748 [INFO] CodeEngine:229 - oldGeneratedFile, D:\Microcontrollers_and_Embedded_Systems\CookMirror\STM32CubeIDE\CookMirror_Alarm\Core\Inc\stm32f1xx_hal_conf.h_save
+2026-05-29 04:17:46,813 [INFO] CodeEngine:247 - Generated code: D:\Microcontrollers_and_Embedded_Systems\CookMirror\STM32CubeIDE\CookMirror_Alarm\Core\Inc\stm32f1xx_hal_conf.h
+2026-05-29 04:17:46,840 [INFO] CodeEngine:229 - oldGeneratedFile, D:\Microcontrollers_and_Embedded_Systems\CookMirror\STM32CubeIDE\CookMirror_Alarm\Core\Inc\main.h_save
+2026-05-29 04:17:46,874 [INFO] CodeEngine:247 - Generated code: D:\Microcontrollers_and_Embedded_Systems\CookMirror\STM32CubeIDE\CookMirror_Alarm\Core\Inc\main.h
+2026-05-29 04:17:46,879 [INFO] CodeEngine:229 - oldGeneratedFile, D:\Microcontrollers_and_Embedded_Systems\CookMirror\STM32CubeIDE\CookMirror_Alarm\Core\Src\main.c_save
+2026-05-29 04:17:46,939 [INFO] CodeEngine:247 - Generated code: D:\Microcontrollers_and_Embedded_Systems\CookMirror\STM32CubeIDE\CookMirror_Alarm\Core\Src\main.c
+2026-05-29 04:17:47,646 [INFO] ProjectBuilder:2328 - Time for Copy HAL[1] : 91mS.
+2026-05-29 04:17:47,655 [INFO] ProjectBuilder:3259 - Project Generator version: 3.11.0-B13
+2026-05-29 04:17:47,926 [INFO] ConfigFileManager:1238 - The Die is : DIE410
+2026-05-29 04:17:47,943 [INFO] ApiDbMcu:456 - Load IP Config File for FATFS
+2026-05-29 04:17:47,954 [INFO] ApiDbMcu:456 - Load IP Config File for FREERTOS
+2026-05-29 04:17:47,962 [INFO] ApiDbMcu:456 - Load IP Config File for USB_DEVICE
+2026-05-29 04:17:51,052 [INFO] ProjectBuilder:3425 - Time for Generating toolchain IDE Files: 3397mS.
+2026-05-29 04:17:51,054 [INFO] ProjectBuilder:2207 - Time for Copy CMSIS : 2mS.
+2026-05-29 04:17:51,054 [INFO] ProjectBuilder:2207 - Time for Copy CMSIS : 0mS.
+2026-05-29 04:17:51,465 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] [Fatal Error] :1:1: Premature end of file.
+2026-05-29 04:17:51,465 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] 
+2026-05-29 04:17:51,486 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] [Fatal Error] :1:1: Premature end of file.
+2026-05-29 04:17:51,486 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] 
+2026-05-29 04:17:51,506 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] [Fatal Error] :1:1: Premature end of file.
+2026-05-29 04:17:51,506 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] 
+2026-05-29 04:17:51,583 [INFO] ApiDb:263 - Save user favorites file C:\Users\34886/.stm32cubeide/favorites.mcus.txt: 1 item(s)
+2026-05-29 04:17:51,585 [INFO] ApiDb:267 - User favorites MCUs=[STM32F103C8Tx]
+2026-05-29 04:25:45,263 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] [Fatal Error] :1:1: Premature end of file.
+2026-05-29 04:25:45,267 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] 
+2026-05-29 04:25:45,583 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] [Fatal Error] :1:1: Premature end of file.
+2026-05-29 04:25:45,583 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] 
+2026-05-29 04:25:45,892 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] [Fatal Error] :1:1: Premature end of file.
+2026-05-29 04:25:45,895 [ERROR] LogOutputStream:74 - [STDERR_REDIRECT] 

@@ -1,0 +1,20 @@
+20:23:17 **** Incremental Build of configuration Debug for project CookMirror_LED ****
+make -j20 all 
+arm-none-eabi-gcc "../Src/main.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DSTM32 -DSTM32F1 -DSTM32F103C8Tx -DDEBUG -c -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Src/main.d" -MT"Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Src/main.o"
+arm-none-eabi-gcc -o "CookMirror_LED.elf" @"objects.list"   -mcpu=cortex-m3 -T"D:\Microcontrollers_and_Embedded_Systems\CookMirror\STM32CubeIDE\CookMirror_LED\STM32F103C8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="CookMirror_LED.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: CookMirror_LED.elf
+ 
+arm-none-eabi-objdump -h -S  CookMirror_LED.elf  > "CookMirror_LED.list"
+arm-none-eabi-objcopy  -O binary  CookMirror_LED.elf  "CookMirror_LED.bin"
+arm-none-eabi-size   CookMirror_LED.elf 
+   text	   data	    bss	    dec	    hex	filename
+    700	      8	   1568	   2276	    8e4	CookMirror_LED.elf
+Finished building: default.size.stdout
+ 
+Finished building: CookMirror_LED.list
+Finished building: CookMirror_LED.bin
+ 
+ 
+
+20:23:18 Build Finished. 0 errors, 0 warnings. (took 565ms)
+

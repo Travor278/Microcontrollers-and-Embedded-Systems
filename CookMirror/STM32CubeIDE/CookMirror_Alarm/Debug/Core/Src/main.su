@@ -1,0 +1,8 @@
+main.c:69:13:Alarm_Delay	16	static,ignoring_inline_asm
+main.c:76:13:Alarm_GPIO_Init	4	static
+main.c:89:13:Alarm_ADC_Init	16	static
+main.c:120:17:Alarm_Read_ADC	24	static
+main.c:140:13:Alarm_Update	24	static
+main.c:164:5:main	16	static
+main.c:214:6:SystemClock_Config	72	static
+main.c:253:6:Error_Handler	4	static,ignoring_inline_asm
