@@ -1,0 +1,10 @@
+number_00_7.bmp,7
+number_01_1.bmp,1
+number_02_3.bmp,3
+number_03_2.bmp,2
+number_04_5.bmp,5
+number_05_6.bmp,6
+number_06_4.bmp,4
+number_07_9.bmp,9
+number_08_0.bmp,0
+number_09_8.bmp,8
