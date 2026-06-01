@@ -1,9 +1,12 @@
 #include "./adc/bsp_adc.h"
 
-void ADC_PC1_Config(void)
+#define ADC_WAIT_TIMEOUT       1000000UL
+
+uint8_t ADC_PC1_Config(void)
 {
     GPIO_InitTypeDef GPIO_InitStructure;
     ADC_InitTypeDef ADC_InitStructure;
+    uint32_t timeout;
 
     RCC_APB2PeriphClockCmd(ADC_PC1_GPIO_CLK | ADC_PC1_CLK, ENABLE);
 
@@ -30,25 +33,44 @@ void ADC_PC1_Config(void)
     ADC_Cmd(ADC_PC1, ENABLE);
 
     ADC_ResetCalibration(ADC_PC1);
+    timeout = ADC_WAIT_TIMEOUT;
     while (ADC_GetResetCalibrationStatus(ADC_PC1) == SET)
     {
+        if (timeout-- == 0UL)
+        {
+            return ADC_PC1_TIMEOUT;
+        }
     }
 
     ADC_StartCalibration(ADC_PC1);
+    timeout = ADC_WAIT_TIMEOUT;
     while (ADC_GetCalibrationStatus(ADC_PC1) == SET)
     {
+        if (timeout-- == 0UL)
+        {
+            return ADC_PC1_TIMEOUT;
+        }
     }
+
+    return ADC_PC1_OK;
 }
 
-uint16_t ADC_PC1_ReadRaw(void)
+uint8_t ADC_PC1_ReadRaw(uint16_t *rawValue)
 {
+    uint32_t timeout = ADC_WAIT_TIMEOUT;
+
     ADC_SoftwareStartConvCmd(ADC_PC1, ENABLE);
 
     while (ADC_GetFlagStatus(ADC_PC1, ADC_FLAG_EOC) == RESET)
     {
+        if (timeout-- == 0UL)
+        {
+            return ADC_PC1_TIMEOUT;
+        }
     }
 
-    return ADC_GetConversionValue(ADC_PC1);
+    *rawValue = ADC_GetConversionValue(ADC_PC1);
+    return ADC_PC1_OK;
 }
 
 uint16_t ADC_RawToMilliVolt(uint16_t rawValue)

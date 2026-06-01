@@ -12,8 +12,11 @@
 #define ADC_PC1_CLK             RCC_APB2Periph_ADC1
 #define ADC_PC1_CHANNEL         ADC_Channel_11
 
-void ADC_PC1_Config(void);
-uint16_t ADC_PC1_ReadRaw(void);
+#define ADC_PC1_OK             1U
+#define ADC_PC1_TIMEOUT        0U
+
+uint8_t ADC_PC1_Config(void);
+uint8_t ADC_PC1_ReadRaw(uint16_t *rawValue);
 uint16_t ADC_RawToMilliVolt(uint16_t rawValue);
 
 #endif /* __BSP_ADC_H */

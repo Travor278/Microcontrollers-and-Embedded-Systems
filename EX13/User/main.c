@@ -24,6 +24,7 @@ static void DelayMs(uint32_t ms);
 static void DrawStaticLayout(void);
 static void DrawScopeGrid(void);
 static void DrawRealtimeText(uint16_t rawValue, uint16_t voltageMv, uint8_t alarm);
+static void DrawErrorMessage(char *message);
 static void Scope_Plot(uint16_t voltageMv);
 static uint16_t MovingAverage_Update(uint16_t value);
 static uint16_t VoltageToY(uint16_t voltageMv);
@@ -35,16 +36,33 @@ int main(void)
     uint16_t filteredMv;
     uint8_t alarm;
 
-    USART_Config();
     LED_GPIO_Config();
-    ADC_PC1_Config();
+    USART_Config();
 
+    /* 先把LCD点亮，后续如果ADC初始化失败，屏幕能显示错误而不是白屏。 */
     ILI9341_Init();
     ILI9341_GramScan(6);
-
     LCD_SetBackColor(BLACK);
     LCD_SetTextColor(WHITE);
     ILI9341_Clear(0, 0, LCD_X_LENGTH, LCD_Y_LENGTH);
+    LCD_SetFont(&Font16x24);
+    LCD_SetTextColor(CYAN);
+    ILI9341_DispString_EN(34, 8, "EX3 ADC Scope");
+    LCD_SetFont(&Font8x16);
+    LCD_SetTextColor(YELLOW);
+    ILI9341_DispString_EN(18, 42, "LCD OK, init ADC...");
+
+    if (ADC_PC1_Config() != ADC_PC1_OK)
+    {
+        LED_SetColor(LED_COLOR_RED);
+        DrawErrorMessage("ADC init timeout");
+        printf("\r\nADC init timeout. Check project and ADC clock.\r\n");
+
+        while (1)
+        {
+        }
+    }
+
     DrawStaticLayout();
 
     printf("\r\nSTM32 EX13 ADC fire alarm and LCD scope\r\n");
@@ -54,7 +72,15 @@ int main(void)
 
     while (1)
     {
-        rawValue = ADC_PC1_ReadRaw();
+        if (ADC_PC1_ReadRaw(&rawValue) != ADC_PC1_OK)
+        {
+            LED_SetColor(LED_COLOR_RED);
+            DrawErrorMessage("ADC read timeout");
+            printf("ADC read timeout\r\n");
+            DelayMs(200);
+            continue;
+        }
+
         voltageMv = ADC_RawToMilliVolt(rawValue);
         filteredMv = MovingAverage_Update(voltageMv);
 
@@ -140,6 +166,15 @@ static void DrawRealtimeText(uint16_t rawValue, uint16_t voltageMv, uint8_t alar
     LCD_SetTextColor(alarm ? RED : GREEN);
     sprintf(line, "State: %s", alarm ? "ALARM" : "NORMAL");
     ILI9341_DispString_EN(TEXT_X, TEXT_Y + 36U, line);
+}
+
+static void DrawErrorMessage(char *message)
+{
+    ILI9341_Clear(TEXT_X, TEXT_Y, TEXT_W, TEXT_H);
+    LCD_SetBackColor(BLACK);
+    LCD_SetFont(&Font8x16);
+    LCD_SetTextColor(RED);
+    ILI9341_DispString_EN(TEXT_X, TEXT_Y, message);
 }
 
 static void Scope_Plot(uint16_t voltageMv)
