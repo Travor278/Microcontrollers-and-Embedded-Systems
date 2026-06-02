@@ -1,0 +1,10 @@
+09:12:46 **** Build of configuration Debug for project CookMirror_IC ****
+make -j20 all 
+arm-none-eabi-size   CookMirror_IC.elf 
+   text	   data	    bss	    dec	    hex	filename
+   5912	     20	   1572	   7504	   1d50	CookMirror_IC.elf
+Finished building: default.size.stdout
+ 
+
+09:12:47 Build Finished. 0 errors, 0 warnings. (took 294ms)
+

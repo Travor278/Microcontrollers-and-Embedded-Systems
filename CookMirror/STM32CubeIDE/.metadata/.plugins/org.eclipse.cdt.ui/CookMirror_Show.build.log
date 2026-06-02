@@ -1,0 +1,14 @@
+07:23:25 **** Incremental Build of configuration Debug for project CookMirror_Show ****
+make -j20 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m3 -std=gnu11 -g3 -DUSE_HAL_DRIVER -DSTM32F103x6 -DDEBUG -c -I../Core/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc -I../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc -o "CookMirror_Show.elf" @"objects.list"   -mcpu=cortex-m3 -T"D:\Microcontrollers_and_Embedded_Systems\CookMirror\STM32CubeIDE\CookMirror_Show\STM32F103R6TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="CookMirror_Show.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: CookMirror_Show.elf
+ 
+arm-none-eabi-size   CookMirror_Show.elf 
+   text	   data	    bss	    dec	    hex	filename
+   6696	     24	   1584	   8304	   2070	CookMirror_Show.elf
+Finished building: default.size.stdout
+ 
+
+07:23:26 Build Finished. 0 errors, 0 warnings. (took 731ms)
+

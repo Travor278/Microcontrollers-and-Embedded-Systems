@@ -1,3 +1,0 @@
-recognizer.c:15:6:recognizer_set_model	16	static
-recognizer.c:22:20:recognizer_get_model	4	static
-recognizer.c:27:15:recognizer_predict	64	static
