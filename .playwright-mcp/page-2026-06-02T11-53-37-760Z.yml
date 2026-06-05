@@ -1,0 +1,93 @@
+- generic [ref=e3]:
+  - generic "CookMirror 16:9 mirror prototype" [ref=e4]:
+    - generic [ref=e6]:
+      - generic [ref=e26]:
+        - generic [ref=e27]:
+          - generic [ref=e28]:
+            - text: 06:53
+            - generic [ref=e29]: :37
+          - generic [ref=e30]:
+            - generic [ref=e31]: 6月2日 · 周二
+            - generic [ref=e32]: 立夏 · 宜清淡
+        - generic [ref=e33]:
+          - generic [ref=e34]:
+            - text: 厨房
+            - generic [ref=e36]: 24℃
+          - generic [ref=e37]:
+            - text: 空气
+            - generic [ref=e39]: 良好
+          - generic [ref=e40]:
+            - text: 燃气
+            - generic [ref=e42]: 正常
+        - generic [ref=e43]:
+          - button "语音唤醒" [ref=e44] [cursor=pointer]:
+            - generic [ref=e47]: 聆听中
+          - button "OFF 离线模式 安全闭环本地" [ref=e235] [cursor=pointer]:
+            - generic [ref=e49]: "OFF"
+            - generic [ref=e50]:
+              - generic [ref=e51]: 离线模式
+              - generic [ref=e52]: 安全闭环本地
+      - generic [ref=e104]:
+        - generic [ref=e110]: 倒回蛋块收汁
+        - generic [ref=e113]:
+          - generic [ref=e114]: 红外锅温 · MLX90640
+          - generic [ref=e115]: 206℃
+          - generic [ref=e125]: 保持火候
+        - generic [ref=e126]:
+          - generic [ref=e127]:
+            - generic [ref=e128]:
+              - generic [ref=e129]: 西红柿炒蛋
+              - generic [ref=e130]: 离线缓存 · STM32 锅温闭环
+            - generic [ref=e131]: 步骤 6 / 6
+          - generic [ref=e139]: 回锅收汁
+          - generic [ref=e140]: 倒回蛋块,大火快速翻炒收汁后出锅装盘。
+          - generic [ref=e141]:
+            - generic [ref=e142]: 蛋块回锅
+            - generic [ref=e144]: 计时 1:20
+        - generic [ref=e153]: 倒回蛋块,收汁出锅
+        - generic:
+          - generic: 右向左挥手
+          - generic: 进入下一步
+        - generic [ref=e154]:
+          - generic [ref=e156]: LD2410B 手势就绪
+          - generic [ref=e157]: 6/6
+        - button "AI 调度管家 三菜一汤 · 并行进行中 进行中 加热中 待开始 西红柿炒蛋 步骤 6/6 · 进行中 清蒸鱼 还有 0:00 请关火取出 紫菜蛋汤 待开始 · 炒蛋后接手" [ref=e237] [cursor=pointer]:
+          - generic [ref=e159]:
+            - generic [ref=e160]: AI 调度管家 三菜一汤 · 并行进行中
+            - generic [ref=e161]:
+              - generic [ref=e162]: 进行中
+              - generic [ref=e163]: 加热中
+              - generic [ref=e164]: 待开始
+          - generic [ref=e165]:
+            - generic [ref=e166]: 西红柿炒蛋
+            - generic [ref=e171]:
+              - text: 步骤
+              - generic [ref=e172]: 6/6
+              - text: · 进行中
+          - generic [ref=e173]:
+            - generic [ref=e174]: 清蒸鱼
+            - generic [ref=e179]: 还有 0:00 请关火取出
+          - generic [ref=e180]:
+            - generic [ref=e181]: 紫菜蛋汤
+            - generic [ref=e184]: 待开始 · 炒蛋后接手
+  - generic "演示控制台" [ref=e83]:
+    - generic [ref=e84]:
+      - generic [ref=e85]: 流程
+      - button "待机镜面" [ref=e86] [cursor=pointer]
+      - button "AR 引导 HUD" [ref=e87] [cursor=pointer]
+      - button "多菜调度" [ref=e88] [cursor=pointer]
+      - button "安全关阀" [ref=e89] [cursor=pointer]
+    - generic [ref=e90]:
+      - generic [ref=e91]: 隔空手势
+      - button "上一步" [ref=e92] [cursor=pointer]
+      - button "下一步" [ref=e93] [cursor=pointer]
+    - generic [ref=e94]:
+      - generic [ref=e95]: 链路
+      - button "在线" [ref=e96] [cursor=pointer]
+      - button "4G" [ref=e97] [cursor=pointer]
+      - button "离线" [ref=e98] [cursor=pointer]
+    - generic [ref=e99]:
+      - generic [ref=e100]: 传感器
+      - button "语音唤醒" [ref=e101] [cursor=pointer]
+      - button "锅温预警" [active] [ref=e102] [cursor=pointer]
+    - generic [ref=e103]: CookMirror 厨魔镜 · 16:9 后置 LCD 镜面交互原型

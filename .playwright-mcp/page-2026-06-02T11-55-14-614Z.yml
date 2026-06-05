@@ -1,0 +1,113 @@
+- generic [ref=e3]:
+  - generic "CookMirror 16:9 mirror prototype" [ref=e4]:
+    - generic [ref=e6]:
+      - generic [ref=e26]:
+        - generic [ref=e27]:
+          - generic [ref=e28]:
+            - text: 06:55
+            - generic [ref=e29]: :14
+          - generic [ref=e30]:
+            - generic [ref=e31]: 6月2日 · 周二
+            - generic [ref=e32]: 立夏 · 宜清淡
+        - generic [ref=e33]:
+          - generic [ref=e34]:
+            - text: 厨房
+            - generic [ref=e36]: 24℃
+          - generic [ref=e37]:
+            - text: 空气
+            - generic [ref=e39]: 良好
+          - generic [ref=e40]:
+            - text: 燃气
+            - generic [ref=e42]: 正常
+        - generic [ref=e43]:
+          - button "语音唤醒" [ref=e44] [cursor=pointer]:
+            - generic [ref=e47]: 嘿魔镜
+          - button "WiFi 在线 · 云端 AI MQTTS 心跳 28ms" [ref=e48] [cursor=pointer]:
+            - generic [ref=e49]: WiFi
+            - generic [ref=e50]:
+              - generic [ref=e51]: 在线 · 云端 AI
+              - generic [ref=e52]: MQTTS 心跳 28ms
+      - generic [ref=e104]:
+        - generic [ref=e110]: 油温达 180℃ 即可下锅
+        - generic [ref=e113]:
+          - generic [ref=e114]: 红外锅温 · MLX90640
+          - generic [ref=e115]: 254℃
+          - generic [ref=e125]: 过高 · 即将冒烟
+        - generic [ref=e126]:
+          - generic [ref=e127]:
+            - generic [ref=e128]:
+              - generic [ref=e129]: 西红柿炒蛋
+              - generic [ref=e130]: 云端协同 · STM32 锅温闭环
+            - generic [ref=e131]: 步骤 1 / 6
+          - generic [ref=e139]: 热锅倒油
+          - generic [ref=e140]: 中火热锅,倒入食用油,等待油温升至 180℃。
+          - generic [ref=e141]:
+            - generic [ref=e142]: 食用油 15ml
+            - generic [ref=e144]: 计时 3:00
+          - generic [ref=e145]: 锅温超过安全阈值,建议降火或立即下锅
+        - generic:
+          - generic: 右向左挥手
+          - generic: 进入下一步
+        - generic [ref=e146]:
+          - generic [ref=e148]: LD2410B 手势就绪
+          - generic [ref=e149]: 1/6
+        - button "AI 调度管家 三菜一汤 · 并行进行中 进行中 加热中 待开始 西红柿炒蛋 步骤 1/6 · 进行中 清蒸鱼 蒸制中 · 还有 1:36 紫菜蛋汤 待开始 · 炒蛋后接手" [ref=e150] [cursor=pointer]:
+          - generic [ref=e151]:
+            - generic [ref=e152]: AI 调度管家 三菜一汤 · 并行进行中
+            - generic [ref=e153]:
+              - generic [ref=e154]: 进行中
+              - generic [ref=e155]: 加热中
+              - generic [ref=e156]: 待开始
+          - generic [ref=e157]:
+            - generic [ref=e158]: 西红柿炒蛋
+            - generic [ref=e163]:
+              - text: 步骤
+              - generic [ref=e164]: 1/6
+              - text: · 进行中
+          - generic [ref=e165]:
+            - generic [ref=e166]: 清蒸鱼
+            - generic [ref=e171]: 蒸制中 · 还有 1:36
+          - generic [ref=e172]:
+            - generic [ref=e173]: 紫菜蛋汤
+            - generic [ref=e176]: 待开始 · 炒蛋后接手
+      - generic [ref=e177]:
+        - generic [ref=e180]: 检测到燃气泄漏
+        - generic [ref=e181]: MQ-5 + VOC + 火焰图像 · 三重确认
+        - generic [ref=e182]: "4"
+        - generic [ref=e183]: 即将自动关闭燃气电磁阀
+        - generic [ref=e184]:
+          - generic [ref=e185]:
+            - generic [ref=e186]: MQ-5 燃气
+            - generic [ref=e187]: 1820ppm
+          - generic [ref=e188]:
+            - generic [ref=e189]: VOC
+            - generic [ref=e190]: 超阈值
+          - generic [ref=e191]:
+            - generic [ref=e192]: 响应延迟
+            - generic [ref=e193]: 87ms
+          - generic [ref=e194]:
+            - generic [ref=e195]: 执行
+            - generic [ref=e196]: PC0 关阀
+        - button "我已处理 · 解除警报" [ref=e197] [cursor=pointer]
+        - generic [ref=e198]: 安全闭环完全在 STM32 本地运行 · 断网仍可靠关阀
+  - generic "演示控制台" [ref=e83]:
+    - generic [ref=e84]:
+      - generic [ref=e85]: 流程
+      - button "待机镜面" [ref=e86] [cursor=pointer]
+      - button "AR 引导 HUD" [ref=e87] [cursor=pointer]
+      - button "多菜调度" [ref=e88] [cursor=pointer]
+      - button "安全关阀" [active] [ref=e89] [cursor=pointer]
+    - generic [ref=e90]:
+      - generic [ref=e91]: 隔空手势
+      - button "上一步" [ref=e92] [cursor=pointer]
+      - button "下一步" [ref=e93] [cursor=pointer]
+    - generic [ref=e94]:
+      - generic [ref=e95]: 链路
+      - button "在线" [ref=e96] [cursor=pointer]
+      - button "4G" [ref=e97] [cursor=pointer]
+      - button "离线" [ref=e98] [cursor=pointer]
+    - generic [ref=e99]:
+      - generic [ref=e100]: 传感器
+      - button "语音唤醒" [ref=e101] [cursor=pointer]
+      - button "锅温预警" [ref=e102] [cursor=pointer]
+    - generic [ref=e103]: CookMirror 厨魔镜 · 16:9 后置 LCD 镜面交互原型
