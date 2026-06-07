@@ -26,6 +26,7 @@ CourseDesign_DigitNN/
 │       ├── drivers/
 │       └── utils/
 ├── host_app/             # 上位机/串口监控方案
+├── keil_touch_digit_nn/  # 基于野火触摸画板例程改造的 Keil 实物工程
 ├── models/               # 训练权重、量化参数、模型评估结果
 ├── report/               # 课程设计报告草稿
 ├── testsets/             # TF 卡测试集组织方式
@@ -35,8 +36,8 @@ CourseDesign_DigitNN/
 ## 推荐推进顺序
 
 1. 运行 `tools/train_mnist.py --model perceptron --epochs 5 --export-c`，生成基础模型参数。当前已生成一版 2 epoch 参数，测试集准确率约 89.26%。
-2. 将 `firmware/generated/PerceptronData.c/.h` 加入 Keil 或 CubeIDE 工程，配合 `firmware/src/core` 完成 STM32 推理。
-3. 接入野火 STM32 的 ILI9341 LCD 与 XPT2046 触摸屏驱动，把触摸点送入 `preprocess_add_point()`。
+2. 打开 `keil_touch_digit_nn/Project/RVMDK（uv5）/BH-F103.uvprojx`，使用 DAPLink/CMSIS-DAP 编译下载。
+3. Keil 工程已接入野火 STM32 的 ILI9341 LCD 与 XPT2046 触摸屏驱动，触摸点会送入 `preprocess_add_point()` 并通过 `REC` 按钮触发识别。
 4. 运行 `tools/train_mnist.py --model fnn --epochs 8 --export-c`，完成 FNN 进阶部署。当前已生成一版 2 epoch 参数，测试集准确率约 92.21%。
 5. 用 `tools/make_testset.py` 生成 MNIST BMP 测试集，把个人手写图放进 `testsets/personal`，再做 STM32/PC 端批量测试。当前 `testsets/mnist` 已生成 20 张 BMP 联调集。
 

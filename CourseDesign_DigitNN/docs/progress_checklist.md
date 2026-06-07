@@ -8,9 +8,9 @@
 - [x] 建立 Perceptron 模型训练和 C 数组导出脚本。
 - [x] 建立 STM32 Perceptron 推理模块。
 - [x] 训练并导出一版 Perceptron 量化参数。
-- [ ] 将导出的 `PerceptronData.c/.h` 加入真实 Keil/CubeIDE 工程。
-- [ ] 接入野火 ILI9341 LCD 和 XPT2046 触摸屏。
-- [ ] 在开发板上完成手写输入识别演示。
+- [x] 将导出的 `PerceptronData.c/.h` 加入真实 Keil 工程。
+- [x] 接入野火 ILI9341 LCD 和 XPT2046 触摸屏。
+- [x] 在开发板上完成手写输入识别演示。
 
 ## 进阶任务
 

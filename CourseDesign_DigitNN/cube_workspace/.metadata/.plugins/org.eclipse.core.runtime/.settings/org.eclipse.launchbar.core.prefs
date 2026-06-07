@@ -1,7 +1,0 @@
-LaunchTargetManager/org.eclipse.launchbar.core.launchTargetType.local,Local/arch=x86_64
-LaunchTargetManager/org.eclipse.launchbar.core.launchTargetType.local,Local/name=Local
-LaunchTargetManager/org.eclipse.launchbar.core.launchTargetType.local,Local/os=win32
-configDescList=org.eclipse.launchbar.core.descriptorType.default\:DigitNN_STM32F103VE Debug,org.eclipse.launchbar.core.descriptorType.default\:DigitNN_STM32F103VE Debug (1),org.eclipse.launchbar.core.descriptorType.default\:DigitNN_STM32F103VE Debug (2),org.eclipse.launchbar.core.descriptorType.default\:DigitNN_STM32F103VE Debug (3),org.eclipse.launchbar.core.descriptorType.default\:DigitNN_STM32F103VE Debug (4)
-eclipse.preferences.version=1
-org.eclipse.launchbar.core.descriptorType.default\:DigitNN_STM32F103VE\ Debug/activeLaunchMode=debug
-org.eclipse.launchbar.core.descriptorType.default\:DigitNN_STM32F103VE\ Debug/activeLaunchTarget=org.eclipse.launchbar.core.launchTargetType.local\:Local

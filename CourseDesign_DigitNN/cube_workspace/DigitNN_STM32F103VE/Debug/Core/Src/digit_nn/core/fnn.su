@@ -1,3 +1,0 @@
-fnn.c:15:15:fnn_predict	40	static
-fnn.c:55:13:find_top2	32	static
-fnn.c:77:17:estimate_confidence_q100	32	static

@@ -1,6 +1,6 @@
 # Firmware
 
-本目录提供可加入 Keil/CubeIDE 的 C 代码骨架。
+本目录提供可加入 Keil 工程的 C 代码骨架；当前实物演示主工程在 `../keil_touch_digit_nn/`。
 
 ## 推荐加入工程的文件
 
