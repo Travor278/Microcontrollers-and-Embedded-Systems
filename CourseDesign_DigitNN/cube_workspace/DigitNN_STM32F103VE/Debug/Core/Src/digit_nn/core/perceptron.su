@@ -1,0 +1,3 @@
+perceptron.c:15:15:perceptron_predict	32	static
+perceptron.c:43:13:find_top2	32	static
+perceptron.c:65:17:estimate_confidence_q100	32	static
