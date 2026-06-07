@@ -491,14 +491,11 @@ static void Draw_Clear_Button(void *btn)
 
 		
 		LCD_SetColors(CL_RED,CL_BUTTON_GREY);
-		/*选择字体，使用中英文显示时，尽量把英文选择成8*16的字体，
-		*中文字体大小是16*16的，需要其它字体请自行制作字模*/
-		/*这个函数只对英文字体起作用*/
 		LCD_SetFont(&Font8x16);
-    ILI9341_DispString_EN_CH( ptr->start_x + (ptr->end_x - ptr->start_x - 16*2 )/2,
+    ILI9341_DispString_EN( ptr->start_x + (ptr->end_x - ptr->start_x - 8*3 )/2,
 //																ptr->start_y+15,
 																ptr->start_y+ ((ptr->end_y - ptr->start_y-16)/2),	
-																"清屏");
+																"CLR");
   }
   else  /*按键按下*/
   {
@@ -511,14 +508,11 @@ static void Draw_Clear_Button(void *btn)
     
 		
 		LCD_SetColors(CL_RED,CL_WHITE);
-		/*选择字体，使用中英文显示时，尽量把英文选择成8*16的字体，
-		*中文字体大小是16*16的，需要其它字体请自行制作字模*/
-		/*这个函数只对英文字体起作用*/
 		LCD_SetFont(&Font8x16);
-    ILI9341_DispString_EN_CH( ptr->start_x + (ptr->end_x - ptr->start_x - 16*2 )/2,          
+    ILI9341_DispString_EN( ptr->start_x + (ptr->end_x - ptr->start_x - 8*3 )/2,          
 //																ptr->start_y+15,	           
 																ptr->start_y+ ((ptr->end_y - ptr->start_y-16)/2),	
-																"清屏");
+																"CLR");
   } 
   
      /*按钮边框*/

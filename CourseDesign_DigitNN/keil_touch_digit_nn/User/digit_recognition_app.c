@@ -29,7 +29,7 @@ void DigitRecognition_Clear(void)
     preprocess_clear_strokes(&g_strokes);
     preprocess_clear_image(&g_image);
     g_has_active_stroke = 0U;
-    DrawStatusLine("Digit NN Ready");
+    DrawStatusLine("Ready: draw digit");
 }
 
 void DigitRecognition_AddTouchPoint(int16_t x, int16_t y)
@@ -124,7 +124,7 @@ static void DrawResult(uint8_t p_label, uint16_t p_conf, uint8_t f_label, uint16
 {
     char line[32];
 
-    (void)sprintf(line, "P:%u %u%%  F:%u %u%%",
+    (void)sprintf(line, "PERC:%u %u%% FNN:%u %u%%",
                   (unsigned int)p_label,
                   (unsigned int)p_conf,
                   (unsigned int)f_label,
