@@ -7,13 +7,13 @@
 识别结果：
 
 ```text
-RESULT,model=<P|F>,label=<0-9>,confidence=<0-100>,time_ms=<n>
+RESULT,model=<P|F|C>,label=<0-9>,confidence=<0-100>,time_us=<n>
 ```
 
 批量测试统计：
 
 ```text
-TEST,set=<mnist|personal>,model=<P|F>,total=<n>,correct=<n>,accuracy=<0-10000>,avg_time_us=<n>
+TEST,set=<mnist|personal>,model=<P|F|C>,total=<n>,correct=<n>,accuracy=<0-10000>,avg_time_us=<n>
 ```
 
 系统状态：
@@ -28,6 +28,7 @@ STATUS,state=<idle|drawing|infer|test>,message=<text>
 CMD,CLEAR
 CMD,MODEL,P
 CMD,MODEL,F
+CMD,MODEL,C
 CMD,TEST,mnist
 CMD,TEST,personal
 CMD,INFO

@@ -1,0 +1,83 @@
+[
+  {
+    "model": "perceptron",
+    "set_dir": "tf_card\\mnist",
+    "total": 100,
+    "correct": 90,
+    "accuracy": 0.9,
+    "avg_time_us": 180.19,
+    "set": "mnist"
+  },
+  {
+    "model": "fnn",
+    "set_dir": "tf_card\\mnist",
+    "total": 100,
+    "correct": 98,
+    "accuracy": 0.98,
+    "avg_time_us": 372.59,
+    "set": "mnist"
+  },
+  {
+    "model": "cnn",
+    "set_dir": "tf_card\\mnist",
+    "total": 100,
+    "correct": 98,
+    "accuracy": 0.98,
+    "avg_time_us": 26053.061,
+    "set": "mnist"
+  },
+  {
+    "model": "perceptron",
+    "set_dir": "tf_card\\personal",
+    "total": 10,
+    "correct": 7,
+    "accuracy": 0.7,
+    "avg_time_us": 207.08,
+    "set": "personal"
+  },
+  {
+    "model": "fnn",
+    "set_dir": "tf_card\\personal",
+    "total": 10,
+    "correct": 10,
+    "accuracy": 1.0,
+    "avg_time_us": 338.62,
+    "set": "personal"
+  },
+  {
+    "model": "cnn",
+    "set_dir": "tf_card\\personal",
+    "total": 10,
+    "correct": 9,
+    "accuracy": 0.9,
+    "avg_time_us": 67472.91,
+    "set": "personal"
+  },
+  {
+    "model": "perceptron",
+    "set_dir": "tf_card\\external_usps",
+    "total": 100,
+    "correct": 58,
+    "accuracy": 0.58,
+    "avg_time_us": 897.638,
+    "set": "external_usps"
+  },
+  {
+    "model": "fnn",
+    "set_dir": "tf_card\\external_usps",
+    "total": 100,
+    "correct": 93,
+    "accuracy": 0.93,
+    "avg_time_us": 738.147,
+    "set": "external_usps"
+  },
+  {
+    "model": "cnn",
+    "set_dir": "tf_card\\external_usps",
+    "total": 100,
+    "correct": 89,
+    "accuracy": 0.89,
+    "avg_time_us": 67481.25,
+    "set": "external_usps"
+  }
+]

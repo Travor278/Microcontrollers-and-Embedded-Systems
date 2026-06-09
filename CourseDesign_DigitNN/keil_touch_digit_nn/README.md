@@ -44,5 +44,5 @@ Serial output uses the original example USART configuration.
 2. Calibrate the touch screen if prompted.
 3. Write one digit in the white drawing area.
 4. Tap `REC` in the lower-right button area.
-5. LCD and USART print Perceptron/FNN recognition results.
+5. LCD shows `P/F/C` for Perceptron/FNN/Tiny-CNN recognition results; USART prints labels and confidence values.
 6. Tap the clear button to clear both LCD drawing and recognition buffer.

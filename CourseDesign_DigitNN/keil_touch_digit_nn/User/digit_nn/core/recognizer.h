@@ -14,7 +14,8 @@
 
 typedef enum {
     RECOGNIZER_MODEL_PERCEPTRON = 0,
-    RECOGNIZER_MODEL_FNN = 1
+    RECOGNIZER_MODEL_FNN = 1,
+    RECOGNIZER_MODEL_CNN = 2
 } recognizer_model_t;
 
 typedef struct {

@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import shutil
 from pathlib import Path
 from typing import Iterable
 
@@ -17,6 +18,7 @@ from torchvision import datasets, transforms
 ROOT_DIR = Path(__file__).resolve().parents[1]
 MODEL_DIR = ROOT_DIR / "models"
 GENERATED_DIR = ROOT_DIR / "firmware" / "generated"
+KEIL_GENERATED_DIR = ROOT_DIR / "keil_touch_digit_nn" / "User" / "digit_nn" / "generated"
 
 
 class Perceptron(nn.Module):
@@ -47,23 +49,21 @@ class FNN(nn.Module):
 
 
 class CNN(nn.Module):
-    """Compact CNN for PC/Linux-side edge-collaboration experiments."""
+    """Tiny CNN small enough for STM32F103 integer inference."""
 
     def __init__(self) -> None:
         super().__init__()
         self.features = nn.Sequential(
-            nn.Conv2d(1, 16, kernel_size=3, padding=1),
+            nn.Conv2d(1, 4, kernel_size=3, padding=1),
             nn.ReLU(),
             nn.MaxPool2d(2),
-            nn.Conv2d(16, 32, kernel_size=3, padding=1),
+            nn.Conv2d(4, 8, kernel_size=3, padding=1),
             nn.ReLU(),
             nn.MaxPool2d(2),
         )
         self.classifier = nn.Sequential(
             nn.Flatten(),
-            nn.Linear(32 * 7 * 7, 64),
-            nn.ReLU(),
-            nn.Linear(64, 10),
+            nn.Linear(8 * 7 * 7, 10),
         )
 
     def forward(self, images: torch.Tensor) -> torch.Tensor:
@@ -80,10 +80,18 @@ def build_model(model_name: str) -> nn.Module:
     raise ValueError(f"unsupported model: {model_name}")
 
 
-def build_loaders(data_dir: Path, batch_size: int) -> tuple[DataLoader, DataLoader]:
-    transform = transforms.Compose([transforms.ToTensor()])
-    train_set = datasets.MNIST(root=data_dir, train=True, download=True, transform=transform)
-    test_set = datasets.MNIST(root=data_dir, train=False, download=True, transform=transform)
+def build_loaders(data_dir: Path, batch_size: int, augment: bool) -> tuple[DataLoader, DataLoader]:
+    test_transform = transforms.Compose([transforms.ToTensor()])
+    if augment:
+        train_transform = transforms.Compose([
+            transforms.RandomAffine(degrees=12, translate=(0.10, 0.10), scale=(0.85, 1.15), shear=5, fill=0),
+            transforms.ToTensor(),
+        ])
+    else:
+        train_transform = test_transform
+
+    train_set = datasets.MNIST(root=data_dir, train=True, download=True, transform=train_transform)
+    test_set = datasets.MNIST(root=data_dir, train=False, download=True, transform=test_transform)
     train_loader = DataLoader(train_set, batch_size=batch_size, shuffle=True, num_workers=0)
     test_loader = DataLoader(test_set, batch_size=batch_size, shuffle=False, num_workers=0)
     return train_loader, test_loader
@@ -149,6 +157,16 @@ def format_c_matrix(values: np.ndarray, indent: str = "    ") -> str:
     rows: list[str] = []
     for row in values:
         rows.append(f"{indent}{{\n{format_c_array(row, indent + '    ')}\n{indent}}}")
+    return ",\n".join(rows)
+
+
+def format_c_nested(values: np.ndarray, indent: str = "    ") -> str:
+    if values.ndim == 1:
+        return format_c_array(values, indent)
+
+    rows: list[str] = []
+    for row in values:
+        rows.append(f"{indent}{{\n{format_c_nested(row, indent + '    ')}\n{indent}}}")
     return ",\n".join(rows)
 
 
@@ -279,6 +297,137 @@ const int32_t g_fnn_bias_2[FNN_CLASS_COUNT] = {{
     )
 
 
+def write_cnn_c(model: CNN, output_dir: Path) -> None:
+    output_dir.mkdir(parents=True, exist_ok=True)
+    conv1 = model.features[0]
+    conv2 = model.features[3]
+    fc = model.classifier[1]
+    assert isinstance(conv1, nn.Conv2d)
+    assert isinstance(conv2, nn.Conv2d)
+    assert isinstance(fc, nn.Linear)
+
+    conv1_weight = conv1.weight.detach().cpu().numpy()[:, 0, :, :]
+    conv1_bias = conv1.bias.detach().cpu().numpy()
+    conv2_weight = conv2.weight.detach().cpu().numpy()
+    conv2_bias = conv2.bias.detach().cpu().numpy()
+    fc_weight = fc.weight.detach().cpu().numpy()
+    fc_bias = fc.bias.detach().cpu().numpy()
+
+    conv1_weight_q, conv1_scale = quantize_weight(conv1_weight)
+    conv2_weight_q, conv2_scale = quantize_weight(conv2_weight)
+    fc_weight_q, fc_scale = quantize_weight(fc_weight)
+
+    conv1_shift = 8
+    conv2_shift = 8
+    conv1_feature_scale = 255.0 / (conv1_scale * float(1 << conv1_shift))
+    conv2_feature_scale = conv1_feature_scale / (conv2_scale * float(1 << conv2_shift))
+
+    conv1_bias_q = np.round(conv1_bias * 255.0 / conv1_scale).astype(np.int32)
+    conv2_bias_q = np.round(conv2_bias * conv1_feature_scale / conv2_scale).astype(np.int32)
+    fc_bias_q = np.round(fc_bias * conv2_feature_scale / fc_scale).astype(np.int32)
+
+    (output_dir / "CNN_Data.h").write_text(
+        f"""/**
+ * @file CNN_Data.h
+ * @brief Quantized Tiny-CNN weights exported from tools/train_mnist.py.
+ * @author generated
+ */
+#ifndef CNN_DATA_H
+#define CNN_DATA_H
+
+#include <stdint.h>
+
+#define CNN_INPUT_WIDTH            28U
+#define CNN_INPUT_HEIGHT           28U
+#define CNN_CONV1_OUT_CHANNELS     {conv1_weight_q.shape[0]}U
+#define CNN_CONV2_IN_CHANNELS      {conv2_weight_q.shape[1]}U
+#define CNN_CONV2_OUT_CHANNELS     {conv2_weight_q.shape[0]}U
+#define CNN_KERNEL_SIZE            3U
+#define CNN_POOL1_WIDTH            14U
+#define CNN_POOL1_HEIGHT           14U
+#define CNN_POOL2_WIDTH            7U
+#define CNN_POOL2_HEIGHT           7U
+#define CNN_FEATURE_SIZE           (CNN_CONV2_OUT_CHANNELS * CNN_POOL2_WIDTH * CNN_POOL2_HEIGHT)
+#define CNN_CLASS_COUNT            10U
+#define CNN_CONV1_SHIFT            {conv1_shift}U
+#define CNN_CONV2_SHIFT            {conv2_shift}U
+
+extern const int8_t g_cnn_conv1_weight[CNN_CONV1_OUT_CHANNELS][CNN_KERNEL_SIZE][CNN_KERNEL_SIZE];
+extern const int32_t g_cnn_conv1_bias[CNN_CONV1_OUT_CHANNELS];
+extern const int8_t g_cnn_conv2_weight[CNN_CONV2_OUT_CHANNELS][CNN_CONV2_IN_CHANNELS][CNN_KERNEL_SIZE][CNN_KERNEL_SIZE];
+extern const int32_t g_cnn_conv2_bias[CNN_CONV2_OUT_CHANNELS];
+extern const int8_t g_cnn_fc_weight[CNN_CLASS_COUNT][CNN_FEATURE_SIZE];
+extern const int32_t g_cnn_fc_bias[CNN_CLASS_COUNT];
+
+#endif
+""",
+        encoding="utf-8",
+    )
+
+    c_text = f"""/**
+ * @file CNN_Data.c
+ * @brief Quantized Tiny-CNN weights exported from tools/train_mnist.py.
+ * @author generated
+ */
+#include "CNN_Data.h"
+
+const int8_t g_cnn_conv1_weight[CNN_CONV1_OUT_CHANNELS][CNN_KERNEL_SIZE][CNN_KERNEL_SIZE] = {{
+{format_c_nested(conv1_weight_q)}
+}};
+
+const int32_t g_cnn_conv1_bias[CNN_CONV1_OUT_CHANNELS] = {{
+{format_c_array(conv1_bias_q)}
+}};
+
+const int8_t g_cnn_conv2_weight[CNN_CONV2_OUT_CHANNELS][CNN_CONV2_IN_CHANNELS][CNN_KERNEL_SIZE][CNN_KERNEL_SIZE] = {{
+{format_c_nested(conv2_weight_q)}
+}};
+
+const int32_t g_cnn_conv2_bias[CNN_CONV2_OUT_CHANNELS] = {{
+{format_c_array(conv2_bias_q)}
+}};
+
+const int8_t g_cnn_fc_weight[CNN_CLASS_COUNT][CNN_FEATURE_SIZE] = {{
+{format_c_matrix(fc_weight_q)}
+}};
+
+const int32_t g_cnn_fc_bias[CNN_CLASS_COUNT] = {{
+{format_c_array(fc_bias_q)}
+}};
+"""
+    (output_dir / "CNN_Data.c").write_text(c_text, encoding="utf-8")
+    np.savez(
+        MODEL_DIR / "cnn_quant.npz",
+        conv1_weight=conv1_weight_q,
+        conv1_bias=conv1_bias_q,
+        conv2_weight=conv2_weight_q,
+        conv2_bias=conv2_bias_q,
+        fc_weight=fc_weight_q,
+        fc_bias=fc_bias_q,
+        conv1_shift=np.array([conv1_shift], dtype=np.int32),
+        conv2_shift=np.array([conv2_shift], dtype=np.int32),
+        conv1_scale=np.array([conv1_scale], dtype=np.float32),
+        conv2_scale=np.array([conv2_scale], dtype=np.float32),
+        fc_scale=np.array([fc_scale], dtype=np.float32),
+    )
+
+
+def sync_generated_for_keil(filenames: Iterable[str]) -> None:
+    KEIL_GENERATED_DIR.mkdir(parents=True, exist_ok=True)
+
+    for filename in filenames:
+        source = GENERATED_DIR / filename
+        target = KEIL_GENERATED_DIR / filename
+        if filename.endswith(".c"):
+            text = source.read_text(encoding="utf-8")
+            text = text.replace('#include "PerceptronData.h"', '#include "digit_nn/generated/PerceptronData.h"')
+            text = text.replace('#include "FNN_Data.h"', '#include "digit_nn/generated/FNN_Data.h"')
+            text = text.replace('#include "CNN_Data.h"', '#include "digit_nn/generated/CNN_Data.h"')
+            target.write_text(text, encoding="utf-8")
+        else:
+            shutil.copyfile(source, target)
+
+
 def save_metrics(metrics_path: Path, records: Iterable[dict[str, object]]) -> None:
     metrics_path.write_text(json.dumps(list(records), ensure_ascii=False, indent=2), encoding="utf-8")
 
@@ -291,15 +440,20 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--lr", type=float, default=1e-3)
     parser.add_argument("--data-dir", type=Path, default=ROOT_DIR / "data")
     parser.add_argument("--out-dir", type=Path, default=MODEL_DIR)
+    parser.add_argument("--augment", action="store_true", help="Use light affine augmentation to improve handwritten robustness.")
     parser.add_argument("--export-c", action="store_true", help="Export quantized C arrays for MCU deployment.")
+    parser.add_argument("--export-keil", action="store_true", help="Also sync generated C arrays into the Keil touch project.")
+    parser.add_argument("--seed", type=int, default=2026)
     return parser.parse_args()
 
 
 def main() -> None:
     args = parse_args()
     args.out_dir.mkdir(parents=True, exist_ok=True)
+    torch.manual_seed(args.seed)
+    np.random.seed(args.seed)
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    train_loader, test_loader = build_loaders(args.data_dir, args.batch_size)
+    train_loader, test_loader = build_loaders(args.data_dir, args.batch_size, args.augment)
     model = build_model(args.model).to(device)
     optimizer = torch.optim.Adam(model.parameters(), lr=args.lr)
     records: list[dict[str, object]] = []
@@ -319,10 +473,16 @@ def main() -> None:
     if args.export_c:
         if args.model == "perceptron":
             write_perceptron_c(model.cpu(), GENERATED_DIR)  # type: ignore[arg-type]
+            exported_files = ["PerceptronData.c", "PerceptronData.h"]
         elif args.model == "fnn":
             write_fnn_c(model.cpu(), GENERATED_DIR)  # type: ignore[arg-type]
+            exported_files = ["FNN_Data.c", "FNN_Data.h"]
         else:
-            print("CNN C export is intentionally skipped; use it for Linux-side edge collaboration.")
+            write_cnn_c(model.cpu(), GENERATED_DIR)  # type: ignore[arg-type]
+            exported_files = ["CNN_Data.c", "CNN_Data.h"]
+        if args.export_keil:
+            sync_generated_for_keil(exported_files)
+            print(f"synced generated files to Keil: {KEIL_GENERATED_DIR}")
 
 
 if __name__ == "__main__":

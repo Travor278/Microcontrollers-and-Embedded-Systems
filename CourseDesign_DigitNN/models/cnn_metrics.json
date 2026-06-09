@@ -1,0 +1,32 @@
+[
+  {
+    "model": "cnn",
+    "epoch": 1,
+    "loss": 1.6309564611752827,
+    "accuracy": 0.8579
+  },
+  {
+    "model": "cnn",
+    "epoch": 2,
+    "loss": 0.8504395979563395,
+    "accuracy": 0.9198
+  },
+  {
+    "model": "cnn",
+    "epoch": 3,
+    "loss": 0.550651731300354,
+    "accuracy": 0.9471
+  },
+  {
+    "model": "cnn",
+    "epoch": 4,
+    "loss": 0.4092792953968048,
+    "accuracy": 0.9551
+  },
+  {
+    "model": "cnn",
+    "epoch": 5,
+    "loss": 0.3536176982720693,
+    "accuracy": 0.9597
+  }
+]

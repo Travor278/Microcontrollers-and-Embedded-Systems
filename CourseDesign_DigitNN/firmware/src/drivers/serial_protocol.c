@@ -94,6 +94,12 @@ status_code_t serial_protocol_handle_command(const char *line)
         return STATUS_SUCCESS;
     }
 
+    if (strncmp(line, "CMD,MODEL,C", 11U) == 0) {
+        recognizer_set_model(RECOGNIZER_MODEL_CNN);
+        serial_protocol_send_status("idle", "model_cnn");
+        return STATUS_SUCCESS;
+    }
+
     if (strncmp(line, "CMD,INFO", 8U) == 0) {
         serial_protocol_send_status("idle", "digit_nn_ready");
         return STATUS_SUCCESS;
@@ -105,6 +111,10 @@ status_code_t serial_protocol_handle_command(const char *line)
 
 static const char *model_to_text(recognizer_model_t model)
 {
+    if (model == RECOGNIZER_MODEL_CNN) {
+        return "C";
+    }
+
     return (model == RECOGNIZER_MODEL_FNN) ? "F" : "P";
 }
 

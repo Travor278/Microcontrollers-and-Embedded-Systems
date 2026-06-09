@@ -17,7 +17,7 @@ static digit_image_t g_image;
 static uint8_t g_has_active_stroke = 0U;
 
 static void DrawStatusLine(const char *text);
-static void DrawResult(uint8_t p_label, uint16_t p_conf, uint8_t f_label, uint16_t f_conf);
+static void DrawResult(uint8_t p_label, uint8_t f_label, uint8_t c_label);
 
 void DigitRecognition_Init(void)
 {
@@ -69,6 +69,7 @@ void DigitRecognition_Run(void)
 {
     recognizer_result_t p_result;
     recognizer_result_t f_result;
+    recognizer_result_t c_result;
     status_code_t status;
 
     DigitRecognition_EndStroke();
@@ -96,14 +97,23 @@ void DigitRecognition_Run(void)
         return;
     }
 
-    DrawResult(p_result.label, p_result.confidence_q100,
-               f_result.label, f_result.confidence_q100);
+    recognizer_set_model(RECOGNIZER_MODEL_CNN);
+    status = recognizer_predict(&g_image, &c_result);
+    if (status != STATUS_SUCCESS) {
+        DrawStatusLine("CNN error");
+        printf("DigitNN: cnn error, status=%d\r\n", (int)status);
+        return;
+    }
 
-    printf("DigitNN result: Perceptron=%u conf=%u, FNN=%u conf=%u\r\n",
+    DrawResult(p_result.label, f_result.label, c_result.label);
+
+    printf("DigitNN result: Perceptron=%u conf=%u, FNN=%u conf=%u, CNN=%u conf=%u\r\n",
            (unsigned int)p_result.label,
            (unsigned int)p_result.confidence_q100,
            (unsigned int)f_result.label,
-           (unsigned int)f_result.confidence_q100);
+           (unsigned int)f_result.confidence_q100,
+           (unsigned int)c_result.label,
+           (unsigned int)c_result.confidence_q100);
 }
 
 static void DrawStatusLine(const char *text)
@@ -120,14 +130,13 @@ static void DrawStatusLine(const char *text)
     LCD_SetColors(brush.color, CL_WHITE);
 }
 
-static void DrawResult(uint8_t p_label, uint16_t p_conf, uint8_t f_label, uint16_t f_conf)
+static void DrawResult(uint8_t p_label, uint8_t f_label, uint8_t c_label)
 {
     char line[32];
 
-    (void)sprintf(line, "PERC:%u %u%% FNN:%u %u%%",
+    (void)sprintf(line, "P:%u F:%u C:%u",
                   (unsigned int)p_label,
-                  (unsigned int)p_conf,
                   (unsigned int)f_label,
-                  (unsigned int)f_conf);
+                  (unsigned int)c_label);
     DrawStatusLine(line);
 }

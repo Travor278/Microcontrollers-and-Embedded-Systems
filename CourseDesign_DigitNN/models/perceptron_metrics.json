@@ -2,13 +2,13 @@
   {
     "model": "perceptron",
     "epoch": 1,
-    "loss": 1.0808492641131082,
-    "accuracy": 0.8661
+    "loss": 1.1145045034726462,
+    "accuracy": 0.8692
   },
   {
     "model": "perceptron",
     "epoch": 2,
-    "loss": 0.5347811622778574,
-    "accuracy": 0.8926
+    "loss": 0.5394981542110443,
+    "accuracy": 0.8925
   }
 ]

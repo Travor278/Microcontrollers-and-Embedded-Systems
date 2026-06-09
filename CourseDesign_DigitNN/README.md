@@ -7,7 +7,7 @@
 本目录按任务书和培训文档先搭好可持续迭代的工程骨架：
 
 - 基本任务：触摸屏采集手写轨迹，预处理到 28x28 图像，训练单层感知机，导出 `PerceptronData.c/.h`，在 STM32 端完成推理。
-- 进阶任务：多层全连接网络 FNN 训练/部署，MNIST 与个人手写 BMP 测试集，批量自动化测试，串口结果上报，后续可扩展 CNN/边缘协同/EMNIST。
+- 进阶任务：多层全连接网络 FNN 与 Tiny-CNN 训练/部署，MNIST 与个人手写 BMP 测试集，批量自动化测试，串口结果上报，后续可扩展多类型字符/EMNIST。
 - 规范要求：C 代码使用蛇形命名、`.h/.c` 分离、Doxygen 风格注释、按 `inc/src` 与 `core/drivers/utils` 分层。
 
 ## 目录
@@ -35,11 +35,12 @@ CourseDesign_DigitNN/
 
 ## 推荐推进顺序
 
-1. 运行 `tools/train_mnist.py --model perceptron --epochs 5 --export-c`，生成基础模型参数。当前已生成一版 2 epoch 参数，测试集准确率约 89.26%。
+1. 运行 `tools/train_mnist.py --model perceptron --epochs 2 --batch-size 512 --export-c --export-keil`，生成基础模型参数。当前 Perceptron 官方 MNIST 测试准确率约 89.25%。
 2. 打开 `keil_touch_digit_nn/Project/RVMDK（uv5）/BH-F103.uvprojx`，使用 DAPLink/CMSIS-DAP 编译下载。
 3. Keil 工程已接入野火 STM32 的 ILI9341 LCD 与 XPT2046 触摸屏驱动，触摸点会送入 `preprocess_add_point()` 并通过 `REC` 按钮触发识别。
-4. 运行 `tools/train_mnist.py --model fnn --epochs 8 --export-c`，完成 FNN 进阶部署。当前已生成一版 2 epoch 参数，测试集准确率约 92.21%。
-5. 用 `tools/make_testset.py` 生成 MNIST BMP 测试集，把个人手写图放进 `testsets/personal`，再做 STM32/PC 端批量测试。当前 `testsets/mnist` 已生成 20 张 BMP 联调集。
+4. 运行 `tools/train_mnist.py --model fnn --epochs 8 --batch-size 512 --augment --export-c --export-keil`，完成增强 FNN 部署。当前 FNN 官方 MNIST 测试准确率约 94.48%。
+5. 运行 `tools/train_mnist.py --model cnn --epochs 5 --batch-size 512 --augment --export-c --export-keil`，完成 Tiny-CNN 进阶部署。当前 Tiny-CNN 官方 MNIST 测试准确率约 95.97%。
+6. 运行 `tools/evaluate_tf_card.py`，对 `tf_card/mnist`、`tf_card/personal` 与 `tf_card/external_usps` 做 PC 端批量评估并生成 `models/tf_card_eval.json`。
 
 ## 规范入口
 
@@ -48,4 +49,5 @@ CourseDesign_DigitNN/
 - 程序流程：`docs/algorithm_flow_mermaid.md`
 - 串口协议：`docs/serial_protocol.md`
 - 联调结果：`docs/test_results.md`
+- 多类型字符扩展：`docs/multitype_extension_plan.md`
 - 报告草稿：`report/report_draft.md`
