@@ -1,4 +1,8 @@
 *.mp4
 __pycache__/
+.claude/
+.vscode/
+.playwright/
+.playwright-mcp/
 CourseDesign_DigitNN/cube_workspace/
 CourseDesign_DigitNN/data/
