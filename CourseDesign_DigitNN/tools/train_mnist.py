@@ -21,6 +21,34 @@ GENERATED_DIR = ROOT_DIR / "firmware" / "generated"
 KEIL_GENERATED_DIR = ROOT_DIR / "keil_touch_digit_nn" / "User" / "digit_nn" / "generated"
 
 
+def write_domain_header(output_dir: Path, domain: str, class_count: int) -> None:
+    output_dir.mkdir(parents=True, exist_ok=True)
+    if domain != "digit":
+        raise ValueError("train_mnist.py can only export the digit firmware domain")
+
+    (output_dir / "RecognitionDomain.h").write_text(
+        f"""/**
+ * @file RecognitionDomain.h
+ * @brief Active recognition domain for the shared STM32 firmware shell.
+ */
+#ifndef RECOGNITION_DOMAIN_H
+#define RECOGNITION_DOMAIN_H
+
+#define RECOGNITION_DOMAIN_DIGIT   1U
+#define RECOGNITION_DOMAIN_LETTER  2U
+
+#define RECOGNITION_DOMAIN         RECOGNITION_DOMAIN_DIGIT
+#define RECOGNIZER_CLASS_COUNT     {class_count}U
+#define RECOGNIZER_LABEL_BASE      '0'
+#define RECOGNIZER_DOMAIN_NAME     "DigitNN"
+#define RECOGNIZER_READY_TEXT      "Ready: draw digit"
+
+#endif
+""",
+        encoding="utf-8",
+    )
+
+
 class Perceptron(nn.Module):
     """Single-layer neural network for the basic task."""
 
@@ -471,15 +499,16 @@ def main() -> None:
     print(f"saved model: {model_path}")
 
     if args.export_c:
+        write_domain_header(GENERATED_DIR, "digit", 10)
         if args.model == "perceptron":
             write_perceptron_c(model.cpu(), GENERATED_DIR)  # type: ignore[arg-type]
-            exported_files = ["PerceptronData.c", "PerceptronData.h"]
+            exported_files = ["RecognitionDomain.h", "PerceptronData.c", "PerceptronData.h"]
         elif args.model == "fnn":
             write_fnn_c(model.cpu(), GENERATED_DIR)  # type: ignore[arg-type]
-            exported_files = ["FNN_Data.c", "FNN_Data.h"]
+            exported_files = ["RecognitionDomain.h", "FNN_Data.c", "FNN_Data.h"]
         else:
             write_cnn_c(model.cpu(), GENERATED_DIR)  # type: ignore[arg-type]
-            exported_files = ["CNN_Data.c", "CNN_Data.h"]
+            exported_files = ["RecognitionDomain.h", "CNN_Data.c", "CNN_Data.h"]
         if args.export_keil:
             sync_generated_for_keil(exported_files)
             print(f"synced generated files to Keil: {KEIL_GENERATED_DIR}")

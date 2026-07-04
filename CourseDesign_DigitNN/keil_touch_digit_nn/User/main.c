@@ -23,6 +23,7 @@
 #include "./led/bsp_led.h" 
 #include "palette.h"
 #include "digit_recognition_app.h"
+#include "digit_nn/generated/RecognitionDomain.h"
 #include <string.h>
 
 #define SERIAL_HEARTBEAT_ENABLE 0U
@@ -72,7 +73,8 @@ int main(void)
 			if (serial_heartbeat_counter >= SERIAL_HEARTBEAT_LOOPS)
 			{
 				serial_heartbeat_counter = 0U;
-				printf("HB,fw=DigitNN_Touch,uart=USART1,tx=PA9,rx=PA10,id=%lu\r\n",
+				printf("HB,fw=%s_Touch,uart=USART1,tx=PA9,rx=PA10,id=%lu\r\n",
+				       RECOGNIZER_DOMAIN_NAME,
 				       (unsigned long)serial_heartbeat_id++);
 			}
 #endif

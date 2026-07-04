@@ -29,6 +29,7 @@ static void DrawStatusLine(const char *text);
 static void DrawResult(const recognizer_result_t *p_result,
                        const recognizer_result_t *f_result,
                        const recognizer_result_t *c_result);
+static void FormatLabel(uint8_t label, char *text);
 #if APP_SERIAL_TOUCH_STREAM_ENABLE
 static void EmitTouchPoint(uint16_t x, uint16_t y);
 #endif
@@ -49,9 +50,11 @@ void DigitRecognition_Clear(void)
     g_has_active_stroke = 0U;
     g_serial_point_count = 0U;
     g_serial_has_last = 0U;
-    DrawStatusLine("Ready: draw digit");
+    DrawStatusLine(RECOGNIZER_READY_TEXT);
 #if APP_SERIAL_BOOT_INFO_ENABLE
-    printf("INFO,fw=DigitNN_Touch,proto=touch_stream_v1,image=%ux%u\r\n",
+    printf("INFO,fw=%s_Touch,domain=%s,proto=touch_stream_v1,image=%ux%u\r\n",
+           RECOGNIZER_DOMAIN_NAME,
+           RECOGNIZER_DOMAIN_NAME,
            (unsigned int)DIGIT_IMAGE_WIDTH,
            (unsigned int)DIGIT_IMAGE_HEIGHT);
     printf("CLEAR\r\n");
@@ -108,6 +111,9 @@ void DigitRecognition_Run(void)
     recognizer_result_t p_result;
     recognizer_result_t f_result;
     recognizer_result_t c_result;
+    char p_label[4];
+    char f_label[4];
+    char c_label[4];
     status_code_t status;
 
     DigitRecognition_EndStroke();
@@ -162,22 +168,30 @@ void DigitRecognition_Run(void)
     DrawResult(&p_result, &f_result, &c_result);
 
 #if APP_SERIAL_REC_FRAME_ENABLE
-    printf("RESULT,model=P,label=%u,confidence=%u,time_us=0\r\n",
+    FormatLabel(p_result.label, p_label);
+    FormatLabel(f_result.label, f_label);
+    FormatLabel(c_result.label, c_label);
+
+    printf("RESULT,model=P,label=%s,label_index=%u,confidence=%u,time_us=0\r\n",
+           p_label,
            (unsigned int)p_result.label,
            (unsigned int)p_result.confidence_q100);
-    printf("RESULT,model=F,label=%u,confidence=%u,time_us=0\r\n",
+    printf("RESULT,model=F,label=%s,label_index=%u,confidence=%u,time_us=0\r\n",
+           f_label,
            (unsigned int)f_result.label,
            (unsigned int)f_result.confidence_q100);
-    printf("RESULT,model=C,label=%u,confidence=%u,time_us=0\r\n",
+    printf("RESULT,model=C,label=%s,label_index=%u,confidence=%u,time_us=0\r\n",
+           c_label,
            (unsigned int)c_result.label,
            (unsigned int)c_result.confidence_q100);
 
-    printf("DigitNN result: Perceptron=%u conf=%u, FNN=%u conf=%u, CNN=%u conf=%u\r\n",
-           (unsigned int)p_result.label,
+    printf("%s result: Perceptron=%s conf=%u, FNN=%s conf=%u, CNN=%s conf=%u\r\n",
+           RECOGNIZER_DOMAIN_NAME,
+           p_label,
            (unsigned int)p_result.confidence_q100,
-           (unsigned int)f_result.label,
+           f_label,
            (unsigned int)f_result.confidence_q100,
-           (unsigned int)c_result.label,
+           c_label,
            (unsigned int)c_result.confidence_q100);
 #endif
 }
@@ -201,15 +215,36 @@ static void DrawResult(const recognizer_result_t *p_result,
                        const recognizer_result_t *c_result)
 {
     char line[32];
+    char p_label[4];
+    char f_label[4];
+    char c_label[4];
 
-    (void)sprintf(line, "P:%u %u%% F:%u %u%% C:%u %u%%",
-                  (unsigned int)p_result->label,
+    FormatLabel(p_result->label, p_label);
+    FormatLabel(f_result->label, f_label);
+    FormatLabel(c_result->label, c_label);
+
+    (void)sprintf(line, "P:%s %u%% F:%s %u%% C:%s %u%%",
+                  p_label,
                   (unsigned int)p_result->confidence_q100,
-                  (unsigned int)f_result->label,
+                  f_label,
                   (unsigned int)f_result->confidence_q100,
-                  (unsigned int)c_result->label,
+                  c_label,
                   (unsigned int)c_result->confidence_q100);
     DrawStatusLine(line);
+}
+
+static void FormatLabel(uint8_t label, char *text)
+{
+#if RECOGNITION_DOMAIN == RECOGNITION_DOMAIN_LETTER
+    if (label < 26U) {
+        text[0] = (char)('A' + label);
+        text[1] = '\0';
+    } else {
+        (void)sprintf(text, "?");
+    }
+#else
+    (void)sprintf(text, "%u", (unsigned int)label);
+#endif
 }
 
 #if APP_SERIAL_TOUCH_STREAM_ENABLE

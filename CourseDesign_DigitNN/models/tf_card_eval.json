@@ -2,55 +2,1199 @@
   {
     "model": "perceptron",
     "set_dir": "tf_card\\mnist",
-    "total": 100,
-    "correct": 90,
-    "accuracy": 0.9,
-    "avg_time_us": 180.19,
+    "total": 1000,
+    "correct": 874,
+    "accuracy": 0.874,
+    "avg_time_us": 688.554,
+    "confusions": [
+      {
+        "truth": 2,
+        "prediction": 8,
+        "count": 8,
+        "rate": 0.008,
+        "examples": [
+          "img_0444_2.bmp",
+          "img_0547_2.bmp",
+          "img_0613_2.bmp"
+        ]
+      },
+      {
+        "truth": 4,
+        "prediction": 9,
+        "count": 8,
+        "rate": 0.008,
+        "examples": [
+          "img_0325_4.bmp",
+          "img_0376_4.bmp",
+          "img_0565_4.bmp"
+        ]
+      },
+      {
+        "truth": 7,
+        "prediction": 9,
+        "count": 7,
+        "rate": 0.007,
+        "examples": [
+          "img_0080_7.bmp",
+          "img_0307_7.bmp",
+          "img_0468_7.bmp"
+        ]
+      },
+      {
+        "truth": 3,
+        "prediction": 5,
+        "count": 5,
+        "rate": 0.005,
+        "examples": [
+          "img_0313_3.bmp",
+          "img_0449_3.bmp",
+          "img_0507_3.bmp"
+        ]
+      },
+      {
+        "truth": 3,
+        "prediction": 8,
+        "count": 5,
+        "rate": 0.005,
+        "examples": [
+          "img_0195_3.bmp",
+          "img_0515_3.bmp",
+          "img_0578_3.bmp"
+        ]
+      },
+      {
+        "truth": 7,
+        "prediction": 1,
+        "count": 5,
+        "rate": 0.005,
+        "examples": [
+          "img_0111_7.bmp",
+          "img_0175_7.bmp",
+          "img_0282_7.bmp"
+        ]
+      },
+      {
+        "truth": 2,
+        "prediction": 7,
+        "count": 4,
+        "rate": 0.004,
+        "examples": [
+          "img_0077_2.bmp",
+          "img_0321_2.bmp",
+          "img_0362_2.bmp"
+        ]
+      },
+      {
+        "truth": 5,
+        "prediction": 3,
+        "count": 4,
+        "rate": 0.004,
+        "examples": [
+          "img_0340_5.bmp",
+          "img_0502_5.bmp",
+          "img_0674_5.bmp"
+        ]
+      },
+      {
+        "truth": 5,
+        "prediction": 8,
+        "count": 4,
+        "rate": 0.004,
+        "examples": [
+          "img_0317_5.bmp",
+          "img_0478_5.bmp",
+          "img_0720_5.bmp"
+        ]
+      },
+      {
+        "truth": 9,
+        "prediction": 4,
+        "count": 4,
+        "rate": 0.004,
+        "examples": [
+          "img_0092_9.bmp",
+          "img_0627_9.bmp",
+          "img_0992_9.bmp"
+        ]
+      },
+      {
+        "truth": 1,
+        "prediction": 5,
+        "count": 3,
+        "rate": 0.003,
+        "examples": [
+          "img_0096_1.bmp",
+          "img_0191_1.bmp",
+          "img_0994_1.bmp"
+        ]
+      },
+      {
+        "truth": 2,
+        "prediction": 3,
+        "count": 3,
+        "rate": 0.003,
+        "examples": [
+          "img_0038_2.bmp",
+          "img_0318_2.bmp",
+          "img_0975_2.bmp"
+        ]
+      },
+      {
+        "truth": 3,
+        "prediction": 7,
+        "count": 3,
+        "rate": 0.003,
+        "examples": [
+          "img_0349_3.bmp",
+          "img_0381_3.bmp",
+          "img_0464_3.bmp"
+        ]
+      },
+      {
+        "truth": 5,
+        "prediction": 7,
+        "count": 3,
+        "rate": 0.003,
+        "examples": [
+          "img_0218_5.bmp",
+          "img_0638_5.bmp",
+          "img_0692_5.bmp"
+        ]
+      },
+      {
+        "truth": 6,
+        "prediction": 0,
+        "count": 3,
+        "rate": 0.003,
+        "examples": [
+          "img_0259_6.bmp",
+          "img_0445_6.bmp",
+          "img_0965_6.bmp"
+        ]
+      },
+      {
+        "truth": 8,
+        "prediction": 3,
+        "count": 3,
+        "rate": 0.003,
+        "examples": [
+          "img_0591_8.bmp",
+          "img_0606_8.bmp",
+          "img_0839_8.bmp"
+        ]
+      },
+      {
+        "truth": 8,
+        "prediction": 4,
+        "count": 3,
+        "rate": 0.003,
+        "examples": [
+          "img_0290_8.bmp",
+          "img_0543_8.bmp",
+          "img_0691_8.bmp"
+        ]
+      },
+      {
+        "truth": 8,
+        "prediction": 7,
+        "count": 3,
+        "rate": 0.003,
+        "examples": [
+          "img_0233_8.bmp",
+          "img_0435_8.bmp",
+          "img_0844_8.bmp"
+        ]
+      },
+      {
+        "truth": 9,
+        "prediction": 8,
+        "count": 3,
+        "rate": 0.003,
+        "examples": [
+          "img_0151_9.bmp",
+          "img_0241_9.bmp",
+          "img_0448_9.bmp"
+        ]
+      },
+      {
+        "truth": 0,
+        "prediction": 6,
+        "count": 2,
+        "rate": 0.002,
+        "examples": [
+          "img_0661_0.bmp",
+          "img_0717_0.bmp"
+        ]
+      },
+      {
+        "truth": 1,
+        "prediction": 8,
+        "count": 2,
+        "rate": 0.002,
+        "examples": [
+          "img_0523_1.bmp",
+          "img_0619_1.bmp"
+        ]
+      },
+      {
+        "truth": 2,
+        "prediction": 9,
+        "count": 2,
+        "rate": 0.002,
+        "examples": [
+          "img_0149_2.bmp",
+          "img_0659_2.bmp"
+        ]
+      },
+      {
+        "truth": 3,
+        "prediction": 6,
+        "count": 2,
+        "rate": 0.002,
+        "examples": [
+          "img_0245_3.bmp",
+          "img_0531_3.bmp"
+        ]
+      },
+      {
+        "truth": 4,
+        "prediction": 6,
+        "count": 2,
+        "rate": 0.002,
+        "examples": [
+          "img_0300_4.bmp",
+          "img_0610_4.bmp"
+        ]
+      },
+      {
+        "truth": 5,
+        "prediction": 0,
+        "count": 2,
+        "rate": 0.002,
+        "examples": [
+          "img_0352_5.bmp",
+          "img_0406_5.bmp"
+        ]
+      },
+      {
+        "truth": 6,
+        "prediction": 5,
+        "count": 2,
+        "rate": 0.002,
+        "examples": [
+          "img_0217_6.bmp",
+          "img_0457_6.bmp"
+        ]
+      },
+      {
+        "truth": 8,
+        "prediction": 2,
+        "count": 2,
+        "rate": 0.002,
+        "examples": [
+          "img_0582_8.bmp",
+          "img_0877_8.bmp"
+        ]
+      },
+      {
+        "truth": 8,
+        "prediction": 9,
+        "count": 2,
+        "rate": 0.002,
+        "examples": [
+          "img_0403_8.bmp",
+          "img_0947_8.bmp"
+        ]
+      },
+      {
+        "truth": 9,
+        "prediction": 3,
+        "count": 2,
+        "rate": 0.002,
+        "examples": [
+          "img_0193_9.bmp",
+          "img_0479_9.bmp"
+        ]
+      },
+      {
+        "truth": 0,
+        "prediction": 8,
+        "count": 1,
+        "rate": 0.001,
+        "examples": [
+          "img_0443_0.bmp"
+        ]
+      },
+      {
+        "truth": 1,
+        "prediction": 3,
+        "count": 1,
+        "rate": 0.001,
+        "examples": [
+          "img_0046_1.bmp"
+        ]
+      },
+      {
+        "truth": 1,
+        "prediction": 6,
+        "count": 1,
+        "rate": 0.001,
+        "examples": [
+          "img_0956_1.bmp"
+        ]
+      },
+      {
+        "truth": 2,
+        "prediction": 1,
+        "count": 1,
+        "rate": 0.001,
+        "examples": [
+          "img_0624_2.bmp"
+        ]
+      },
+      {
+        "truth": 2,
+        "prediction": 6,
+        "count": 1,
+        "rate": 0.001,
+        "examples": [
+          "img_0629_2.bmp"
+        ]
+      },
+      {
+        "truth": 3,
+        "prediction": 2,
+        "count": 1,
+        "rate": 0.001,
+        "examples": [
+          "img_0063_3.bmp"
+        ]
+      },
+      {
+        "truth": 3,
+        "prediction": 9,
+        "count": 1,
+        "rate": 0.001,
+        "examples": [
+          "img_0628_3.bmp"
+        ]
+      },
+      {
+        "truth": 4,
+        "prediction": 0,
+        "count": 1,
+        "rate": 0.001,
+        "examples": [
+          "img_0033_4.bmp"
+        ]
+      },
+      {
+        "truth": 4,
+        "prediction": 2,
+        "count": 1,
+        "rate": 0.001,
+        "examples": [
+          "img_0247_4.bmp"
+        ]
+      },
+      {
+        "truth": 4,
+        "prediction": 8,
+        "count": 1,
+        "rate": 0.001,
+        "examples": [
+          "img_0511_4.bmp"
+        ]
+      },
+      {
+        "truth": 5,
+        "prediction": 1,
+        "count": 1,
+        "rate": 0.001,
+        "examples": [
+          "img_0261_5.bmp"
+        ]
+      },
+      {
+        "truth": 5,
+        "prediction": 4,
+        "count": 1,
+        "rate": 0.001,
+        "examples": [
+          "img_0008_5.bmp"
+        ]
+      },
+      {
+        "truth": 5,
+        "prediction": 9,
+        "count": 1,
+        "rate": 0.001,
+        "examples": [
+          "img_0791_5.bmp"
+        ]
+      },
+      {
+        "truth": 6,
+        "prediction": 2,
+        "count": 1,
+        "rate": 0.001,
+        "examples": [
+          "img_0054_6.bmp"
+        ]
+      },
+      {
+        "truth": 6,
+        "prediction": 4,
+        "count": 1,
+        "rate": 0.001,
+        "examples": [
+          "img_0341_6.bmp"
+        ]
+      },
+      {
+        "truth": 6,
+        "prediction": 8,
+        "count": 1,
+        "rate": 0.001,
+        "examples": [
+          "img_0508_6.bmp"
+        ]
+      },
+      {
+        "truth": 7,
+        "prediction": 2,
+        "count": 1,
+        "rate": 0.001,
+        "examples": [
+          "img_0950_7.bmp"
+        ]
+      },
+      {
+        "truth": 7,
+        "prediction": 3,
+        "count": 1,
+        "rate": 0.001,
+        "examples": [
+          "img_0684_7.bmp"
+        ]
+      },
+      {
+        "truth": 7,
+        "prediction": 4,
+        "count": 1,
+        "rate": 0.001,
+        "examples": [
+          "img_0658_7.bmp"
+        ]
+      },
+      {
+        "truth": 7,
+        "prediction": 8,
+        "count": 1,
+        "rate": 0.001,
+        "examples": [
+          "img_0898_7.bmp"
+        ]
+      },
+      {
+        "truth": 8,
+        "prediction": 0,
+        "count": 1,
+        "rate": 0.001,
+        "examples": [
+          "img_0495_8.bmp"
+        ]
+      },
+      {
+        "truth": 8,
+        "prediction": 1,
+        "count": 1,
+        "rate": 0.001,
+        "examples": [
+          "img_0257_8.bmp"
+        ]
+      },
+      {
+        "truth": 8,
+        "prediction": 5,
+        "count": 1,
+        "rate": 0.001,
+        "examples": [
+          "img_0800_8.bmp"
+        ]
+      },
+      {
+        "truth": 9,
+        "prediction": 1,
+        "count": 1,
+        "rate": 0.001,
+        "examples": [
+          "img_0320_9.bmp"
+        ]
+      },
+      {
+        "truth": 9,
+        "prediction": 7,
+        "count": 1,
+        "rate": 0.001,
+        "examples": [
+          "img_0389_9.bmp"
+        ]
+      }
+    ],
     "set": "mnist"
   },
   {
     "model": "fnn",
     "set_dir": "tf_card\\mnist",
-    "total": 100,
-    "correct": 98,
-    "accuracy": 0.98,
-    "avg_time_us": 372.59,
+    "total": 1000,
+    "correct": 929,
+    "accuracy": 0.929,
+    "avg_time_us": 396.2872,
+    "confusions": [
+      {
+        "truth": 4,
+        "prediction": 9,
+        "count": 11,
+        "rate": 0.011,
+        "examples": [
+          "img_0376_4.bmp",
+          "img_0497_4.bmp",
+          "img_0511_4.bmp"
+        ]
+      },
+      {
+        "truth": 2,
+        "prediction": 7,
+        "count": 6,
+        "rate": 0.006,
+        "examples": [
+          "img_0321_2.bmp",
+          "img_0362_2.bmp",
+          "img_0444_2.bmp"
+        ]
+      },
+      {
+        "truth": 8,
+        "prediction": 3,
+        "count": 5,
+        "rate": 0.005,
+        "examples": [
+          "img_0543_8.bmp",
+          "img_0582_8.bmp",
+          "img_0591_8.bmp"
+        ]
+      },
+      {
+        "truth": 3,
+        "prediction": 7,
+        "count": 4,
+        "rate": 0.004,
+        "examples": [
+          "img_0349_3.bmp",
+          "img_0381_3.bmp",
+          "img_0464_3.bmp"
+        ]
+      },
+      {
+        "truth": 3,
+        "prediction": 5,
+        "count": 3,
+        "rate": 0.003,
+        "examples": [
+          "img_0449_3.bmp",
+          "img_0890_3.bmp",
+          "img_0938_3.bmp"
+        ]
+      },
+      {
+        "truth": 5,
+        "prediction": 8,
+        "count": 3,
+        "rate": 0.003,
+        "examples": [
+          "img_0406_5.bmp",
+          "img_0720_5.bmp",
+          "img_0866_5.bmp"
+        ]
+      },
+      {
+        "truth": 7,
+        "prediction": 9,
+        "count": 3,
+        "rate": 0.003,
+        "examples": [
+          "img_0551_7.bmp",
+          "img_0689_7.bmp",
+          "img_0960_7.bmp"
+        ]
+      },
+      {
+        "truth": 9,
+        "prediction": 3,
+        "count": 3,
+        "rate": 0.003,
+        "examples": [
+          "img_0151_9.bmp",
+          "img_0241_9.bmp",
+          "img_0479_9.bmp"
+        ]
+      },
+      {
+        "truth": 3,
+        "prediction": 2,
+        "count": 2,
+        "rate": 0.002,
+        "examples": [
+          "img_0158_3.bmp",
+          "img_0195_3.bmp"
+        ]
+      },
+      {
+        "truth": 4,
+        "prediction": 6,
+        "count": 2,
+        "rate": 0.002,
+        "examples": [
+          "img_0121_4.bmp",
+          "img_0247_4.bmp"
+        ]
+      },
+      {
+        "truth": 5,
+        "prediction": 6,
+        "count": 2,
+        "rate": 0.002,
+        "examples": [
+          "img_0008_5.bmp",
+          "img_0478_5.bmp"
+        ]
+      },
+      {
+        "truth": 6,
+        "prediction": 0,
+        "count": 2,
+        "rate": 0.002,
+        "examples": [
+          "img_0445_6.bmp",
+          "img_0965_6.bmp"
+        ]
+      },
+      {
+        "truth": 7,
+        "prediction": 1,
+        "count": 2,
+        "rate": 0.002,
+        "examples": [
+          "img_0175_7.bmp",
+          "img_0726_7.bmp"
+        ]
+      },
+      {
+        "truth": 7,
+        "prediction": 3,
+        "count": 2,
+        "rate": 0.002,
+        "examples": [
+          "img_0301_7.bmp",
+          "img_0684_7.bmp"
+        ]
+      },
+      {
+        "truth": 8,
+        "prediction": 9,
+        "count": 2,
+        "rate": 0.002,
+        "examples": [
+          "img_0290_8.bmp",
+          "img_0691_8.bmp"
+        ]
+      },
+      {
+        "truth": 9,
+        "prediction": 4,
+        "count": 2,
+        "rate": 0.002,
+        "examples": [
+          "img_0185_9.bmp",
+          "img_0673_9.bmp"
+        ]
+      },
+      {
+        "truth": 9,
+        "prediction": 5,
+        "count": 2,
+        "rate": 0.002,
+        "examples": [
+          "img_0062_9.bmp",
+          "img_0104_9.bmp"
+        ]
+      },
+      {
+        "truth": 1,
+        "prediction": 2,
+        "count": 1,
+        "rate": 0.001,
+        "examples": [
+          "img_0956_1.bmp"
+        ]
+      },
+      {
+        "truth": 1,
+        "prediction": 3,
+        "count": 1,
+        "rate": 0.001,
+        "examples": [
+          "img_0619_1.bmp"
+        ]
+      },
+      {
+        "truth": 2,
+        "prediction": 3,
+        "count": 1,
+        "rate": 0.001,
+        "examples": [
+          "img_0990_2.bmp"
+        ]
+      },
+      {
+        "truth": 2,
+        "prediction": 6,
+        "count": 1,
+        "rate": 0.001,
+        "examples": [
+          "img_0646_2.bmp"
+        ]
+      },
+      {
+        "truth": 2,
+        "prediction": 8,
+        "count": 1,
+        "rate": 0.001,
+        "examples": [
+          "img_0659_2.bmp"
+        ]
+      },
+      {
+        "truth": 3,
+        "prediction": 1,
+        "count": 1,
+        "rate": 0.001,
+        "examples": [
+          "img_0795_3.bmp"
+        ]
+      },
+      {
+        "truth": 3,
+        "prediction": 9,
+        "count": 1,
+        "rate": 0.001,
+        "examples": [
+          "img_0628_3.bmp"
+        ]
+      },
+      {
+        "truth": 4,
+        "prediction": 2,
+        "count": 1,
+        "rate": 0.001,
+        "examples": [
+          "img_0610_4.bmp"
+        ]
+      },
+      {
+        "truth": 5,
+        "prediction": 3,
+        "count": 1,
+        "rate": 0.001,
+        "examples": [
+          "img_0412_5.bmp"
+        ]
+      },
+      {
+        "truth": 5,
+        "prediction": 4,
+        "count": 1,
+        "rate": 0.001,
+        "examples": [
+          "img_0951_5.bmp"
+        ]
+      },
+      {
+        "truth": 7,
+        "prediction": 2,
+        "count": 1,
+        "rate": 0.001,
+        "examples": [
+          "img_0810_7.bmp"
+        ]
+      },
+      {
+        "truth": 8,
+        "prediction": 6,
+        "count": 1,
+        "rate": 0.001,
+        "examples": [
+          "img_0553_8.bmp"
+        ]
+      },
+      {
+        "truth": 8,
+        "prediction": 7,
+        "count": 1,
+        "rate": 0.001,
+        "examples": [
+          "img_0233_8.bmp"
+        ]
+      },
+      {
+        "truth": 9,
+        "prediction": 1,
+        "count": 1,
+        "rate": 0.001,
+        "examples": [
+          "img_0320_9.bmp"
+        ]
+      },
+      {
+        "truth": 9,
+        "prediction": 8,
+        "count": 1,
+        "rate": 0.001,
+        "examples": [
+          "img_0448_9.bmp"
+        ]
+      }
+    ],
     "set": "mnist"
   },
   {
     "model": "cnn",
     "set_dir": "tf_card\\mnist",
-    "total": 100,
-    "correct": 98,
-    "accuracy": 0.98,
-    "avg_time_us": 26053.061,
+    "total": 1000,
+    "correct": 958,
+    "accuracy": 0.958,
+    "avg_time_us": 28117.6207,
+    "confusions": [
+      {
+        "truth": 4,
+        "prediction": 9,
+        "count": 6,
+        "rate": 0.006,
+        "examples": [
+          "img_0115_4.bmp",
+          "img_0497_4.bmp",
+          "img_0571_4.bmp"
+        ]
+      },
+      {
+        "truth": 2,
+        "prediction": 7,
+        "count": 3,
+        "rate": 0.003,
+        "examples": [
+          "img_0321_2.bmp",
+          "img_0583_2.bmp",
+          "img_0924_2.bmp"
+        ]
+      },
+      {
+        "truth": 6,
+        "prediction": 0,
+        "count": 3,
+        "rate": 0.003,
+        "examples": [
+          "img_0259_6.bmp",
+          "img_0445_6.bmp",
+          "img_0965_6.bmp"
+        ]
+      },
+      {
+        "truth": 7,
+        "prediction": 9,
+        "count": 3,
+        "rate": 0.003,
+        "examples": [
+          "img_0605_7.bmp",
+          "img_0689_7.bmp",
+          "img_0960_7.bmp"
+        ]
+      },
+      {
+        "truth": 9,
+        "prediction": 8,
+        "count": 3,
+        "rate": 0.003,
+        "examples": [
+          "img_0151_9.bmp",
+          "img_0241_9.bmp",
+          "img_0448_9.bmp"
+        ]
+      },
+      {
+        "truth": 2,
+        "prediction": 8,
+        "count": 2,
+        "rate": 0.002,
+        "examples": [
+          "img_0613_2.bmp",
+          "img_0926_2.bmp"
+        ]
+      },
+      {
+        "truth": 3,
+        "prediction": 8,
+        "count": 2,
+        "rate": 0.002,
+        "examples": [
+          "img_0200_3.bmp",
+          "img_0894_3.bmp"
+        ]
+      },
+      {
+        "truth": 4,
+        "prediction": 1,
+        "count": 2,
+        "rate": 0.002,
+        "examples": [
+          "img_0160_4.bmp",
+          "img_0511_4.bmp"
+        ]
+      },
+      {
+        "truth": 0,
+        "prediction": 2,
+        "count": 1,
+        "rate": 0.001,
+        "examples": [
+          "img_0717_0.bmp"
+        ]
+      },
+      {
+        "truth": 0,
+        "prediction": 5,
+        "count": 1,
+        "rate": 0.001,
+        "examples": [
+          "img_0597_0.bmp"
+        ]
+      },
+      {
+        "truth": 0,
+        "prediction": 9,
+        "count": 1,
+        "rate": 0.001,
+        "examples": [
+          "img_0324_0.bmp"
+        ]
+      },
+      {
+        "truth": 1,
+        "prediction": 8,
+        "count": 1,
+        "rate": 0.001,
+        "examples": [
+          "img_0619_1.bmp"
+        ]
+      },
+      {
+        "truth": 2,
+        "prediction": 3,
+        "count": 1,
+        "rate": 0.001,
+        "examples": [
+          "img_0318_2.bmp"
+        ]
+      },
+      {
+        "truth": 2,
+        "prediction": 6,
+        "count": 1,
+        "rate": 0.001,
+        "examples": [
+          "img_0646_2.bmp"
+        ]
+      },
+      {
+        "truth": 2,
+        "prediction": 9,
+        "count": 1,
+        "rate": 0.001,
+        "examples": [
+          "img_0823_2.bmp"
+        ]
+      },
+      {
+        "truth": 3,
+        "prediction": 5,
+        "count": 1,
+        "rate": 0.001,
+        "examples": [
+          "img_0938_3.bmp"
+        ]
+      },
+      {
+        "truth": 5,
+        "prediction": 3,
+        "count": 1,
+        "rate": 0.001,
+        "examples": [
+          "img_0674_5.bmp"
+        ]
+      },
+      {
+        "truth": 7,
+        "prediction": 3,
+        "count": 1,
+        "rate": 0.001,
+        "examples": [
+          "img_0684_7.bmp"
+        ]
+      },
+      {
+        "truth": 7,
+        "prediction": 8,
+        "count": 1,
+        "rate": 0.001,
+        "examples": [
+          "img_0898_7.bmp"
+        ]
+      },
+      {
+        "truth": 8,
+        "prediction": 0,
+        "count": 1,
+        "rate": 0.001,
+        "examples": [
+          "img_0800_8.bmp"
+        ]
+      },
+      {
+        "truth": 8,
+        "prediction": 2,
+        "count": 1,
+        "rate": 0.001,
+        "examples": [
+          "img_0582_8.bmp"
+        ]
+      },
+      {
+        "truth": 8,
+        "prediction": 3,
+        "count": 1,
+        "rate": 0.001,
+        "examples": [
+          "img_0839_8.bmp"
+        ]
+      },
+      {
+        "truth": 8,
+        "prediction": 7,
+        "count": 1,
+        "rate": 0.001,
+        "examples": [
+          "img_0844_8.bmp"
+        ]
+      },
+      {
+        "truth": 8,
+        "prediction": 9,
+        "count": 1,
+        "rate": 0.001,
+        "examples": [
+          "img_0542_8.bmp"
+        ]
+      },
+      {
+        "truth": 9,
+        "prediction": 4,
+        "count": 1,
+        "rate": 0.001,
+        "examples": [
+          "img_0882_9.bmp"
+        ]
+      },
+      {
+        "truth": 9,
+        "prediction": 5,
+        "count": 1,
+        "rate": 0.001,
+        "examples": [
+          "img_0479_9.bmp"
+        ]
+      }
+    ],
     "set": "mnist"
   },
   {
     "model": "perceptron",
     "set_dir": "tf_card\\personal",
-    "total": 10,
-    "correct": 7,
-    "accuracy": 0.7,
-    "avg_time_us": 207.08,
+    "total": 129,
+    "correct": 124,
+    "accuracy": 0.9612403100775194,
+    "avg_time_us": 752.0302325581395,
+    "confusions": [
+      {
+        "truth": 8,
+        "prediction": 3,
+        "count": 4,
+        "rate": 0.031007751937984496,
+        "examples": [
+          "web_20260703_225443_074484_8.bmp",
+          "web_20260703_225500_901404_8.bmp",
+          "web_20260704_015211_173426_8.bmp"
+        ]
+      },
+      {
+        "truth": 8,
+        "prediction": 5,
+        "count": 1,
+        "rate": 0.007751937984496124,
+        "examples": [
+          "web_20260704_015150_748655_8.bmp"
+        ]
+      }
+    ],
     "set": "personal"
   },
   {
     "model": "fnn",
     "set_dir": "tf_card\\personal",
-    "total": 10,
-    "correct": 10,
-    "accuracy": 1.0,
-    "avg_time_us": 338.62,
+    "total": 129,
+    "correct": 128,
+    "accuracy": 0.9922480620155039,
+    "avg_time_us": 593.3,
+    "confusions": [
+      {
+        "truth": 4,
+        "prediction": 6,
+        "count": 1,
+        "rate": 0.007751937984496124,
+        "examples": [
+          "web_20260703_225256_777576_4.bmp"
+        ]
+      }
+    ],
     "set": "personal"
   },
   {
     "model": "cnn",
     "set_dir": "tf_card\\personal",
-    "total": 10,
-    "correct": 9,
-    "accuracy": 0.9,
-    "avg_time_us": 67472.91,
+    "total": 129,
+    "correct": 128,
+    "accuracy": 0.9922480620155039,
+    "avg_time_us": 29047.948837209304,
+    "confusions": [
+      {
+        "truth": 6,
+        "prediction": 0,
+        "count": 1,
+        "rate": 0.007751937984496124,
+        "examples": [
+          "web_20260704_015051_499040_6.bmp"
+        ]
+      }
+    ],
     "set": "personal"
   },
   {
@@ -59,7 +1203,255 @@
     "total": 100,
     "correct": 58,
     "accuracy": 0.58,
-    "avg_time_us": 897.638,
+    "avg_time_us": 800.852,
+    "confusions": [
+      {
+        "truth": 7,
+        "prediction": 2,
+        "count": 7,
+        "rate": 0.07,
+        "examples": [
+          "usps_0003_7.bmp",
+          "usps_0015_7.bmp",
+          "usps_0022_7.bmp"
+        ]
+      },
+      {
+        "truth": 9,
+        "prediction": 3,
+        "count": 3,
+        "rate": 0.03,
+        "examples": [
+          "usps_0086_9.bmp",
+          "usps_0089_9.bmp",
+          "usps_0092_9.bmp"
+        ]
+      },
+      {
+        "truth": 9,
+        "prediction": 8,
+        "count": 3,
+        "rate": 0.03,
+        "examples": [
+          "usps_0060_9.bmp",
+          "usps_0078_9.bmp",
+          "usps_0090_9.bmp"
+        ]
+      },
+      {
+        "truth": 0,
+        "prediction": 2,
+        "count": 2,
+        "rate": 0.02,
+        "examples": [
+          "usps_0011_0.bmp",
+          "usps_0059_0.bmp"
+        ]
+      },
+      {
+        "truth": 0,
+        "prediction": 8,
+        "count": 2,
+        "rate": 0.02,
+        "examples": [
+          "usps_0050_0.bmp",
+          "usps_0061_0.bmp"
+        ]
+      },
+      {
+        "truth": 5,
+        "prediction": 3,
+        "count": 2,
+        "rate": 0.02,
+        "examples": [
+          "usps_0097_5.bmp",
+          "usps_0099_5.bmp"
+        ]
+      },
+      {
+        "truth": 6,
+        "prediction": 5,
+        "count": 2,
+        "rate": 0.02,
+        "examples": [
+          "usps_0031_6.bmp",
+          "usps_0087_6.bmp"
+        ]
+      },
+      {
+        "truth": 8,
+        "prediction": 5,
+        "count": 2,
+        "rate": 0.02,
+        "examples": [
+          "usps_0024_8.bmp",
+          "usps_0056_8.bmp"
+        ]
+      },
+      {
+        "truth": 9,
+        "prediction": 4,
+        "count": 2,
+        "rate": 0.02,
+        "examples": [
+          "usps_0079_9.bmp",
+          "usps_0091_9.bmp"
+        ]
+      },
+      {
+        "truth": 0,
+        "prediction": 3,
+        "count": 1,
+        "rate": 0.01,
+        "examples": [
+          "usps_0046_0.bmp"
+        ]
+      },
+      {
+        "truth": 1,
+        "prediction": 8,
+        "count": 1,
+        "rate": 0.01,
+        "examples": [
+          "usps_0019_1.bmp"
+        ]
+      },
+      {
+        "truth": 2,
+        "prediction": 3,
+        "count": 1,
+        "rate": 0.01,
+        "examples": [
+          "usps_0072_2.bmp"
+        ]
+      },
+      {
+        "truth": 3,
+        "prediction": 5,
+        "count": 1,
+        "rate": 0.01,
+        "examples": [
+          "usps_0026_3.bmp"
+        ]
+      },
+      {
+        "truth": 4,
+        "prediction": 0,
+        "count": 1,
+        "rate": 0.01,
+        "examples": [
+          "usps_0038_4.bmp"
+        ]
+      },
+      {
+        "truth": 4,
+        "prediction": 6,
+        "count": 1,
+        "rate": 0.01,
+        "examples": [
+          "usps_0045_4.bmp"
+        ]
+      },
+      {
+        "truth": 4,
+        "prediction": 8,
+        "count": 1,
+        "rate": 0.01,
+        "examples": [
+          "usps_0016_4.bmp"
+        ]
+      },
+      {
+        "truth": 4,
+        "prediction": 9,
+        "count": 1,
+        "rate": 0.01,
+        "examples": [
+          "usps_0020_4.bmp"
+        ]
+      },
+      {
+        "truth": 6,
+        "prediction": 0,
+        "count": 1,
+        "rate": 0.01,
+        "examples": [
+          "usps_0000_6.bmp"
+        ]
+      },
+      {
+        "truth": 6,
+        "prediction": 2,
+        "count": 1,
+        "rate": 0.01,
+        "examples": [
+          "usps_0081_6.bmp"
+        ]
+      },
+      {
+        "truth": 6,
+        "prediction": 3,
+        "count": 1,
+        "rate": 0.01,
+        "examples": [
+          "usps_0005_6.bmp"
+        ]
+      },
+      {
+        "truth": 6,
+        "prediction": 8,
+        "count": 1,
+        "rate": 0.01,
+        "examples": [
+          "usps_0052_6.bmp"
+        ]
+      },
+      {
+        "truth": 7,
+        "prediction": 5,
+        "count": 1,
+        "rate": 0.01,
+        "examples": [
+          "usps_0010_7.bmp"
+        ]
+      },
+      {
+        "truth": 7,
+        "prediction": 9,
+        "count": 1,
+        "rate": 0.01,
+        "examples": [
+          "usps_0014_7.bmp"
+        ]
+      },
+      {
+        "truth": 8,
+        "prediction": 2,
+        "count": 1,
+        "rate": 0.01,
+        "examples": [
+          "usps_0065_8.bmp"
+        ]
+      },
+      {
+        "truth": 8,
+        "prediction": 3,
+        "count": 1,
+        "rate": 0.01,
+        "examples": [
+          "usps_0076_8.bmp"
+        ]
+      },
+      {
+        "truth": 9,
+        "prediction": 7,
+        "count": 1,
+        "rate": 0.01,
+        "examples": [
+          "usps_0085_9.bmp"
+        ]
+      }
+    ],
     "set": "external_usps"
   },
   {
@@ -68,16 +1460,119 @@
     "total": 100,
     "correct": 93,
     "accuracy": 0.93,
-    "avg_time_us": 738.147,
+    "avg_time_us": 413.479,
+    "confusions": [
+      {
+        "truth": 0,
+        "prediction": 8,
+        "count": 3,
+        "rate": 0.03,
+        "examples": [
+          "usps_0046_0.bmp",
+          "usps_0050_0.bmp",
+          "usps_0061_0.bmp"
+        ]
+      },
+      {
+        "truth": 7,
+        "prediction": 9,
+        "count": 2,
+        "rate": 0.02,
+        "examples": [
+          "usps_0010_7.bmp",
+          "usps_0014_7.bmp"
+        ]
+      },
+      {
+        "truth": 2,
+        "prediction": 7,
+        "count": 1,
+        "rate": 0.01,
+        "examples": [
+          "usps_0049_2.bmp"
+        ]
+      },
+      {
+        "truth": 4,
+        "prediction": 9,
+        "count": 1,
+        "rate": 0.01,
+        "examples": [
+          "usps_0016_4.bmp"
+        ]
+      }
+    ],
     "set": "external_usps"
   },
   {
     "model": "cnn",
     "set_dir": "tf_card\\external_usps",
     "total": 100,
-    "correct": 89,
-    "accuracy": 0.89,
-    "avg_time_us": 67481.25,
+    "correct": 83,
+    "accuracy": 0.83,
+    "avg_time_us": 27921.475,
+    "confusions": [
+      {
+        "truth": 1,
+        "prediction": 8,
+        "count": 7,
+        "rate": 0.07,
+        "examples": [
+          "usps_0007_1.bmp",
+          "usps_0013_1.bmp",
+          "usps_0029_1.bmp"
+        ]
+      },
+      {
+        "truth": 0,
+        "prediction": 8,
+        "count": 4,
+        "rate": 0.04,
+        "examples": [
+          "usps_0011_0.bmp",
+          "usps_0046_0.bmp",
+          "usps_0050_0.bmp"
+        ]
+      },
+      {
+        "truth": 7,
+        "prediction": 9,
+        "count": 3,
+        "rate": 0.03,
+        "examples": [
+          "usps_0003_7.bmp",
+          "usps_0010_7.bmp",
+          "usps_0014_7.bmp"
+        ]
+      },
+      {
+        "truth": 4,
+        "prediction": 0,
+        "count": 1,
+        "rate": 0.01,
+        "examples": [
+          "usps_0040_4.bmp"
+        ]
+      },
+      {
+        "truth": 4,
+        "prediction": 8,
+        "count": 1,
+        "rate": 0.01,
+        "examples": [
+          "usps_0016_4.bmp"
+        ]
+      },
+      {
+        "truth": 7,
+        "prediction": 8,
+        "count": 1,
+        "rate": 0.01,
+        "examples": [
+          "usps_0027_7.bmp"
+        ]
+      }
+    ],
     "set": "external_usps"
   }
 ]

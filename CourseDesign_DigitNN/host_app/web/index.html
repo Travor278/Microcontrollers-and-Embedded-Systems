@@ -4,7 +4,8 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>DigitNN Dashboard</title>
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="icon" href="data:," />
+    <link rel="stylesheet" href="styles.css?v=20260704k" />
   </head>
   <body>
     <div class="app-shell">
@@ -14,141 +15,939 @@
           <div class="subtitle" data-i18n="subtitle">STM32F103VE handwritten recognition lab console</div>
         </div>
         <div class="top-actions">
+          <div class="view-tabs" role="group" aria-label="page navigation">
+            <button class="view-tab active" id="homeNavBtn" data-view="home" data-i18n="home">Home</button>
+            <button class="view-tab" id="workspaceNavBtn" data-view="workspace" data-i18n="workspace">Workspace</button>
+            <button class="view-tab" id="testNavBtn" data-view="batchTest" data-i18n="batchTest">Batch Test</button>
+            <button class="view-tab" id="lettersNavBtn" data-view="letters" data-i18n="letters">Letters</button>
+            <button class="view-tab" id="chineseNavBtn" data-view="chinese">中文识别</button>
+          </div>
           <div class="status-pill" id="modelStatus" data-i18n="modelsLoading">Models loading</div>
           <button class="button secondary language-button" id="languageBtn">EN</button>
           <button class="button secondary" id="refreshStatusBtn" data-i18n="refresh">Refresh</button>
         </div>
       </header>
 
-      <main class="workspace">
-        <section class="panel draw-panel">
-          <div class="panel-head">
-            <h2 data-i18n="input">Input</h2>
-            <div class="segmented" role="group" aria-label="stroke tools">
-              <button class="segment active" id="penBtn" data-i18n="pen">Pen</button>
-              <button class="segment" id="clearBtn" data-i18n="clear">Clear</button>
+      <main>
+        <section class="view active" id="homeView">
+          <section class="home-hero">
+            <div class="hero-copy">
+              <p class="eyebrow" data-i18n="heroEyebrow">Course Design Showcase</p>
+              <h2 data-i18n="heroTitle">STM32 Handwritten Digit Recognition</h2>
+              <p data-i18n="heroText">A complete loop from touch drawing, 28 x 28 preprocessing, quantized neural-network inference, serial telemetry, dataset collection, and Keil firmware deployment.</p>
+              <div class="hero-actions">
+                <button class="button primary" id="openWorkspaceBtn" data-view="workspace" data-i18n="openWorkspace">Open Workspace</button>
+                <button class="button secondary" id="homeRefreshBtn" data-i18n="refresh">Refresh</button>
+              </div>
             </div>
-          </div>
-          <canvas id="drawCanvas" width="360" height="360" aria-label="drawing canvas"></canvas>
-          <div class="control-grid">
-            <label class="field">
-              <span data-i18n="label">Label</span>
-              <select id="labelSelect"></select>
-            </label>
-            <label class="field">
-              <span data-i18n="brush">Brush</span>
-              <input id="brushRange" type="range" min="8" max="36" value="18" />
-            </label>
-            <label class="check">
-              <input id="deskewCheck" type="checkbox" checked />
-              <span data-i18n="autoDeskew">Auto deskew</span>
-            </label>
-            <label class="check">
-              <input id="thickenCheck" type="checkbox" />
-              <span data-i18n="thicken">Thicken</span>
-            </label>
-          </div>
-          <div class="action-row">
-            <button class="button primary" id="inferBtn" data-i18n="recognize">Recognize</button>
-            <button class="button" id="saveBtn" data-i18n="saveSample">Save Sample</button>
-          </div>
-          <label class="field full">
-            <span data-i18n="saveDirectory">Save directory</span>
-            <input id="saveDirInput" type="text" />
-          </label>
+            <div class="hero-metrics">
+              <div class="metric">
+                <span data-i18n="metricBoard">Target board</span>
+                <strong>STM32F103VE</strong>
+              </div>
+              <div class="metric">
+                <span data-i18n="metricModels">Models</span>
+                <strong>P / F / C</strong>
+              </div>
+              <div class="metric">
+                <span>Flash</span>
+                <strong id="homeFlashText">--</strong>
+              </div>
+              <div class="metric">
+                <span>SRAM</span>
+                <strong id="homeSramText">--</strong>
+              </div>
+            </div>
+          </section>
+
+          <section class="model-overview panel">
+            <div class="center-copy">
+              <div class="section-title" data-i18n="pfcTitle">P / F / C Meaning</div>
+              <h2 data-i18n="modelMeaningTitle">Three lightweight recognizers, one STM32 target</h2>
+              <p data-i18n="modelMeaningText">The dashboard compares a linear baseline, a fully connected network, and a compact convolution model so the report can explain speed, accuracy, and memory tradeoffs.</p>
+            </div>
+            <div class="model-showcase">
+              <div class="network-visual" aria-label="animated model diagram">
+                <div class="model-visual-pane" data-model-visual="perceptron">
+                  <svg viewBox="0 0 640 360" role="img" aria-label="perceptron weighted sum and step function">
+                    <defs>
+                      <linearGradient id="perceptronWire" x1="0" x2="1" y1="0" y2="0">
+                        <stop offset="0%" stop-color="#0f766e" stop-opacity="0.28" />
+                        <stop offset="100%" stop-color="#0f766e" stop-opacity="0.72" />
+                      </linearGradient>
+                      <marker id="perceptronArrow" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto">
+                        <path d="M0 0 L8 3 L0 6 Z" />
+                      </marker>
+                    </defs>
+                    <text class="diagram-title" x="265" y="42">weights</text>
+                    <text class="diagram-note" x="26" y="80">constant</text>
+                    <text class="diagram-note" x="30" y="226">inputs</text>
+                    <path class="input-brace" d="M112 105 C96 105 96 105 96 122 L96 277 C96 294 96 294 112 294" />
+                    <g class="perceptron-inputs">
+                      <circle cx="142" cy="78" r="34" />
+                      <circle cx="142" cy="145" r="34" />
+                      <circle cx="142" cy="230" r="34" />
+                      <circle cx="142" cy="298" r="34" />
+                      <text x="134" y="86">1</text>
+                      <text x="128" y="153">x1</text>
+                      <text x="123" y="238">xn-1</text>
+                      <text x="128" y="306">xn</text>
+                    </g>
+                    <g class="perceptron-weights">
+                      <rect x="246" y="48" width="88" height="54" rx="8" />
+                      <rect x="246" y="118" width="88" height="54" rx="8" />
+                      <rect x="246" y="202" width="88" height="54" rx="8" />
+                      <rect x="246" y="270" width="88" height="54" rx="8" />
+                      <text x="270" y="82">w0</text>
+                      <text x="270" y="152">w1</text>
+                      <text x="263" y="236">wn-1</text>
+                      <text x="270" y="304">wn</text>
+                    </g>
+                    <g class="perceptron-arrows">
+                      <path d="M176 78 L246 75" />
+                      <path d="M176 145 L246 145" />
+                      <path d="M176 230 L246 229" />
+                      <path d="M176 298 L246 297" />
+                      <path d="M334 75 C378 86 402 118 425 156" />
+                      <path d="M334 145 C374 148 396 158 425 171" />
+                      <path d="M334 229 C374 214 398 200 425 187" />
+                      <path d="M334 297 C378 258 402 220 425 198" />
+                    </g>
+                    <g class="sum-node">
+                      <circle cx="456" cy="180" r="48" />
+                      <text x="433" y="198">&Sigma;</text>
+                    </g>
+                    <g class="step-node">
+                      <circle cx="548" cy="180" r="38" />
+                      <path class="step-curve" d="M526 196 H541 V164 H570" />
+                    </g>
+                    <path class="decision-link" d="M504 180 L510 180" />
+                    <path class="decision-link out" d="M586 180 L616 180" />
+                    <text class="diagram-note" x="405" y="82">weighted sum</text>
+                    <text class="diagram-note" x="512" y="246">step</text>
+                    <text class="diagram-note" x="598" y="160">out</text>
+                  </svg>
+                </div>
+
+                <div class="model-visual-pane active" data-model-visual="fnn">
+                  <svg viewBox="0 0 640 360" role="img" aria-label="fully connected neural network layers">
+                    <defs>
+                      <linearGradient id="wireGradient" x1="0" x2="1" y1="0" y2="0">
+                        <stop offset="0%" stop-color="#0f766e" stop-opacity="0.32" />
+                        <stop offset="100%" stop-color="#2563eb" stop-opacity="0.58" />
+                      </linearGradient>
+                    </defs>
+                    <g class="fnn-input-map">
+                      <rect x="38" y="92" width="116" height="116" rx="10" />
+                      <rect class="hot" x="66" y="112" width="14" height="14" />
+                      <rect class="hot" x="82" y="112" width="14" height="14" />
+                      <rect class="hot" x="98" y="128" width="14" height="14" />
+                      <rect class="hot" x="98" y="144" width="14" height="14" />
+                      <rect class="hot" x="82" y="160" width="14" height="14" />
+                      <rect class="hot" x="66" y="176" width="14" height="14" />
+                      <rect class="dim" x="116" y="112" width="14" height="14" />
+                      <rect class="dim" x="116" y="176" width="14" height="14" />
+                    </g>
+                    <g class="wires fnn-wires">
+                      <path d="M154 112 C214 70 234 68 286 78" />
+                      <path d="M154 136 C216 122 232 120 286 132" />
+                      <path d="M154 160 C216 166 232 174 286 186" />
+                      <path d="M154 184 C214 238 234 240 286 240" />
+                      <path d="M324 78 C374 78 390 92 438 98" />
+                      <path d="M324 78 C378 128 390 160 438 176" />
+                      <path d="M324 132 C376 112 390 106 438 98" />
+                      <path d="M324 132 C378 144 390 158 438 176" />
+                      <path d="M324 186 C376 166 390 166 438 176" />
+                      <path d="M324 186 C376 206 390 232 438 252" />
+                      <path d="M324 240 C376 236 390 246 438 252" />
+                      <path d="M476 98 C518 122 532 146 552 164" />
+                      <path d="M476 176 C518 176 532 176 552 176" />
+                      <path d="M476 252 C518 226 532 204 552 188" />
+                    </g>
+                    <g class="nodes input-nodes">
+                      <circle cx="188" cy="112" r="12" />
+                      <circle cx="188" cy="136" r="12" />
+                      <circle cx="188" cy="160" r="12" />
+                      <circle cx="188" cy="184" r="12" />
+                    </g>
+                    <g class="nodes hidden-nodes">
+                      <circle cx="306" cy="78" r="20" />
+                      <circle cx="306" cy="132" r="20" />
+                      <circle cx="306" cy="186" r="20" />
+                      <circle cx="306" cy="240" r="20" />
+                    </g>
+                    <g class="nodes hidden-nodes delay">
+                      <circle cx="458" cy="98" r="20" />
+                      <circle cx="458" cy="176" r="20" />
+                      <circle cx="458" cy="252" r="20" />
+                    </g>
+                    <g class="fnn-score-bars">
+                      <rect x="552" y="118" width="52" height="13" rx="6" />
+                      <rect x="552" y="146" width="72" height="13" rx="6" />
+                      <rect x="552" y="174" width="48" height="13" rx="6" />
+                      <rect x="552" y="202" width="62" height="13" rx="6" />
+                      <rect x="552" y="230" width="38" height="13" rx="6" />
+                    </g>
+                    <text x="52" y="330">28 x 28</text>
+                    <text x="166" y="330">flatten</text>
+                    <text x="270" y="330">hidden 32</text>
+                    <text x="420" y="330">hidden 16</text>
+                    <text x="552" y="330">scores</text>
+                  </svg>
+                </div>
+
+                <div class="model-visual-pane" data-model-visual="cnn">
+                  <svg viewBox="0 0 640 360" role="img" aria-label="tiny convolutional neural network layer stack">
+                    <g class="cnn-input-grid">
+                      <rect x="42" y="86" width="132" height="132" rx="8" />
+                      <g class="digit-pixels">
+                        <rect x="72" y="110" width="14" height="14" />
+                        <rect x="86" y="110" width="14" height="14" />
+                        <rect x="100" y="124" width="14" height="14" />
+                        <rect x="100" y="138" width="14" height="14" />
+                        <rect x="86" y="152" width="14" height="14" />
+                        <rect x="72" y="166" width="14" height="14" />
+                        <rect x="86" y="180" width="14" height="14" />
+                        <rect x="100" y="180" width="14" height="14" />
+                      </g>
+                      <rect class="scan-window" x="66" y="104" width="48" height="48" rx="5" />
+                    </g>
+                    <g class="cnn-stack conv-one">
+                      <rect x="212" y="70" width="72" height="138" rx="8" />
+                      <rect x="226" y="82" width="72" height="138" rx="8" />
+                      <rect x="240" y="94" width="72" height="138" rx="8" />
+                      <rect class="relu-map" x="254" y="106" width="72" height="138" rx="8" />
+                    </g>
+                    <g class="cnn-stack pool-one">
+                      <rect x="360" y="118" width="54" height="86" rx="7" />
+                      <rect x="372" y="128" width="54" height="86" rx="7" />
+                    </g>
+                    <g class="cnn-stack conv-two">
+                      <rect x="458" y="92" width="46" height="92" rx="7" />
+                      <rect x="470" y="102" width="46" height="92" rx="7" />
+                      <rect x="482" y="112" width="46" height="92" rx="7" />
+                    </g>
+                    <g class="cnn-fc-stack">
+                      <rect x="552" y="112" width="13" height="112" rx="6" />
+                      <rect x="574" y="132" width="13" height="92" rx="6" />
+                      <rect x="596" y="158" width="13" height="66" rx="6" />
+                    </g>
+                    <g class="cnn-wires">
+                      <path d="M174 152 C190 150 196 142 212 136" />
+                      <path d="M326 166 C342 168 348 164 360 160" />
+                      <path d="M426 168 C440 160 446 154 458 146" />
+                      <path d="M528 158 C538 166 544 170 552 172" />
+                    </g>
+                    <text x="58" y="330">input</text>
+                    <text x="226" y="330">conv + ReLU</text>
+                    <text x="360" y="330">pool</text>
+                    <text x="466" y="330">conv</text>
+                    <text x="548" y="330">FC + class</text>
+                  </svg>
+                </div>
+              </div>
+              <div class="model-copy-stack">
+                <button class="model-copy-row model-option" type="button" data-model-explain="perceptron">
+                  <strong>P</strong>
+                  <div><b data-i18n="perceptronTitle">Perceptron</b><span data-i18n="pfcP"> Perceptron: a linear baseline with the smallest code size.</span></div>
+                </button>
+                <button class="model-copy-row model-option active" type="button" data-model-explain="fnn">
+                  <strong>F</strong>
+                  <div><b data-i18n="fnnTitle">FNN</b><span data-i18n="pfcF"> FNN: a fully connected neural network, the current main model.</span></div>
+                </button>
+                <button class="model-copy-row model-option" type="button" data-model-explain="cnn">
+                  <strong>C</strong>
+                  <div><b data-i18n="cnnTitle">Tiny-CNN</b><span data-i18n="pfcC"> Tiny-CNN: a compact convolution model for stroke-shape features.</span></div>
+                </button>
+              </div>
+            </div>
+          </section>
+
+          <section class="home-grid single-home-grid">
+            <article class="home-card quant-card">
+              <div class="quant-card-head">
+                <div class="section-title" data-i18n="resourceCompareTitle">Flash / SRAM and Quantization</div>
+                <div class="domain-pill" id="quantDomainText">Domain --</div>
+              </div>
+              <div class="quant-method">
+                <div class="quant-flow-panel" aria-label="weight quantization visualization">
+                  <div class="quant-flow-head">
+                    <span data-i18n="quantVisualTitle">FP32 weights become int8 tables</span>
+                    <strong id="quantFlowRatio">--</strong>
+                  </div>
+                  <div class="quant-flow-visual">
+                    <div class="float-stack">
+                      <div class="flow-label">float32</div>
+                      <div class="float-bars" aria-hidden="true">
+                        <span style="--h: 38%">-0.31</span>
+                        <span style="--h: 62%">0.51</span>
+                        <span style="--h: 85%">0.70</span>
+                        <span style="--h: 47%">-0.39</span>
+                      </div>
+                      <div class="bit-row"><span data-i18n="floatBits">32 bit</span><span>4 B</span><span data-i18n="scalePending">scale pending</span></div>
+                    </div>
+                    <div class="scale-core" aria-hidden="true">
+                      <div class="scale-ring"></div>
+                      <code>scale=max(|w|)/127</code>
+                      <div class="flow-arrow"></div>
+                    </div>
+                    <div class="int-stack">
+                      <div class="flow-label">int8</div>
+                      <div class="int-cells" aria-hidden="true">
+                        <span>-56</span>
+                        <span>93</span>
+                        <span>127</span>
+                        <span>-71</span>
+                      </div>
+                      <div class="bit-row"><span data-i18n="intBits">8 bit</span><span>1 B</span><span>zero=0</span></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="quant-method-steps">
+                  <div class="method-step">
+                    <span>1</span>
+                    <div><strong data-i18n="quantStep1Title">Measure range</strong><p data-i18n="quantStep1Text">Find each layer's max absolute weight and derive one scale.</p><code>scale = max(abs(w_float)) / 127</code></div>
+                  </div>
+                  <div class="method-step">
+                    <span>2</span>
+                    <div><strong data-i18n="quantStep2Title">Round weights</strong><p data-i18n="quantStep2Text">Divide float weights by scale, round, then clip to [-127, 127].</p><code>w_q = clip(round(w_float / scale))</code></div>
+                  </div>
+                  <div class="method-step">
+                    <span>3</span>
+                    <div><strong data-i18n="quantStep3Title">Convert bias</strong><p data-i18n="quantStep3Text">Bias is stored as int32 so integer accumulation keeps the original offset.</p><code>b_q = round(b_float * input_scale / scale)</code></div>
+                  </div>
+                  <div class="method-step">
+                    <span>4</span>
+                    <div><strong data-i18n="quantStep4Title">Run integer MAC</strong><p data-i18n="quantStep4Text">The firmware exports C arrays and uses int32 multiply-accumulate, with shifts between layers.</p><code>score = sum(x_u8 * w_q) + b_q</code></div>
+                  </div>
+                </div>
+              </div>
+              <div class="quant-viz" aria-label="Flash and SRAM quantization comparison">
+                <div class="quant-row estimate-row">
+                  <div class="quant-row-head">
+                    <span data-i18n="floatEstimate">Float model estimate</span>
+                    <strong><span id="floatParamText">--</span> params</strong>
+                  </div>
+                  <div class="quant-track"><div class="quant-fill float-fill" id="floatParamBar"></div></div>
+                  <div class="quant-caption" data-i18n="floatFlashCaption">Float parameters only; a full float firmware would be larger.</div>
+                </div>
+                <div class="quant-row estimate-row">
+                  <div class="quant-row-head">
+                    <span data-i18n="int8Estimate">Quantized model estimate</span>
+                    <strong><span id="int8ParamText">--</span> params</strong>
+                  </div>
+                  <div class="quant-track"><div class="quant-fill int8-fill" id="int8ParamBar"></div></div>
+                  <div class="quant-caption" data-i18n="int8FlashCaption">The same weights stored as int8 plus int32 biases.</div>
+                </div>
+                <div class="quant-row">
+                  <div class="quant-row-head">
+                    <span data-i18n="quantizedBuild">Quantized firmware</span>
+                    <strong><span id="quantFlashText">--</span> Flash</strong>
+                  </div>
+                  <div class="quant-track"><div class="quant-fill" id="quantFlashBar"></div></div>
+                  <div class="quant-caption" data-i18n="quantFlashCaption">Actual complete firmware in 512 KB Flash.</div>
+                </div>
+                <div class="quant-row estimate-row">
+                  <div class="quant-row-head">
+                    <span data-i18n="floatFirmwareEstimate">Float firmware estimate</span>
+                    <strong><span id="floatFirmwareText">--</span> Flash</strong>
+                  </div>
+                  <div class="quant-track"><div class="quant-fill float-fill" id="floatFirmwareBar"></div></div>
+                  <div class="quant-caption" data-i18n="floatFirmwareCaption">Estimated by replacing current int8 model arrays with float32 arrays.</div>
+                </div>
+                <div class="quant-row">
+                  <div class="quant-row-head">
+                    <span>SRAM</span>
+                    <strong><span id="quantSramText">--</span> SRAM</strong>
+                  </div>
+                  <div class="quant-track"><div class="quant-fill sram-fill" id="quantSramBar"></div></div>
+                  <div class="quant-caption" data-i18n="quantSramCaption">Current runtime memory in 64 KB SRAM.</div>
+                </div>
+                <div class="quant-model-strip" id="quantModelStrip" aria-label="per-model quantization breakdown"></div>
+                <div class="quant-note-strip">
+                  <strong data-i18n="modelStorageTitle">Model storage</strong>
+                  <span id="modelStorageText" data-i18n="modelStorageText">int8 parameters are about 63 KB; float parameters are about 247 KB, so quantization saves roughly 184 KB before adding application code.</span>
+                  <div class="quant-badges">
+                    <span id="quantCompressionText">--</span>
+                    <span id="quantSavingText">--</span>
+                  </div>
+                </div>
+              </div>
+              <p data-i18n="quantizationNote">The board build stores weights as int8 and biases as int32. The float number is a parameter-storage estimate; it is shown to explain why quantization is necessary on STM32F103VE.</p>
+            </article>
+          </section>
+
+          <section class="panel letter-home-panel">
+            <div class="center-copy">
+              <div class="section-title">字母识别三模型</div>
+              <h2>字母固件和数字固件分开烧录</h2>
+              <p>数字固件只包含数字 P / F / C；字母固件只包含字母 P / F / C，不把两个任务域的权重一起带进去。这样报告里能清楚说明 Flash/SRAM 是对应当前任务域的占用。</p>
+            </div>
+            <div class="letter-model-home-grid">
+              <article class="letter-model-home-card">
+                <span>P</span>
+                <div>
+                  <h3>Letter-Perceptron</h3>
+                  <p>EMNIST Letters 的线性基线：28 x 28 输入直接映射到 A-Z，体积最小，适合做速度和精度对照。</p>
+                  <code>784 -> 26</code>
+                </div>
+              </article>
+              <article class="letter-model-home-card wide">
+                <span>F</span>
+                <div>
+                  <h3>Letter-FNN</h3>
+                  <p>一层隐藏层学习笔画组合，比感知机更能处理弯折和局部组合，是字母固件里的主力全连接模型。</p>
+                  <code>784 -> 96 -> 26</code>
+                </div>
+              </article>
+              <article class="letter-model-home-card">
+                <span>C</span>
+                <div>
+                  <h3>Letter-Tiny-CNN</h3>
+                  <p>用 8/16 通道卷积提取局部笔画、拐点和闭合区域，适合区分 B/R、C/G、I/L 等容易混淆的字母。</p>
+                  <code>Conv8 -> Conv16 -> 26</code>
+                </div>
+              </article>
+            </div>
+          </section>
+
+          <section class="panel chinese-plan-panel">
+            <div class="chinese-plan-copy">
+              <div class="section-title">5000 汉字识别方案</div>
+              <h2>STM32 做手写板，本机做识别</h2>
+              <p>5000 类汉字分类远超 STM32F103VE 的 Flash/SRAM 和算力边界。更合适的闭环是：板端采集轨迹和位图，通过串口发给上位机；本机用 GPU/CPU 模型识别并回显候选字。</p>
+            </div>
+            <div class="chinese-plan-grid">
+              <div>
+                <strong>首选：MobileNetV3 / EfficientNet 分类器</strong>
+                <span>如果一次只写一个汉字，就把输入统一到 64 x 64 或 96 x 96，输出 5000 类 softmax。训练数据用 CASIA-HWDB 或自建常用字集。</span>
+              </div>
+              <div>
+                <strong>升级：PP-OCRv5 / SVTR 识别器</strong>
+                <span>如果以后要识别一整行中文或混合中英文，直接走 OCR 文本识别模型，比 5000 类单字分类更自然。</span>
+              </div>
+              <div>
+                <strong>API：/api/chinese/infer</strong>
+                <span>网页和板端都只需要把图像或轨迹交给本机 API。现在 API 契约已预留，后续接 PaddleOCR 或自训练模型即可。</span>
+              </div>
+            </div>
+          </section>
         </section>
 
-        <section class="panel pixel-panel">
-          <div class="panel-head">
-            <h2 data-i18n="modelInput">Model Input</h2>
-            <div class="mono" id="pixelStats">28 x 28</div>
+        <section class="view" id="workspaceView">
+          <div class="workspace">
+            <section class="panel source-panel">
+              <div class="panel-head source-head">
+                <div>
+                  <h2 data-i18n="source">Source</h2>
+                  <div class="panel-note" data-i18n="sourceHint">Switch between the board stream and browser input.</div>
+                </div>
+                <div class="segmented source-switch" role="group" aria-label="source mode">
+                  <button class="segment active" id="mcuModeBtn" data-source-mode="mcu" data-i18n="mcuMode">MCU</button>
+                  <button class="segment" id="inputModeBtn" data-source-mode="input" data-i18n="inputMode">Input</button>
+                </div>
+              </div>
+
+              <div class="mode-pane active" id="mcuPane">
+                <div class="panel-head compact-head">
+                  <h2 data-i18n="mcu">MCU</h2>
+                  <button class="button secondary" id="serialBtn" data-i18n="connectSerial">Connect Serial</button>
+                </div>
+                <div class="serial-controls">
+                  <label class="field">
+                    <span data-i18n="serialPort">Serial Port</span>
+                    <select id="serialPortSelect"></select>
+                  </label>
+                  <button class="button secondary tiny" id="refreshPortsBtn" data-i18n="refreshPorts">Refresh Ports</button>
+                </div>
+                <div class="board-live-block">
+                  <div class="panel-head mini-head">
+                    <div class="section-title" data-i18n="boardLive">Board Live</div>
+                    <button class="button secondary tiny" id="clearBoardBtn" data-i18n="clearBoardView">Clear View</button>
+                  </div>
+                  <canvas id="boardCanvas" width="480" height="480" aria-label="board live drawing"></canvas>
+                  <div class="board-stats mono" id="boardStats">0 pts</div>
+                  <div class="board-actions">
+                    <button class="button secondary" id="saveBoardBtn" data-i18n="saveBoardSample">Save Board Sample</button>
+                    <label class="check compact board-auto-save">
+                      <input id="autoSaveBoardCheck" type="checkbox" />
+                      <span data-i18n="autoSaveBoard">Auto save after REC</span>
+                    </label>
+                  </div>
+                </div>
+                <div class="resource-block">
+                  <div class="resource-row">
+                    <span>Flash</span>
+                    <div class="meter"><div id="flashMeter"></div></div>
+                    <strong id="flashText">--</strong>
+                  </div>
+                  <div class="resource-row">
+                    <span>SRAM</span>
+                    <div class="meter"><div id="sramMeter"></div></div>
+                    <strong id="sramText">--</strong>
+                  </div>
+                </div>
+
+                <div class="deploy-block">
+                  <div class="section-title" data-i18n="firmwareDeploy">Firmware Deploy</div>
+                  <div class="deploy-hint" data-i18n="deployModelHint">Model selects which weights to export this time; the flashed firmware still contains P/F/C together.</div>
+                  <div class="deploy-grid">
+                    <label class="field">
+                      <span data-i18n="model">Model</span>
+                      <select id="deployModel">
+                        <option value="perceptron">Perceptron</option>
+                        <option value="fnn" selected>FNN</option>
+                        <option value="cnn">Tiny-CNN</option>
+                      </select>
+                    </label>
+                    <label class="field">
+                      <span data-i18n="epochs">Epochs</span>
+                      <input id="epochsInput" type="number" min="1" max="30" value="3" />
+                    </label>
+                    <label class="field">
+                      <span data-i18n="batch">Batch</span>
+                      <input id="batchInput" type="number" min="64" max="2048" step="64" value="512" />
+                    </label>
+                  </div>
+                  <label class="field full">
+                    <span>UV4.exe</span>
+                    <input id="uv4Input" type="text" placeholder="C:\Keil_v5\UV4\UV4.exe" />
+                  </label>
+                  <label class="check compact">
+                    <input id="augmentCheck" type="checkbox" checked />
+                    <span data-i18n="augment">Augment</span>
+                  </label>
+                  <div class="button-grid">
+                    <button class="button secondary deploy-action" data-action="export-model" data-i18n="exportModel">Export</button>
+                    <button class="button secondary deploy-action" data-action="build" data-i18n="build">Build</button>
+                    <button class="button secondary deploy-action" data-action="flash" data-i18n="flash">Flash</button>
+                    <button class="button primary deploy-action" data-action="export-build-flash" data-i18n="exportFlash">Export+Flash</button>
+                  </div>
+                </div>
+
+                <div class="section-title" data-i18n="serialLog">Serial Log</div>
+                <pre class="log" id="serialLog"></pre>
+              </div>
+
+              <div class="mode-pane" id="inputPane">
+                <div class="panel-head compact-head">
+                  <h2 data-i18n="input">Input</h2>
+                  <div class="segmented" role="group" aria-label="stroke tools">
+                    <button class="segment active" id="penBtn" data-i18n="pen">Pen</button>
+                    <button class="segment" id="clearBtn" data-i18n="clear">Clear</button>
+                  </div>
+                </div>
+                <canvas id="drawCanvas" width="380" height="380" aria-label="drawing canvas"></canvas>
+                <div class="control-grid">
+                  <label class="field">
+                    <span data-i18n="label">Label</span>
+                    <select id="labelSelect"></select>
+                  </label>
+                  <label class="field">
+                    <span data-i18n="brush">Brush</span>
+                    <input id="brushRange" type="range" min="8" max="36" value="18" />
+                  </label>
+                  <label class="check">
+                    <input id="deskewCheck" type="checkbox" checked />
+                    <span data-i18n="autoDeskew">Auto deskew</span>
+                  </label>
+                  <label class="check">
+                    <input id="thickenCheck" type="checkbox" />
+                    <span data-i18n="thicken">Thicken</span>
+                  </label>
+                </div>
+                <div class="action-row">
+                  <button class="button primary" id="inferBtn" data-i18n="recognize">Recognize</button>
+                  <button class="button" id="saveBtn" data-i18n="saveSample">Save Sample</button>
+                </div>
+                <label class="field full">
+                  <span data-i18n="saveDirectory">Save directory</span>
+                  <input id="saveDirInput" type="text" />
+                </label>
+              </div>
+            </section>
+
+            <section class="panel pixel-panel workspace-model-panel">
+              <div class="panel-head">
+                <h2 data-i18n="modelInput">Model Input</h2>
+                <div class="mono" id="pixelStats">28 x 28</div>
+              </div>
+              <div class="pixel-stage">
+                <div class="pixel-grid" id="pixelGrid" aria-label="28 by 28 pixel grid"></div>
+              </div>
+              <div class="result-grid" id="pcResults"></div>
+            </section>
           </div>
-          <div class="pixel-grid" id="pixelGrid" aria-label="28 by 28 pixel grid"></div>
-          <div class="result-grid" id="pcResults"></div>
         </section>
 
-        <section class="panel side-panel">
-          <div class="panel-head">
-            <h2 data-i18n="mcu">MCU</h2>
-            <button class="button secondary" id="serialBtn" data-i18n="connectSerial">Connect Serial</button>
-          </div>
-          <div class="serial-controls">
-            <label class="field">
-              <span data-i18n="serialPort">Serial Port</span>
-              <select id="serialPortSelect"></select>
-            </label>
-            <button class="button secondary tiny" id="refreshPortsBtn" data-i18n="refreshPorts">Refresh Ports</button>
-          </div>
-          <div class="mcu-results" id="mcuResults"></div>
-          <div class="board-live-block">
-            <div class="panel-head mini-head">
-              <div class="section-title" data-i18n="boardLive">Board Live</div>
-              <button class="button secondary tiny" id="clearBoardBtn" data-i18n="clearBoardView">Clear View</button>
-            </div>
-            <canvas id="boardCanvas" width="340" height="220" aria-label="board live drawing"></canvas>
-            <div class="board-stats mono" id="boardStats">0 pts</div>
-            <div class="board-actions">
-              <button class="button secondary" id="saveBoardBtn" data-i18n="saveBoardSample">Save Board Sample</button>
-              <label class="check compact board-auto-save">
-                <input id="autoSaveBoardCheck" type="checkbox" />
-                <span data-i18n="autoSaveBoard">Auto save after REC</span>
-              </label>
-            </div>
-          </div>
-          <div class="resource-block">
-            <div class="resource-row">
-              <span>Flash</span>
-              <div class="meter"><div id="flashMeter"></div></div>
-              <strong id="flashText">--</strong>
-            </div>
-            <div class="resource-row">
-              <span>SRAM</span>
-              <div class="meter"><div id="sramMeter"></div></div>
-              <strong id="sramText">--</strong>
-            </div>
-          </div>
+        <section class="view" id="batchTestView">
+          <div class="test-layout">
+            <section class="panel test-control-panel">
+              <div class="section-title" data-i18n="batchTestTitle">Automated Batch Test</div>
+              <p class="panel-note" data-i18n="batchTestIntro">Run PC-side inference over the standard and personal TF-card test sets, then compare predictions with label.txt.</p>
+              <div class="test-controls">
+                <label class="field">
+                  <span data-i18n="model">Model</span>
+                  <select id="batchModelSelect">
+                    <option value="all" data-i18n="allModels">All models</option>
+                    <option value="p">P model</option>
+                    <option value="f">F model</option>
+                    <option value="c">C model</option>
+                  </select>
+                </label>
+                <div class="batch-action-row">
+                  <button class="button primary" id="runDigitBatchTestBtn" data-domain="digit" data-i18n="runDigitBatchTest">Run Digit Test</button>
+                  <button class="button secondary" id="runLetterBatchTestBtn" data-domain="letter" data-i18n="runLetterBatchTest">Run Letter Test</button>
+                </div>
+              </div>
+              <div class="dataset-map">
+                <div><strong data-i18n="digitTestSets">Digit sets</strong><span>tf_card/mnist + tf_card/personal</span></div>
+                <div><strong data-i18n="letterTestSets">Letter sets</strong><span>tf_card/emnist_letters + tf_card/letters_collected</span></div>
+              </div>
+            </section>
 
-          <div class="deploy-block">
-            <div class="section-title" data-i18n="firmwareDeploy">Firmware Deploy</div>
-            <div class="deploy-grid">
-              <label class="field">
-                <span data-i18n="model">Model</span>
-                <select id="deployModel">
-                  <option value="perceptron">Perceptron</option>
-                  <option value="fnn" selected>FNN</option>
-                  <option value="cnn">Tiny-CNN</option>
-                </select>
-              </label>
-              <label class="field">
-                <span data-i18n="epochs">Epochs</span>
-                <input id="epochsInput" type="number" min="1" max="30" value="3" />
-              </label>
-              <label class="field">
-                <span data-i18n="batch">Batch</span>
-                <input id="batchInput" type="number" min="64" max="2048" step="64" value="512" />
-              </label>
-            </div>
-            <label class="field full">
-              <span>UV4.exe</span>
-              <input id="uv4Input" type="text" placeholder="C:\Keil_v5\UV4\UV4.exe" />
-            </label>
-            <label class="check compact">
-              <input id="augmentCheck" type="checkbox" checked />
-              <span data-i18n="augment">Augment</span>
-            </label>
-            <div class="button-grid">
-              <button class="button secondary deploy-action" data-action="export-model" data-i18n="exportModel">Export</button>
-              <button class="button secondary deploy-action" data-action="build" data-i18n="build">Build</button>
-              <button class="button secondary deploy-action" data-action="flash" data-i18n="flash">Flash</button>
-              <button class="button primary deploy-action" data-action="export-build-flash" data-i18n="exportFlash">Export+Flash</button>
-            </div>
+            <section class="panel test-results-panel">
+              <div class="test-summary-grid">
+                <div class="test-metric">
+                  <span data-i18n="standardAccuracy">Standard Accuracy</span>
+                  <strong id="standardAccuracyText">--</strong>
+                  <em id="standardTimeText">--</em>
+                </div>
+                <div class="test-metric">
+                  <span data-i18n="personalAccuracy">Personal Accuracy</span>
+                  <strong id="personalAccuracyText">--</strong>
+                  <em id="personalTimeText">--</em>
+                </div>
+              </div>
+              <div class="section-title" data-i18n="testDetails">Result Details</div>
+              <div class="test-table-wrap">
+                <table class="test-table">
+                  <thead>
+                    <tr>
+                      <th data-i18n="dataset">Dataset</th>
+                      <th data-i18n="model">Model</th>
+                      <th data-i18n="samples">Samples</th>
+                      <th data-i18n="correct">Correct</th>
+                      <th data-i18n="accuracy">Accuracy</th>
+                      <th data-i18n="avgTime">Avg Time</th>
+                    </tr>
+                  </thead>
+                  <tbody id="batchResultBody">
+                    <tr><td colspan="6" data-i18n="testEmpty">Run a batch test to fill this table.</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="section-title confusion-title" data-i18n="confusionTitle">Most Confused Characters</div>
+              <div class="test-table-wrap">
+                <table class="test-table confusion-table">
+                  <thead>
+                    <tr>
+                      <th data-i18n="dataset">Dataset</th>
+                      <th data-i18n="model">Model</th>
+                      <th data-i18n="confusionPair">True -> Pred</th>
+                      <th data-i18n="count">Count</th>
+                      <th data-i18n="examples">Examples</th>
+                    </tr>
+                  </thead>
+                  <tbody id="confusionResultBody">
+                    <tr><td colspan="5" data-i18n="noConfusions">Run a batch test to show confusion pairs.</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </section>
           </div>
+        </section>
 
-          <div class="section-title" data-i18n="serialLog">Serial Log</div>
-          <pre class="log" id="serialLog"></pre>
+        <section class="view" id="lettersView">
+          <div class="letter-workspace workspace">
+            <section class="panel source-panel letter-source-panel source-mode-browser">
+              <div class="panel-head source-head">
+                <div>
+                  <h2 data-i18n="source">Source</h2>
+                  <div class="panel-note">A-Z 采集、EMNIST 训练、字母固件准备；不和数字模型混烧。</div>
+                </div>
+                <div class="segmented source-switch" role="group" aria-label="letter source">
+                  <button class="segment active" type="button" data-source-toggle="letter" data-source-mode="browser">浏览器</button>
+                  <button class="segment" type="button" data-source-toggle="letter" data-source-mode="mcu">单片机</button>
+                </div>
+              </div>
+
+              <div class="mode-pane active source-browser-pane">
+                <div class="panel-head compact-head">
+                  <h2 data-i18n="input">Input</h2>
+                </div>
+                <canvas id="letterCanvas" width="420" height="420" aria-label="letter drawing canvas"></canvas>
+                <div class="letter-controls">
+                  <label class="field">
+                    <span data-i18n="label">Label</span>
+                    <select id="letterLabelSelect"></select>
+                  </label>
+                  <label class="field">
+                    <span data-i18n="brush">Brush</span>
+                    <input id="letterBrushRange" type="range" min="8" max="42" value="20" />
+                  </label>
+                  <button class="button secondary" id="clearLetterBtn" data-i18n="clear">Clear</button>
+                  <button class="button primary" id="saveLetterBtn" data-i18n="saveLetterSample">Save Letter Sample</button>
+                </div>
+                <label class="field full">
+                  <span data-i18n="saveDirectory">Save directory</span>
+                  <input id="letterSaveDirInput" type="text" value="D:\Microcontrollers_and_Embedded_Systems\CourseDesign_DigitNN\tf_card\letters_collected" />
+                </label>
+              </div>
+
+              <div class="shared-serial-panel source-mcu-pane">
+                <div class="panel-head compact-head">
+                  <div>
+                    <div class="section-title">单片机手写板</div>
+                    <div class="panel-note">共用数字工作区串口，POINT 实时显示，REC 后可继续回传 28 x 28 位图。</div>
+                  </div>
+                  <button class="button secondary shared-serial-btn" type="button" data-i18n="connectSerial">Connect Serial</button>
+                </div>
+                <div class="serial-controls shared-serial-controls">
+                  <label class="field">
+                    <span data-i18n="serialPort">Serial Port</span>
+                    <select class="shared-serial-select"></select>
+                  </label>
+                  <button class="button secondary tiny shared-refresh-ports-btn" type="button" data-i18n="refreshPorts">Refresh Ports</button>
+                </div>
+                <div class="board-mirror-block">
+                  <div class="panel-head mini-head">
+                    <div class="section-title" data-i18n="boardLive">Board Live</div>
+                    <button class="button secondary tiny shared-clear-board-btn" type="button" data-i18n="clearBoardView">Clear View</button>
+                  </div>
+                  <canvas class="shared-board-canvas" width="480" height="480" aria-label="letter board live drawing"></canvas>
+                  <div class="board-stats mono shared-board-stats">0 pts</div>
+                  <div class="board-actions">
+                    <button class="button secondary" id="letterSaveBoardBtn" data-i18n="saveBoardSample">Save Board Sample</button>
+                    <label class="check compact board-auto-save">
+                      <input id="letterAutoSaveBoardCheck" type="checkbox" />
+                      <span data-i18n="autoSaveBoard">Auto save after REC</span>
+                    </label>
+                  </div>
+                </div>
+
+                <div class="resource-block letter-resource-grid">
+                  <div class="resource-row">
+                    <span>Flash</span>
+                    <div class="meter"><div id="letterFlashBar"></div></div>
+                    <strong id="letterFlashText">--</strong>
+                  </div>
+                  <div class="resource-row">
+                    <span>SRAM</span>
+                    <div class="meter"><div id="letterSramBar"></div></div>
+                    <strong id="letterSramText">--</strong>
+                  </div>
+                </div>
+
+                <div class="deploy-block letter-deploy-block">
+                  <div class="section-title">字母固件构建与烧录</div>
+                  <div class="deploy-hint">目标字母固件只包含 Letter-Perceptron / Letter-FNN / Letter-Tiny-CNN，不包含数字权重。已有字母权重可直接构建或烧录；只有点“导出”或“导出+烧录”才会重新训练并更新权重。</div>
+                  <div class="deploy-grid">
+                    <label class="field">
+                      <span data-i18n="model">Model</span>
+                      <select id="letterDeployModel">
+                        <option value="all" selected>All Letter P/F/C</option>
+                        <option value="letter_perceptron">Letter-Perceptron</option>
+                        <option value="letter_fnn">Letter-FNN</option>
+                        <option value="letter_cnn">Letter-Tiny-CNN</option>
+                      </select>
+                    </label>
+                    <label class="field">
+                      <span data-i18n="epochs">Epochs</span>
+                      <input id="letterEpochsInput" type="number" min="1" max="30" value="3" />
+                    </label>
+                    <label class="field">
+                      <span data-i18n="batch">Batch</span>
+                      <input id="letterBatchInput" type="number" min="16" max="1024" step="16" value="128" />
+                    </label>
+                  </div>
+                  <label class="field full">
+                    <span>UV4.exe</span>
+                    <input id="letterUv4Input" type="text" placeholder="C:\Keil_v5\UV4\UV4.exe" />
+                  </label>
+                  <label class="check compact">
+                    <input id="letterAugmentCheck" type="checkbox" checked />
+                    <span data-i18n="augment">Augment</span>
+                  </label>
+                  <div class="button-grid">
+                    <button class="button secondary letter-deploy-action" data-action="export-model" data-i18n="exportModel">Export</button>
+                    <button class="button secondary letter-deploy-action" data-action="build" data-i18n="build">Build</button>
+                    <button class="button secondary letter-deploy-action" data-action="flash" data-i18n="flash">Flash</button>
+                    <button class="button primary letter-deploy-action" data-action="export-build-flash" data-i18n="exportFlash">Export+Flash</button>
+                  </div>
+                </div>
+
+                <div class="letter-dataset-map">
+                  <div><strong>Train</strong><span>EMNIST Letters / tools/train_letters.py</span></div>
+                  <div><strong>Test</strong><span>tf_card/emnist_letters / tools/make_emnist_letters_testset.py</span></div>
+                </div>
+                <div class="section-title log-title" data-i18n="serialLog">Serial Log</div>
+                <pre class="log letter-log" id="letterSerialLog"></pre>
+              </div>
+            </section>
+
+            <section class="panel pixel-panel workspace-model-panel letter-model-panel">
+              <div class="panel-head">
+                <h2 data-i18n="modelInput">Model Input</h2>
+                <div class="mono" id="letterPixelStats">28 x 28</div>
+              </div>
+              <div class="pixel-stage">
+                <div class="pixel-grid" id="letterPixelGrid" aria-label="28 by 28 letter pixel grid"></div>
+              </div>
+              <div class="result-grid letter-result-grid" id="letterResults"></div>
+            </section>
+          </div>
+        </section>
+
+        <section class="view" id="chineseView">
+          <div class="chinese-workspace workspace">
+            <section class="panel source-panel chinese-source-panel source-mode-browser">
+              <div class="panel-head source-head">
+                <div>
+                  <h2>中文识别工作区</h2>
+                  <div class="panel-note">左侧采集汉字图像；右侧展示上位机/API 模型输入、候选结果和本地方案。</div>
+                </div>
+                <div class="status-pill compact-status" id="chineseApiStatus">API checking</div>
+              </div>
+
+              <div class="mode-pane active source-browser-pane">
+                <div class="panel-head compact-head">
+                  <h2>输入</h2>
+                  <div class="segmented" role="group" aria-label="Chinese source">
+                    <button class="segment active" type="button" data-source-toggle="chinese" data-source-mode="browser">浏览器</button>
+                    <button class="segment" type="button" data-source-toggle="chinese" data-source-mode="mcu">单片机</button>
+                  </div>
+                </div>
+                <canvas id="chineseCanvas" width="560" height="560" aria-label="Chinese handwriting canvas"></canvas>
+                <div class="chinese-controls">
+                  <button class="button primary" id="runChineseBtn">识别</button>
+                  <button class="button secondary" id="clearChineseBtn">清空</button>
+                  <button class="button secondary" id="probeChineseModelsBtn">探测模型</button>
+                  <button class="button secondary" id="refreshChineseStatusBtn">刷新状态</button>
+                </div>
+
+                <div class="chinese-form-grid">
+                  <label class="field">
+                    <span>API 提供商</span>
+                    <select id="chineseProviderSelect">
+                      <option value="">Auto (.env)</option>
+                      <option value="aliyun">Aliyun DashScope</option>
+                      <option value="csu">CSU</option>
+                    </select>
+                  </label>
+                  <label class="field">
+                    <span>视觉模型</span>
+                    <input id="chineseModelInput" type="text" value="qwen-vl-max" />
+                  </label>
+                  <label class="field full">
+                    <span>识别提示词</span>
+                    <textarea id="chinesePromptInput" rows="4">请识别图片中的中文手写字符或短文本。只输出 JSON，格式为 {"text":"识别文本","candidates":[{"text":"候选","confidence":0.0}],"note":"说明"}。</textarea>
+                  </label>
+                </div>
+              </div>
+
+              <div class="shared-serial-panel source-mcu-pane">
+                <div class="panel-head compact-head">
+                  <div>
+                    <div class="section-title">单片机手写板</div>
+                    <div class="panel-note">STM32 负责触摸采集；上位机/API 负责中文识别，适合 5000 字以上任务。</div>
+                  </div>
+                  <button class="button secondary shared-serial-btn" type="button" data-i18n="connectSerial">Connect Serial</button>
+                </div>
+                <div class="serial-controls shared-serial-controls">
+                  <label class="field">
+                    <span data-i18n="serialPort">Serial Port</span>
+                    <select class="shared-serial-select"></select>
+                  </label>
+                  <button class="button secondary tiny shared-refresh-ports-btn" type="button" data-i18n="refreshPorts">Refresh Ports</button>
+                </div>
+                <div class="board-mirror-block">
+                  <div class="panel-head mini-head">
+                    <div class="section-title" data-i18n="boardLive">Board Live</div>
+                    <button class="button secondary tiny shared-clear-board-btn" type="button" data-i18n="clearBoardView">Clear View</button>
+                  </div>
+                  <canvas class="shared-board-canvas" width="480" height="480" aria-label="Chinese board live drawing"></canvas>
+                  <div class="board-stats mono shared-board-stats">0 pts</div>
+                </div>
+              </div>
+
+              <div class="resource-block chinese-resource-grid">
+                <div class="resource-row">
+                  <span>Flash</span>
+                  <div class="meter"><div id="chineseFlashBar"></div></div>
+                  <strong id="chineseFlashText">--</strong>
+                </div>
+                <div class="resource-row">
+                  <span>SRAM</span>
+                  <div class="meter"><div id="chineseSramBar"></div></div>
+                  <strong id="chineseSramText">--</strong>
+                </div>
+              </div>
+
+              <div class="chinese-training-plan">
+                <div><strong>当前演示</strong><span>阿里云视觉模型完成中文识别，STM32 只负责触摸采集。</span></div>
+                <div><strong>本地原型</strong><span>建议先训练 100/500 常用字分类器，不直接从 5000 类起步。</span></div>
+                <div><strong>完整路线</strong><span>CASIA-HWDB 或自采样本 + MobileNetV3/EfficientNet，最终导出 ONNX 本机推理。</span></div>
+              </div>
+              <pre class="log chinese-log" id="chineseLog"></pre>
+            </section>
+
+            <section class="panel pixel-panel workspace-model-panel chinese-model-panel">
+              <div class="panel-head">
+                <h2>模型输入</h2>
+                <div class="mono" id="chinesePreviewStats">224 x 224</div>
+              </div>
+              <div class="chinese-preview-stage">
+                <canvas id="chinesePreviewCanvas" width="224" height="224" aria-label="Chinese normalized model input"></canvas>
+              </div>
+              <div class="result-grid chinese-result-grid">
+                <div class="result-tile">
+                  <div class="result-name">A API Vision</div>
+                  <div class="result-label" id="chineseResultText">--</div>
+                  <div class="result-meta" id="chineseResultMeta">等待输入</div>
+                  <div class="bar"><div id="chineseConfidenceBar"></div></div>
+                </div>
+                <div class="result-tile">
+                  <div class="result-name">L Local Prototype</div>
+                  <div class="result-label">--</div>
+                  <div class="result-meta">暂不训练完整 5000 类</div>
+                  <div class="bar"><div style="width: 0%"></div></div>
+                </div>
+                <div class="result-tile">
+                  <div class="result-name">B Board Role</div>
+                  <div class="result-label">采集</div>
+                  <div class="result-meta">STM32 作为触摸板</div>
+                  <div class="bar"><div style="width: 100%"></div></div>
+                </div>
+              </div>
+              <div class="candidate-list" id="chineseCandidateList"></div>
+
+              <div class="chinese-status-grid">
+                <div>
+                  <strong>远程 API</strong>
+                  <span id="chineseRemoteText">checking</span>
+                </div>
+                <div>
+                  <strong>BASE_URL</strong>
+                  <span id="chineseBaseUrlText">--</span>
+                </div>
+                <div>
+                  <strong>API 令牌名</strong>
+                  <span id="chineseTokenNameText">fa_8202240417</span>
+                </div>
+                <div>
+                  <strong>板端角色</strong>
+                  <span>只采集触摸轨迹 / 位图，不在 STM32 上跑 5000 类模型</span>
+                </div>
+              </div>
+
+              <div class="section-title chinese-runtime-title">本机可跑的简单文字图像识别方案</div>
+              <div class="runtime-grid" id="chineseRuntimeGrid"></div>
+            </section>
+          </div>
         </section>
       </main>
     </div>
-    <script src="app.js"></script>
+    <script src="app.js?v=20260704n"></script>
   </body>
 </html>

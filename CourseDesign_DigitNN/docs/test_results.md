@@ -15,8 +15,8 @@ python CourseDesign_DigitNN\tools\train_mnist.py --model cnn --epochs 5 --batch-
 | 模型 | 训练设置 | MNIST 测试准确率 | 说明 |
 | --- | --- | ---: | --- |
 | Perceptron | 2 epoch | 89.25% | 基础任务模型，作为低资源对照 |
-| FNN | 8 epoch + affine augmentation | 94.48% | 进阶全连接模型，个人手写泛化明显改善 |
-| Tiny-CNN | 5 epoch + affine augmentation | 95.97% | 卷积进阶模型，参数量小但运算量更高 |
+| FNN | 8 epoch + affine augmentation | 94.48% | 进阶全连接模型，速度和准确率比较均衡 |
+| Tiny-CNN | 5 epoch + affine augmentation | 95.97% | 卷积进阶模型，能提取局部结构特征，但计算量更高 |
 
 ## TF 卡测试集
 
@@ -25,14 +25,18 @@ TF 卡目录镜像：
 ```text
 CourseDesign_DigitNN/tf_card/
 ├── manifest.csv
-├── mnist/          # MNIST 标准测试集，100 张 BMP
-├── personal/       # 个人手写测试集，10 张 BMP
-└── external_usps/  # USPS 公开手写测试集，100 张 BMP
+├── mnist/          # MNIST 标准数字测试集，1000 张 BMP
+├── personal/       # 上位机采集个人数字测试集，129 张 BMP
+├── external_usps/  # USPS 公开手写数字测试集，100 张 BMP
+├── emnist_letters/ # EMNIST Letters 字母测试集，260 张 BMP
+└── ui_collected/   # 上位机采集缓存，已同步到 personal/，默认不进入 manifest
 ```
 
-个人手写集来自 `testsets/personal/raw/number.jpg`，标签序列为 `7132564908`。对比 `dilate-size=1/3/5` 后，`dilate-size=3` 在三模型上更均衡，因此当前 `tf_card/personal` 使用厚度 3 的预处理结果。
+个人手写集来自上位机 `tf_card/ui_collected/` 新采集样本，当前 `tf_card/personal` 使用其中 129 张 28x28 预处理 BMP，并保留 `label.txt` 作为真实标签记录。
 
 外部公开集来自 USPS handwritten digits。该数据集为 16x16 灰度手写数字，本项目通过 `sklearn.datasets.fetch_openml("usps", version=2)` 拉取，每类选取 10 张并转换为 28x28 BMP，用于验证模型在非 MNIST 来源上的泛化能力。
+
+字母准备集来自 EMNIST Letters。当前先导出每类 10 张、共 260 张 BMP，作为后续字母识别工作区和自动化测试页面的数据基础。
 
 汇总命令：
 
@@ -44,22 +48,28 @@ PC 端量化模型结果：
 
 | 测试集 | 模型 | 图片数量 | 正确数量 | 准确率 | PC 平均推理时间 |
 | --- | --- | ---: | ---: | ---: | ---: |
-| mnist | Perceptron | 100 | 90 | 90.00% | 180.19 us |
-| mnist | FNN | 100 | 98 | 98.00% | 372.59 us |
-| mnist | Tiny-CNN | 100 | 98 | 98.00% | 26053.06 us |
-| personal | Perceptron | 10 | 7 | 70.00% | 207.08 us |
-| personal | FNN | 10 | 10 | 100.00% | 338.62 us |
-| personal | Tiny-CNN | 10 | 9 | 90.00% | 67472.91 us |
-| external_usps | Perceptron | 100 | 58 | 58.00% | 897.64 us |
-| external_usps | FNN | 100 | 93 | 93.00% | 738.15 us |
-| external_usps | Tiny-CNN | 100 | 89 | 89.00% | 67481.25 us |
+| mnist | Perceptron | 1000 | 874 | 87.40% | 688.55 us |
+| mnist | FNN | 1000 | 929 | 92.90% | 396.29 us |
+| mnist | Tiny-CNN | 1000 | 958 | 95.80% | 28117.62 us |
+| personal | Perceptron | 129 | 124 | 96.12% | 752.03 us |
+| personal | FNN | 129 | 128 | 99.22% | 593.30 us |
+| personal | Tiny-CNN | 129 | 128 | 99.22% | 29047.95 us |
+| external_usps | Perceptron | 100 | 58 | 58.00% | 800.85 us |
+| external_usps | FNN | 100 | 93 | 93.00% | 413.48 us |
+| external_usps | Tiny-CNN | 100 | 83 | 83.00% | 27921.47 us |
 
-说明：PC 端 Tiny-CNN 时间由 Python 循环实现影响较大，不能直接等同于 STM32 端 C 代码时间；报告中可作为相对复杂度说明，最终硬件时间应以板端串口或屏幕实测为准。
+说明：PC 端 Tiny-CNN 时间受 Python 循环实现影响较大，不能直接等同于 STM32 端 C 代码时间；报告中可作为相对复杂度说明，最终硬件时间应以板端串口或屏幕实测为准。
+
+## 易混淆样例
+
+`tools/host_batch_test.py` 现在会统计每个测试集、每个模型中真实标签到预测标签的错误对，并保留最多 3 个样例文件名。自动化测试网页运行后会展示最容易混淆的几组数字。
+
+当前 1000 张 MNIST 标准集上，Perceptron 容易把 `2 -> 8`、`4 -> 9`、`7 -> 9` 混淆；FNN 和 Tiny-CNN 的错误数量明显减少。个人采集集上 FNN 与 Tiny-CNN 均为 128/129，主要剩余错误可在网页的混淆表中直接定位样例。
 
 ## 进阶结论
 
-- 扩展到 100 张 MNIST 标准测试图后，FNN 和 Tiny-CNN 均达到 98/100，明显优于 Perceptron。
-- 个人手写集上，增强 FNN 达到 10/10，Tiny-CNN 达到 9/10，明显优于旧版 FNN 的 5/10。
-- USPS 外部公开集上，FNN 达到 93/100，Tiny-CNN 达到 89/100，说明模型对非 MNIST 来源也有一定泛化能力。
+- 标准测试集扩展到 1000 张后，FNN 为 929/1000，Tiny-CNN 为 958/1000，均优于 Perceptron。
+- 新采集个人手写集上，FNN 与 Tiny-CNN 均达到 128/129，说明上位机采集数据已经可以作为可靠的个人测试集。
+- USPS 外部公开集上，FNN 达到 93/100，Tiny-CNN 为 83/100；外部来源和 MNIST 分布差异较大，后续可继续通过数据增强或迁移测试优化泛化能力。
 - Perceptron 保留为基础模型和低资源对照，准确率不作为进阶方案主指标。
-- 下一步若接入 TF 卡/FATFS，可在 STM32 端复现同一组 `label.txt` 批量测试，并记录真实推理时间。
+- 字母识别已准备 EMNIST 测试集导出和训练脚本，固件主线为 Letter-Perceptron、Letter-FNN、Letter-CNN 三个模型；DS-CNN 仅作为 PC 侧可选实验对照。

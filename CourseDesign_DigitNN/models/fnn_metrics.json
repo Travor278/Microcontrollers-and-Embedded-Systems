@@ -16,5 +16,17 @@
     "epoch": 3,
     "loss": 0.7494063144683838,
     "accuracy": 0.9162
+  },
+  {
+    "model": "fnn",
+    "epoch": 4,
+    "loss": 0.5935334556897481,
+    "accuracy": 0.9297
+  },
+  {
+    "model": "fnn",
+    "epoch": 5,
+    "loss": 0.5074957223097484,
+    "accuracy": 0.9343
   }
 ]

@@ -1,0 +1,562 @@
+[
+  {
+    "model": "letter_cnn",
+    "epoch": 1,
+    "loss": 1.6710427062328046,
+    "accuracy": 0.7939423076923077,
+    "total": 20800,
+    "correct": 16514,
+    "confusions": [
+      {
+        "truth": "I",
+        "prediction": "L",
+        "count": 200
+      },
+      {
+        "truth": "G",
+        "prediction": "Q",
+        "count": 174
+      },
+      {
+        "truth": "L",
+        "prediction": "I",
+        "count": 170
+      },
+      {
+        "truth": "D",
+        "prediction": "O",
+        "count": 112
+      },
+      {
+        "truth": "A",
+        "prediction": "H",
+        "count": 88
+      },
+      {
+        "truth": "E",
+        "prediction": "C",
+        "count": 72
+      },
+      {
+        "truth": "T",
+        "prediction": "F",
+        "count": 52
+      },
+      {
+        "truth": "F",
+        "prediction": "P",
+        "count": 51
+      },
+      {
+        "truth": "N",
+        "prediction": "M",
+        "count": 51
+      },
+      {
+        "truth": "M",
+        "prediction": "N",
+        "count": 50
+      },
+      {
+        "truth": "V",
+        "prediction": "Y",
+        "count": 49
+      },
+      {
+        "truth": "R",
+        "prediction": "K",
+        "count": 47
+      }
+    ]
+  },
+  {
+    "model": "letter_cnn",
+    "epoch": 2,
+    "loss": 0.7909052054087321,
+    "accuracy": 0.8629326923076923,
+    "total": 20800,
+    "correct": 17949,
+    "confusions": [
+      {
+        "truth": "I",
+        "prediction": "L",
+        "count": 233
+      },
+      {
+        "truth": "G",
+        "prediction": "Q",
+        "count": 140
+      },
+      {
+        "truth": "L",
+        "prediction": "I",
+        "count": 137
+      },
+      {
+        "truth": "Q",
+        "prediction": "G",
+        "count": 71
+      },
+      {
+        "truth": "E",
+        "prediction": "C",
+        "count": 62
+      },
+      {
+        "truth": "D",
+        "prediction": "O",
+        "count": 60
+      },
+      {
+        "truth": "H",
+        "prediction": "N",
+        "count": 52
+      },
+      {
+        "truth": "A",
+        "prediction": "Q",
+        "count": 50
+      },
+      {
+        "truth": "A",
+        "prediction": "N",
+        "count": 36
+      },
+      {
+        "truth": "U",
+        "prediction": "V",
+        "count": 36
+      },
+      {
+        "truth": "J",
+        "prediction": "I",
+        "count": 34
+      },
+      {
+        "truth": "G",
+        "prediction": "B",
+        "count": 32
+      }
+    ]
+  },
+  {
+    "model": "letter_cnn",
+    "epoch": 3,
+    "loss": 0.6236603116989136,
+    "accuracy": 0.8716346153846154,
+    "total": 20800,
+    "correct": 18130,
+    "confusions": [
+      {
+        "truth": "I",
+        "prediction": "L",
+        "count": 226
+      },
+      {
+        "truth": "Q",
+        "prediction": "G",
+        "count": 181
+      },
+      {
+        "truth": "L",
+        "prediction": "I",
+        "count": 135
+      },
+      {
+        "truth": "D",
+        "prediction": "O",
+        "count": 106
+      },
+      {
+        "truth": "G",
+        "prediction": "Q",
+        "count": 68
+      },
+      {
+        "truth": "Q",
+        "prediction": "A",
+        "count": 64
+      },
+      {
+        "truth": "U",
+        "prediction": "V",
+        "count": 46
+      },
+      {
+        "truth": "H",
+        "prediction": "N",
+        "count": 44
+      },
+      {
+        "truth": "E",
+        "prediction": "C",
+        "count": 38
+      },
+      {
+        "truth": "F",
+        "prediction": "T",
+        "count": 32
+      },
+      {
+        "truth": "J",
+        "prediction": "I",
+        "count": 31
+      },
+      {
+        "truth": "K",
+        "prediction": "H",
+        "count": 31
+      }
+    ]
+  },
+  {
+    "model": "letter_cnn",
+    "epoch": 4,
+    "loss": 0.571308030745922,
+    "accuracy": 0.8852884615384615,
+    "total": 20800,
+    "correct": 18414,
+    "confusions": [
+      {
+        "truth": "I",
+        "prediction": "L",
+        "count": 181
+      },
+      {
+        "truth": "L",
+        "prediction": "I",
+        "count": 176
+      },
+      {
+        "truth": "G",
+        "prediction": "Q",
+        "count": 132
+      },
+      {
+        "truth": "V",
+        "prediction": "U",
+        "count": 76
+      },
+      {
+        "truth": "Q",
+        "prediction": "G",
+        "count": 73
+      },
+      {
+        "truth": "D",
+        "prediction": "O",
+        "count": 52
+      },
+      {
+        "truth": "C",
+        "prediction": "E",
+        "count": 41
+      },
+      {
+        "truth": "Q",
+        "prediction": "A",
+        "count": 37
+      },
+      {
+        "truth": "F",
+        "prediction": "T",
+        "count": 32
+      },
+      {
+        "truth": "J",
+        "prediction": "I",
+        "count": 31
+      },
+      {
+        "truth": "N",
+        "prediction": "M",
+        "count": 30
+      },
+      {
+        "truth": "A",
+        "prediction": "Q",
+        "count": 29
+      }
+    ]
+  },
+  {
+    "model": "letter_cnn",
+    "epoch": 5,
+    "loss": 0.5392742685782603,
+    "accuracy": 0.88875,
+    "total": 20800,
+    "correct": 18486,
+    "confusions": [
+      {
+        "truth": "I",
+        "prediction": "L",
+        "count": 208
+      },
+      {
+        "truth": "L",
+        "prediction": "I",
+        "count": 142
+      },
+      {
+        "truth": "Q",
+        "prediction": "G",
+        "count": 107
+      },
+      {
+        "truth": "G",
+        "prediction": "Q",
+        "count": 103
+      },
+      {
+        "truth": "D",
+        "prediction": "O",
+        "count": 52
+      },
+      {
+        "truth": "Q",
+        "prediction": "A",
+        "count": 52
+      },
+      {
+        "truth": "F",
+        "prediction": "T",
+        "count": 49
+      },
+      {
+        "truth": "V",
+        "prediction": "U",
+        "count": 45
+      },
+      {
+        "truth": "V",
+        "prediction": "Y",
+        "count": 44
+      },
+      {
+        "truth": "E",
+        "prediction": "C",
+        "count": 35
+      },
+      {
+        "truth": "G",
+        "prediction": "A",
+        "count": 27
+      },
+      {
+        "truth": "J",
+        "prediction": "I",
+        "count": 27
+      }
+    ]
+  },
+  {
+    "model": "letter_cnn",
+    "epoch": 6,
+    "loss": 0.5215414428710937,
+    "accuracy": 0.8918269230769231,
+    "total": 20800,
+    "correct": 18550,
+    "confusions": [
+      {
+        "truth": "I",
+        "prediction": "L",
+        "count": 176
+      },
+      {
+        "truth": "L",
+        "prediction": "I",
+        "count": 170
+      },
+      {
+        "truth": "G",
+        "prediction": "Q",
+        "count": 137
+      },
+      {
+        "truth": "Q",
+        "prediction": "G",
+        "count": 75
+      },
+      {
+        "truth": "D",
+        "prediction": "O",
+        "count": 47
+      },
+      {
+        "truth": "U",
+        "prediction": "V",
+        "count": 46
+      },
+      {
+        "truth": "A",
+        "prediction": "Q",
+        "count": 41
+      },
+      {
+        "truth": "E",
+        "prediction": "C",
+        "count": 39
+      },
+      {
+        "truth": "A",
+        "prediction": "H",
+        "count": 32
+      },
+      {
+        "truth": "F",
+        "prediction": "T",
+        "count": 31
+      },
+      {
+        "truth": "J",
+        "prediction": "I",
+        "count": 30
+      },
+      {
+        "truth": "A",
+        "prediction": "D",
+        "count": 29
+      }
+    ]
+  },
+  {
+    "model": "letter_cnn",
+    "epoch": 7,
+    "loss": 0.5000211703165983,
+    "accuracy": 0.8942307692307693,
+    "total": 20800,
+    "correct": 18600,
+    "confusions": [
+      {
+        "truth": "I",
+        "prediction": "L",
+        "count": 185
+      },
+      {
+        "truth": "L",
+        "prediction": "I",
+        "count": 164
+      },
+      {
+        "truth": "G",
+        "prediction": "Q",
+        "count": 111
+      },
+      {
+        "truth": "Q",
+        "prediction": "G",
+        "count": 98
+      },
+      {
+        "truth": "E",
+        "prediction": "C",
+        "count": 73
+      },
+      {
+        "truth": "D",
+        "prediction": "O",
+        "count": 60
+      },
+      {
+        "truth": "U",
+        "prediction": "V",
+        "count": 55
+      },
+      {
+        "truth": "Q",
+        "prediction": "A",
+        "count": 49
+      },
+      {
+        "truth": "F",
+        "prediction": "T",
+        "count": 33
+      },
+      {
+        "truth": "H",
+        "prediction": "N",
+        "count": 31
+      },
+      {
+        "truth": "J",
+        "prediction": "I",
+        "count": 31
+      },
+      {
+        "truth": "G",
+        "prediction": "A",
+        "count": 30
+      }
+    ]
+  },
+  {
+    "model": "letter_cnn",
+    "epoch": 8,
+    "loss": 0.489988124248309,
+    "accuracy": 0.8926923076923077,
+    "total": 20800,
+    "correct": 18568,
+    "confusions": [
+      {
+        "truth": "I",
+        "prediction": "L",
+        "count": 274
+      },
+      {
+        "truth": "G",
+        "prediction": "Q",
+        "count": 140
+      },
+      {
+        "truth": "L",
+        "prediction": "I",
+        "count": 101
+      },
+      {
+        "truth": "D",
+        "prediction": "O",
+        "count": 55
+      },
+      {
+        "truth": "U",
+        "prediction": "V",
+        "count": 55
+      },
+      {
+        "truth": "Q",
+        "prediction": "G",
+        "count": 51
+      },
+      {
+        "truth": "Q",
+        "prediction": "A",
+        "count": 34
+      },
+      {
+        "truth": "F",
+        "prediction": "T",
+        "count": 32
+      },
+      {
+        "truth": "G",
+        "prediction": "A",
+        "count": 30
+      },
+      {
+        "truth": "G",
+        "prediction": "S",
+        "count": 30
+      },
+      {
+        "truth": "J",
+        "prediction": "I",
+        "count": 29
+      },
+      {
+        "truth": "K",
+        "prediction": "H",
+        "count": 27
+      }
+    ]
+  }
+]

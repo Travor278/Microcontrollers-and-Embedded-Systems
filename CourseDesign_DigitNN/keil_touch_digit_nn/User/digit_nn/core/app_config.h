@@ -8,6 +8,7 @@
 #define APP_CONFIG_H
 
 #include <stdint.h>
+#include "digit_nn/generated/RecognitionDomain.h"
 
 #define DIGIT_IMAGE_WIDTH              28U
 #define DIGIT_IMAGE_HEIGHT             28U
@@ -26,7 +27,9 @@
 #define PREPROCESS_TARGET_PADDING      4U
 #define PREPROCESS_MIN_BOX_SIZE        4U
 
+#ifndef RECOGNIZER_CLASS_COUNT
 #define RECOGNIZER_CLASS_COUNT         10U
+#endif
 
 typedef uint32_t system_tick_t;
 

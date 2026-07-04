@@ -2,13 +2,31 @@
   {
     "model": "perceptron",
     "epoch": 1,
-    "loss": 1.1145045034726462,
-    "accuracy": 0.8692
+    "loss": 1.6582493548075359,
+    "accuracy": 0.8117
   },
   {
     "model": "perceptron",
     "epoch": 2,
-    "loss": 0.5394981542110443,
-    "accuracy": 0.8925
+    "loss": 1.3199916185379028,
+    "accuracy": 0.8332
+  },
+  {
+    "model": "perceptron",
+    "epoch": 3,
+    "loss": 1.257596449724833,
+    "accuracy": 0.8422
+  },
+  {
+    "model": "perceptron",
+    "epoch": 4,
+    "loss": 1.222727269299825,
+    "accuracy": 0.8417
+  },
+  {
+    "model": "perceptron",
+    "epoch": 5,
+    "loss": 1.2065197655359905,
+    "accuracy": 0.8343
   }
 ]

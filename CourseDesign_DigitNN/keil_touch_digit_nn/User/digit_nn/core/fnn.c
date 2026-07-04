@@ -64,7 +64,7 @@ static void find_top2(const int32_t *logits, uint8_t *best_index, uint8_t *secon
         *second_index = 0U;
     }
 
-    for (index = 2U; index < RECOGNIZER_CLASS_COUNT; index++) {
+    for (index = 2U; index < FNN_CLASS_COUNT; index++) {
         if (logits[index] > logits[*best_index]) {
             *second_index = *best_index;
             *best_index = index;

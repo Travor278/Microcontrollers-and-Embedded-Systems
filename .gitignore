@@ -1,12 +1,39 @@
-*.mp4
-__pycache__/
+# Editor and local agent state
 .claude/
 .vscode/
 .playwright/
 .playwright-mcp/
-CourseDesign_DigitNN/cube_workspace/
-CourseDesign_DigitNN/data/
+
+# Python and test caches
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Local secrets and machine-specific configuration
+.env
+.env.*
+!.env.example
+CourseDesign_DigitNN/.env
+CourseDesign_DigitNN/.env.*
+!CourseDesign_DigitNN/.env.example
+
+# Temporary files
 tmp/
 ~$*.docx
-CourseDesign_DigitNN/keil_touch_digit_nn/Output/keil_*.log
-CourseDesign_DigitNN/keil_touch_digit_nn/Output/*_sct.Bak
+*.mp4
+
+# CourseDesign local workspaces and datasets that are regenerated/downloaded
+CourseDesign_DigitNN/cube_workspace/
+CourseDesign_DigitNN/data/
+CourseDesign_DigitNN/host_app/captures/
+CourseDesign_DigitNN/firmware/generated_cache/
+
+# Optional PC-side letter model experiments
+CourseDesign_DigitNN/models/letter_ds_cnn*
+
+# Keil build products
+CourseDesign_DigitNN/keil_touch_digit_nn/Output/
+CourseDesign_DigitNN/keil_touch_digit_nn/Listing/
+CourseDesign_DigitNN/keil_touch_digit_nn/**/*.bak
+CourseDesign_DigitNN/keil_touch_digit_nn/**/*.log
+CourseDesign_DigitNN/keil_touch_digit_nn/**/*.uvguix.*

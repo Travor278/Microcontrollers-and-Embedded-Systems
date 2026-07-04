@@ -13,13 +13,26 @@ from PIL import Image
 ROOT_DIR = Path(__file__).resolve().parents[1]
 
 
+def label_to_index(label: str) -> int:
+    text = label.strip()
+    if len(text) == 1 and text.isalpha():
+        return ord(text.upper()) - ord("A")
+    return int(text)
+
+
+def format_label(index: int, label_names: list[str] | None = None) -> str | int:
+    if label_names and 0 <= index < len(label_names):
+        return label_names[index]
+    return index
+
+
 def load_labels(label_file: Path) -> dict[str, int]:
     labels: dict[str, int] = {}
     for line in label_file.read_text(encoding="utf-8").splitlines():
         if not line.strip():
             continue
         filename, label = line.split(",", maxsplit=1)
-        labels[filename.strip()] = int(label.strip())
+        labels[filename.strip()] = label_to_index(label)
     return labels
 
 
@@ -93,10 +106,16 @@ def predict_cnn(pixels: np.ndarray, data: np.lib.npyio.NpzFile) -> int:
 
 
 def default_quant_file(model: str) -> Path:
-    if model == "perceptron":
+    if model in {"perceptron", "letter_perceptron"}:
+        if model.startswith("letter_"):
+            return ROOT_DIR / "models" / "letter_perceptron_quant.npz"
         return ROOT_DIR / "models" / "perceptron_quant.npz"
-    if model == "fnn":
+    if model in {"fnn", "letter_fnn"}:
+        if model.startswith("letter_"):
+            return ROOT_DIR / "models" / "letter_fnn_quant.npz"
         return ROOT_DIR / "models" / "fnn_quant.npz"
+    if model == "letter_cnn":
+        return ROOT_DIR / "models" / "letter_cnn_quant.npz"
     return ROOT_DIR / "models" / "cnn_quant.npz"
 
 
@@ -105,18 +124,26 @@ def predict(model: str, pixels: np.ndarray, data: np.lib.npyio.NpzFile) -> int:
 
 
 def predict_scores(model: str, pixels: np.ndarray, data: np.lib.npyio.NpzFile) -> np.ndarray:
-    if model == "perceptron":
+    if model in {"perceptron", "letter_perceptron"}:
         return scores_perceptron(pixels, data)
-    if model == "fnn":
+    if model in {"fnn", "letter_fnn"}:
         return scores_fnn(pixels, data)
     return scores_cnn(pixels, data)
 
 
-def run_batch(set_dir: Path, model: str, quant_file: Path, verbose: bool = True) -> dict[str, object]:
+def run_batch(
+    set_dir: Path,
+    model: str,
+    quant_file: Path,
+    verbose: bool = True,
+    label_names: list[str] | None = None,
+) -> dict[str, object]:
     labels = load_labels(set_dir / "label.txt")
     correct = 0
     total = 0
     elapsed_ns = 0
+    confusion_counts: dict[tuple[int, int], int] = {}
+    confusion_examples: dict[tuple[int, int], list[str]] = {}
 
     with np.load(quant_file) as data:
         for filename, label in labels.items():
@@ -126,11 +153,29 @@ def run_batch(set_dir: Path, model: str, quant_file: Path, verbose: bool = True)
             elapsed_ns += time.perf_counter_ns() - start_ns
             correct += int(prediction == label)
             total += 1
+            if prediction != label:
+                pair = (label, prediction)
+                confusion_counts[pair] = confusion_counts.get(pair, 0) + 1
+                examples = confusion_examples.setdefault(pair, [])
+                if len(examples) < 3:
+                    examples.append(filename)
             if verbose:
                 print(f"{filename}: label={label} prediction={prediction}")
 
     accuracy = (correct / total) if total else 0.0
     average_us = (elapsed_ns / total / 1000.0) if total else 0.0
+    confusions = [
+        {
+            "truth": format_label(truth, label_names),
+            "prediction": format_label(prediction, label_names),
+            "truthIndex": truth,
+            "predictionIndex": prediction,
+            "count": count,
+            "rate": (count / total) if total else 0.0,
+            "examples": confusion_examples.get((truth, prediction), []),
+        }
+        for (truth, prediction), count in sorted(confusion_counts.items(), key=lambda item: (-item[1], item[0][0], item[0][1]))
+    ]
     return {
         "model": model,
         "set_dir": str(set_dir),
@@ -138,13 +183,18 @@ def run_batch(set_dir: Path, model: str, quant_file: Path, verbose: bool = True)
         "correct": correct,
         "accuracy": accuracy,
         "avg_time_us": average_us,
+        "confusions": confusions,
     }
 
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--set-dir", type=Path, default=ROOT_DIR / "testsets" / "mnist")
-    parser.add_argument("--model", choices=["perceptron", "fnn", "cnn"], default="perceptron")
+    parser.add_argument(
+        "--model",
+        choices=["perceptron", "fnn", "cnn", "letter_perceptron", "letter_fnn", "letter_cnn"],
+        default="perceptron",
+    )
     parser.add_argument("--quant-file", type=Path, default=None)
     parser.add_argument("--quiet", action="store_true")
     return parser.parse_args()

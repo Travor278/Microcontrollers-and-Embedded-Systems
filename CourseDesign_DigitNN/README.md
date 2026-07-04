@@ -43,7 +43,9 @@ CourseDesign_DigitNN/
 6. 运行 `tools/evaluate_tf_card.py`，对 `tf_card/mnist`、`tf_card/personal` 与 `tf_card/external_usps` 做 PC 端批量评估并生成 `models/tf_card_eval.json`。
 7. 运行 `python host_app\web_dashboard_server.py`，浏览器打开 `http://127.0.0.1:8765/`，进入网页上位机，用于画布输入、像素预览、量化模型置信度展示、串口联调和样本采集。
 8. 如需一键构建/下载，在 UI 的 `Firmware Deploy` 面板填写 `UV4.exe` 路径，或运行 `python tools\keil_flash.py --action build`、`python tools\keil_flash.py --action flash`。
-9. 如需尝试英文字母，运行 `python tools\train_alnum.py --epochs 5 --batch-size 512 --augment` 训练 PC 端 `0-9A-Z` 原型。
+9. 如需尝试英文字母，运行 `python tools\make_emnist_letters_testset.py` 准备 EMNIST Letters 测试集，再用 `python tools\train_letters.py --model letter_fnn --epochs 3 --augment` 训练字母原型。字母固件按独立目标规划，不与数字 P/F/C 权重混烧。
+10. 如果扩展到约 5000 个汉字，STM32F103VE 建议只承担触摸板和串口采集职责；本机通过 `/api/chinese/infer` 接收板端图像或轨迹，再调用本机 OCR/分类模型完成识别。
+11. 如需启用视觉 API 中文识别，运行 `tools\save_csu_api_key.ps1` 或 `tools\save_aliyun_api_key.ps1` 保存密钥；密钥会保存到本地 `.env.local`，该文件已加入 `.gitignore`。进入网页“中文识别”页后可点击“探测模型”筛选支持图像输入的模型；CSU 若全部返回 403，先确认校园网/VPN 和令牌权限。
 
 ## 规范入口
 
@@ -55,5 +57,6 @@ CourseDesign_DigitNN/
 - 联调结果：`docs/test_results.md`
 - 多类型字符扩展：`docs/multitype_extension_plan.md`
 - Keil 构建/烧录脚本：`tools/keil_flash.py`
-- 36 类字母原型训练：`tools/train_alnum.py`
+- 26 类字母原型训练：`tools/train_letters.py`
+- EMNIST Letters 测试集导出：`tools/make_emnist_letters_testset.py`
 - 报告草稿：`report/report_draft.md`
