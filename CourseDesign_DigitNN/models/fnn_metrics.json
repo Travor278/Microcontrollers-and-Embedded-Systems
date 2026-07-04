@@ -16,35 +16,5 @@
     "epoch": 3,
     "loss": 0.7494063144683838,
     "accuracy": 0.9162
-  },
-  {
-    "model": "fnn",
-    "epoch": 4,
-    "loss": 0.5935334556897481,
-    "accuracy": 0.9297
-  },
-  {
-    "model": "fnn",
-    "epoch": 5,
-    "loss": 0.5074957223097484,
-    "accuracy": 0.9343
-  },
-  {
-    "model": "fnn",
-    "epoch": 6,
-    "loss": 0.4462121010462443,
-    "accuracy": 0.9394
-  },
-  {
-    "model": "fnn",
-    "epoch": 7,
-    "loss": 0.4050830765088399,
-    "accuracy": 0.9417
-  },
-  {
-    "model": "fnn",
-    "epoch": 8,
-    "loss": 0.3756064817428589,
-    "accuracy": 0.9448
   }
 ]

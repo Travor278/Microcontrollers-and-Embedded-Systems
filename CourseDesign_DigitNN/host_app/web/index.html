@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>DigitNN Dashboard</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <div>
+          <h1 data-i18n="appTitle">DigitNN Dashboard</h1>
+          <div class="subtitle" data-i18n="subtitle">STM32F103VE handwritten recognition lab console</div>
+        </div>
+        <div class="top-actions">
+          <div class="status-pill" id="modelStatus" data-i18n="modelsLoading">Models loading</div>
+          <button class="button secondary language-button" id="languageBtn">EN</button>
+          <button class="button secondary" id="refreshStatusBtn" data-i18n="refresh">Refresh</button>
+        </div>
+      </header>
+
+      <main class="workspace">
+        <section class="panel draw-panel">
+          <div class="panel-head">
+            <h2 data-i18n="input">Input</h2>
+            <div class="segmented" role="group" aria-label="stroke tools">
+              <button class="segment active" id="penBtn" data-i18n="pen">Pen</button>
+              <button class="segment" id="clearBtn" data-i18n="clear">Clear</button>
+            </div>
+          </div>
+          <canvas id="drawCanvas" width="360" height="360" aria-label="drawing canvas"></canvas>
+          <div class="control-grid">
+            <label class="field">
+              <span data-i18n="label">Label</span>
+              <select id="labelSelect"></select>
+            </label>
+            <label class="field">
+              <span data-i18n="brush">Brush</span>
+              <input id="brushRange" type="range" min="8" max="36" value="18" />
+            </label>
+            <label class="check">
+              <input id="deskewCheck" type="checkbox" checked />
+              <span data-i18n="autoDeskew">Auto deskew</span>
+            </label>
+            <label class="check">
+              <input id="thickenCheck" type="checkbox" />
+              <span data-i18n="thicken">Thicken</span>
+            </label>
+          </div>
+          <div class="action-row">
+            <button class="button primary" id="inferBtn" data-i18n="recognize">Recognize</button>
+            <button class="button" id="saveBtn" data-i18n="saveSample">Save Sample</button>
+          </div>
+          <label class="field full">
+            <span data-i18n="saveDirectory">Save directory</span>
+            <input id="saveDirInput" type="text" />
+          </label>
+        </section>
+
+        <section class="panel pixel-panel">
+          <div class="panel-head">
+            <h2 data-i18n="modelInput">Model Input</h2>
+            <div class="mono" id="pixelStats">28 x 28</div>
+          </div>
+          <div class="pixel-grid" id="pixelGrid" aria-label="28 by 28 pixel grid"></div>
+          <div class="result-grid" id="pcResults"></div>
+        </section>
+
+        <section class="panel side-panel">
+          <div class="panel-head">
+            <h2 data-i18n="mcu">MCU</h2>
+            <button class="button secondary" id="serialBtn" data-i18n="connectSerial">Connect Serial</button>
+          </div>
+          <div class="serial-controls">
+            <label class="field">
+              <span data-i18n="serialPort">Serial Port</span>
+              <select id="serialPortSelect"></select>
+            </label>
+            <button class="button secondary tiny" id="refreshPortsBtn" data-i18n="refreshPorts">Refresh Ports</button>
+          </div>
+          <div class="mcu-results" id="mcuResults"></div>
+          <div class="board-live-block">
+            <div class="panel-head mini-head">
+              <div class="section-title" data-i18n="boardLive">Board Live</div>
+              <button class="button secondary tiny" id="clearBoardBtn" data-i18n="clearBoardView">Clear View</button>
+            </div>
+            <canvas id="boardCanvas" width="340" height="220" aria-label="board live drawing"></canvas>
+            <div class="board-stats mono" id="boardStats">0 pts</div>
+            <div class="board-actions">
+              <button class="button secondary" id="saveBoardBtn" data-i18n="saveBoardSample">Save Board Sample</button>
+              <label class="check compact board-auto-save">
+                <input id="autoSaveBoardCheck" type="checkbox" />
+                <span data-i18n="autoSaveBoard">Auto save after REC</span>
+              </label>
+            </div>
+          </div>
+          <div class="resource-block">
+            <div class="resource-row">
+              <span>Flash</span>
+              <div class="meter"><div id="flashMeter"></div></div>
+              <strong id="flashText">--</strong>
+            </div>
+            <div class="resource-row">
+              <span>SRAM</span>
+              <div class="meter"><div id="sramMeter"></div></div>
+              <strong id="sramText">--</strong>
+            </div>
+          </div>
+
+          <div class="deploy-block">
+            <div class="section-title" data-i18n="firmwareDeploy">Firmware Deploy</div>
+            <div class="deploy-grid">
+              <label class="field">
+                <span data-i18n="model">Model</span>
+                <select id="deployModel">
+                  <option value="perceptron">Perceptron</option>
+                  <option value="fnn" selected>FNN</option>
+                  <option value="cnn">Tiny-CNN</option>
+                </select>
+              </label>
+              <label class="field">
+                <span data-i18n="epochs">Epochs</span>
+                <input id="epochsInput" type="number" min="1" max="30" value="3" />
+              </label>
+              <label class="field">
+                <span data-i18n="batch">Batch</span>
+                <input id="batchInput" type="number" min="64" max="2048" step="64" value="512" />
+              </label>
+            </div>
+            <label class="field full">
+              <span>UV4.exe</span>
+              <input id="uv4Input" type="text" placeholder="C:\Keil_v5\UV4\UV4.exe" />
+            </label>
+            <label class="check compact">
+              <input id="augmentCheck" type="checkbox" checked />
+              <span data-i18n="augment">Augment</span>
+            </label>
+            <div class="button-grid">
+              <button class="button secondary deploy-action" data-action="export-model" data-i18n="exportModel">Export</button>
+              <button class="button secondary deploy-action" data-action="build" data-i18n="build">Build</button>
+              <button class="button secondary deploy-action" data-action="flash" data-i18n="flash">Flash</button>
+              <button class="button primary deploy-action" data-action="export-build-flash" data-i18n="exportFlash">Export+Flash</button>
+            </div>
+          </div>
+
+          <div class="section-title" data-i18n="serialLog">Serial Log</div>
+          <pre class="log" id="serialLog"></pre>
+        </section>
+      </main>
+    </div>
+    <script src="app.js"></script>
+  </body>
+</html>

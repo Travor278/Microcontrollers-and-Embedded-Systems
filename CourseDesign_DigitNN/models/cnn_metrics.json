@@ -28,5 +28,35 @@
     "epoch": 5,
     "loss": 0.3536176982720693,
     "accuracy": 0.9597
+  },
+  {
+    "model": "cnn",
+    "epoch": 6,
+    "loss": 0.3263625566959381,
+    "accuracy": 0.9625
+  },
+  {
+    "model": "cnn",
+    "epoch": 7,
+    "loss": 0.31188746867179873,
+    "accuracy": 0.9647
+  },
+  {
+    "model": "cnn",
+    "epoch": 8,
+    "loss": 0.29636471985181173,
+    "accuracy": 0.9629
+  },
+  {
+    "model": "cnn",
+    "epoch": 9,
+    "loss": 0.28886068998177844,
+    "accuracy": 0.9668
+  },
+  {
+    "model": "cnn",
+    "epoch": 10,
+    "loss": 0.2793987182855606,
+    "accuracy": 0.9671
   }
 ]

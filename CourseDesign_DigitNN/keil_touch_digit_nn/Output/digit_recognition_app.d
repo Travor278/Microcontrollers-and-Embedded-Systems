@@ -29,6 +29,7 @@
 ..\..\output\digit_recognition_app.o: ..\..\Libraries\FWlib\inc\stm32f10x_usart.h
 ..\..\output\digit_recognition_app.o: ..\..\Libraries\FWlib\inc\stm32f10x_wwdg.h
 ..\..\output\digit_recognition_app.o: ..\..\Libraries\FWlib\inc\misc.h
+..\..\output\digit_recognition_app.o: D:\ARM\ARMCC\Bin\..\include\stddef.h
 ..\..\output\digit_recognition_app.o: D:\ARM\ARMCC\Bin\..\include\stdio.h
 ..\..\output\digit_recognition_app.o: D:\ARM\ARMCC\Bin\..\include\string.h
 ..\..\output\digit_recognition_app.o: ..\..\User\palette.h

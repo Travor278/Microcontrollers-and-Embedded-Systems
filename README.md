@@ -34,6 +34,7 @@
 
 - 板端工程：基于野火电阻触摸屏画板例程改造，使用 Keil uVision 打开和下载。
 - 模型路线：Perceptron 基础模型、FNN 进阶模型、Tiny-CNN 卷积模型。
+- 上位机：`host_app/web_dashboard_server.py` 提供网页工作台，支持手写输入、28x28 像素预览、量化模型置信度展示、串口结果显示、样本采集和 Keil 构建/烧录按钮。
 - 屏幕显示：识别结果以 `P/F/C` 显示，分别代表 Perceptron、FNN、Tiny-CNN。
 - 测试集：`tf_card/` 现有 210 张 BMP 测试图。
   - `mnist/`：100 张 MNIST 标准测试图。
@@ -50,6 +51,9 @@
 python CourseDesign_DigitNN\tools\train_mnist.py --model fnn --epochs 8 --batch-size 512 --augment --export-c --export-keil
 python CourseDesign_DigitNN\tools\train_mnist.py --model cnn --epochs 5 --batch-size 512 --augment --export-c --export-keil
 python CourseDesign_DigitNN\tools\evaluate_tf_card.py
+python CourseDesign_DigitNN\host_app\web_dashboard_server.py
+python CourseDesign_DigitNN\tools\keil_flash.py --action build
+python CourseDesign_DigitNN\tools\train_alnum.py --epochs 5 --batch-size 512 --augment
 ```
 
 ## 推荐环境

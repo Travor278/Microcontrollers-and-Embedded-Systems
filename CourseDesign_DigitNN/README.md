@@ -7,7 +7,7 @@
 本目录按任务书和培训文档先搭好可持续迭代的工程骨架：
 
 - 基本任务：触摸屏采集手写轨迹，预处理到 28x28 图像，训练单层感知机，导出 `PerceptronData.c/.h`，在 STM32 端完成推理。
-- 进阶任务：多层全连接网络 FNN 与 Tiny-CNN 训练/部署，MNIST 与个人手写 BMP 测试集，批量自动化测试，串口结果上报，后续可扩展多类型字符/EMNIST。
+- 进阶任务：多层全连接网络 FNN 与 Tiny-CNN 训练/部署，MNIST 与个人手写 BMP 测试集，批量自动化测试，串口结果上报，实时上位机 UI，后续可扩展多类型字符/EMNIST。
 - 规范要求：C 代码使用蛇形命名、`.h/.c` 分离、Doxygen 风格注释、按 `inc/src` 与 `core/drivers/utils` 分层。
 
 ## 目录
@@ -41,6 +41,9 @@ CourseDesign_DigitNN/
 4. 运行 `tools/train_mnist.py --model fnn --epochs 8 --batch-size 512 --augment --export-c --export-keil`，完成增强 FNN 部署。当前 FNN 官方 MNIST 测试准确率约 94.48%。
 5. 运行 `tools/train_mnist.py --model cnn --epochs 5 --batch-size 512 --augment --export-c --export-keil`，完成 Tiny-CNN 进阶部署。当前 Tiny-CNN 官方 MNIST 测试准确率约 95.97%。
 6. 运行 `tools/evaluate_tf_card.py`，对 `tf_card/mnist`、`tf_card/personal` 与 `tf_card/external_usps` 做 PC 端批量评估并生成 `models/tf_card_eval.json`。
+7. 运行 `python host_app\web_dashboard_server.py`，浏览器打开 `http://127.0.0.1:8765/`，进入网页上位机，用于画布输入、像素预览、量化模型置信度展示、串口联调和样本采集。
+8. 如需一键构建/下载，在 UI 的 `Firmware Deploy` 面板填写 `UV4.exe` 路径，或运行 `python tools\keil_flash.py --action build`、`python tools\keil_flash.py --action flash`。
+9. 如需尝试英文字母，运行 `python tools\train_alnum.py --epochs 5 --batch-size 512 --augment` 训练 PC 端 `0-9A-Z` 原型。
 
 ## 规范入口
 
@@ -48,6 +51,9 @@ CourseDesign_DigitNN/
 - 总体方案：`docs/system_design.md`
 - 程序流程：`docs/algorithm_flow_mermaid.md`
 - 串口协议：`docs/serial_protocol.md`
+- 上位机与多字符升级说明：`docs/upgrade_notes.md`
 - 联调结果：`docs/test_results.md`
 - 多类型字符扩展：`docs/multitype_extension_plan.md`
+- Keil 构建/烧录脚本：`tools/keil_flash.py`
+- 36 类字母原型训练：`tools/train_alnum.py`
 - 报告草稿：`report/report_draft.md`

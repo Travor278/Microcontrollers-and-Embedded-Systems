@@ -28,16 +28,24 @@ def load_image(path: Path) -> np.ndarray:
     return np.asarray(image, dtype=np.uint8).reshape(-1)
 
 
-def predict_perceptron(pixels: np.ndarray, data: np.lib.npyio.NpzFile) -> int:
+def scores_perceptron(pixels: np.ndarray, data: np.lib.npyio.NpzFile) -> np.ndarray:
     scores = data["weight"].astype(np.int32) @ pixels.astype(np.int32) + data["bias"].astype(np.int32)
-    return int(np.argmax(scores))
+    return scores
 
 
-def predict_fnn(pixels: np.ndarray, data: np.lib.npyio.NpzFile) -> int:
+def predict_perceptron(pixels: np.ndarray, data: np.lib.npyio.NpzFile) -> int:
+    return int(np.argmax(scores_perceptron(pixels, data)))
+
+
+def scores_fnn(pixels: np.ndarray, data: np.lib.npyio.NpzFile) -> np.ndarray:
     hidden = data["weight_1"].astype(np.int32) @ pixels.astype(np.int32) + data["bias_1"].astype(np.int32)
     hidden = np.maximum(hidden, 0) >> 8
     scores = data["weight_2"].astype(np.int32) @ hidden + data["bias_2"].astype(np.int32)
-    return int(np.argmax(scores))
+    return scores
+
+
+def predict_fnn(pixels: np.ndarray, data: np.lib.npyio.NpzFile) -> int:
+    return int(np.argmax(scores_fnn(pixels, data)))
 
 
 def conv_relu_pool2d(inputs: np.ndarray, weights: np.ndarray, bias: np.ndarray, shift: int) -> np.ndarray:
@@ -70,14 +78,18 @@ def conv_relu_pool2d(inputs: np.ndarray, weights: np.ndarray, bias: np.ndarray, 
     return pooled
 
 
-def predict_cnn(pixels: np.ndarray, data: np.lib.npyio.NpzFile) -> int:
+def scores_cnn(pixels: np.ndarray, data: np.lib.npyio.NpzFile) -> np.ndarray:
     image = pixels.astype(np.int32).reshape(1, 28, 28)
     conv1_weight = data["conv1_weight"].astype(np.int32)[:, np.newaxis, :, :]
     conv1 = conv_relu_pool2d(image, conv1_weight, data["conv1_bias"].astype(np.int32), int(data["conv1_shift"][0]))
     conv2 = conv_relu_pool2d(conv1, data["conv2_weight"].astype(np.int32), data["conv2_bias"].astype(np.int32), int(data["conv2_shift"][0]))
     features = conv2.reshape(-1)
     scores = data["fc_weight"].astype(np.int32) @ features + data["fc_bias"].astype(np.int32)
-    return int(np.argmax(scores))
+    return scores
+
+
+def predict_cnn(pixels: np.ndarray, data: np.lib.npyio.NpzFile) -> int:
+    return int(np.argmax(scores_cnn(pixels, data)))
 
 
 def default_quant_file(model: str) -> Path:
@@ -89,11 +101,15 @@ def default_quant_file(model: str) -> Path:
 
 
 def predict(model: str, pixels: np.ndarray, data: np.lib.npyio.NpzFile) -> int:
+    return int(np.argmax(predict_scores(model, pixels, data)))
+
+
+def predict_scores(model: str, pixels: np.ndarray, data: np.lib.npyio.NpzFile) -> np.ndarray:
     if model == "perceptron":
-        return predict_perceptron(pixels, data)
+        return scores_perceptron(pixels, data)
     if model == "fnn":
-        return predict_fnn(pixels, data)
-    return predict_cnn(pixels, data)
+        return scores_fnn(pixels, data)
+    return scores_cnn(pixels, data)
 
 
 def run_batch(set_dir: Path, model: str, quant_file: Path, verbose: bool = True) -> dict[str, object]:

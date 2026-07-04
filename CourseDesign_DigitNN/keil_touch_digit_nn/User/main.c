@@ -25,11 +25,19 @@
 #include "digit_recognition_app.h"
 #include <string.h>
 
+#define SERIAL_HEARTBEAT_ENABLE 0U
+#define SERIAL_HEARTBEAT_LOOPS  50000UL
+
 
 
 
 int main(void)
-{		
+{
+#if SERIAL_HEARTBEAT_ENABLE
+	uint32_t serial_heartbeat_counter = 0U;
+	uint32_t serial_heartbeat_id = 0U;
+#endif
+
 	//LCD 初始化
 	ILI9341_Init();  
 	
@@ -58,6 +66,16 @@ int main(void)
 	{
 		//触摸检测函数，本函数至少10ms调用一次
 			XPT2046_TouchEvenHandler();
+
+#if SERIAL_HEARTBEAT_ENABLE
+			serial_heartbeat_counter++;
+			if (serial_heartbeat_counter >= SERIAL_HEARTBEAT_LOOPS)
+			{
+				serial_heartbeat_counter = 0U;
+				printf("HB,fw=DigitNN_Touch,uart=USART1,tx=PA9,rx=PA10,id=%lu\r\n",
+				       (unsigned long)serial_heartbeat_id++);
+			}
+#endif
 	}
 		
 }

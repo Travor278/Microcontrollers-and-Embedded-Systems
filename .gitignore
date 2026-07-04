@@ -6,3 +6,7 @@ __pycache__/
 .playwright-mcp/
 CourseDesign_DigitNN/cube_workspace/
 CourseDesign_DigitNN/data/
+tmp/
+~$*.docx
+CourseDesign_DigitNN/keil_touch_digit_nn/Output/keil_*.log
+CourseDesign_DigitNN/keil_touch_digit_nn/Output/*_sct.Bak
