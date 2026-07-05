@@ -15,7 +15,7 @@
 - UI 的数字工作区保留 `0-9` 标签；字母工作区独立采集 `A-Z`，便于让数字固件和字母固件分开管理。
 - UI 新增 `Firmware Deploy` 面板，可调用 Keil 命令行执行模型导出、构建和烧录。
 - 新增 `tools/keil_flash.py`，支持命令行构建、下载、重新导出模型后下载。
-- 新增 `tools/train_letters.py` 和 `tools/make_emnist_letters_testset.py`，用于 EMNIST Letters 的 Letter-Perceptron、Letter-FNN、Letter-CNN 三模型训练；`letter_ds_cnn` 保留为 PC 侧可选实验模型，不接入当前板端固件。
+- 新增 `tools/train_letters.py` 和 `tools/make_emnist_letters_testset.py`，用于 EMNIST Letters 的 Letter-Perceptron、Letter-FNN、Letter-DS-CNN 三模型训练与板端导出。字母固件中的 `C` 已由普通 Tiny-CNN 替换为 DS-CNN。
 - STM32 端识别完成后新增结构化串口输出：
 
 ```text
@@ -34,7 +34,7 @@ PC 端已经提供 `tools/train_letters.py` 作为英文字母原型入口。运
 python tools\make_emnist_letters_testset.py
 python tools\train_letters.py --model letter_perceptron --epochs 3 --batch-size 128 --augment
 python tools\train_letters.py --model letter_fnn --epochs 3 --batch-size 128 --augment
-python tools\train_letters.py --model letter_cnn --epochs 5 --batch-size 128 --augment
+python tools\train_letters.py --model letter_ds_cnn --epochs 8 --batch-size 128 --augment
 ```
 
 快速试跑可限制每类样本数：

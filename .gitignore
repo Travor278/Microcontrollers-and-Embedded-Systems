@@ -21,15 +21,13 @@ CourseDesign_DigitNN/.env.*
 tmp/
 ~$*.docx
 *.mp4
+CourseDesign_DigitNN/host_app.zip
 
 # CourseDesign local workspaces and datasets that are regenerated/downloaded
 CourseDesign_DigitNN/cube_workspace/
 CourseDesign_DigitNN/data/
 CourseDesign_DigitNN/host_app/captures/
 CourseDesign_DigitNN/firmware/generated_cache/
-
-# Optional PC-side letter model experiments
-CourseDesign_DigitNN/models/letter_ds_cnn*
 
 # Keil build products
 CourseDesign_DigitNN/keil_touch_digit_nn/Output/

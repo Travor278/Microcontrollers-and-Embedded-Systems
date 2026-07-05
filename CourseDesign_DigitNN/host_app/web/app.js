@@ -206,13 +206,15 @@ const i18n = {
     metricModels: "模型组合",
     pfcTitle: "P / F / C 含义",
     modelMeaningTitle: "三种轻量识别器，对应同一块 STM32",
-    modelMeaningText: "首页用于答辩展示：用感知机、全连接网络和 Tiny-CNN 解释速度、准确率、Flash/SRAM 占用之间的取舍。",
+    modelMeaningText: "首页用于答辩展示：用感知机、全连接网络、Tiny-CNN 和 DS-CNN 解释速度、准确率、Flash/SRAM 占用之间的取舍。",
     perceptronTitle: "感知机",
     fnnTitle: "全连接网络",
     cnnTitle: "Tiny-CNN",
+    dsCnnTitle: "DS-CNN",
     pfcP: " 感知机：线性基线模型，体积最小，便于和神经网络效果对比。",
     pfcF: " 全连接网络：当前主力数字识别模型，速度和准确率比较均衡。",
     pfcC: " Tiny-CNN：轻量卷积模型，用来提取笔画形状和局部结构特征。",
+    pfcD: " DS-CNN：深度可分离卷积，先逐通道提取笔画，再用 1x1 卷积混合通道；字母测试集上优于普通 Tiny-CNN。",
     resourceCompareTitle: "Flash / SRAM 与量化对比",
     quantVisualTitle: "FP32 权重变成 int8 表",
     floatBits: "32 位",
@@ -290,12 +292,12 @@ const i18n = {
     letterPlanTitle: "字母模型计划",
     letterFnnTitle: "Letter-FNN",
     letterFnnText: "一层隐藏层学习字母笔画组合，是字母固件里的主力全连接模型。",
-    letterCnnTitle: "Letter-Tiny-CNN",
-    letterCnnText: "8/16 通道轻量卷积模型，用来提取局部笔画和闭合区域。",
+    letterCnnTitle: "Letter-DS-CNN",
+    letterCnnText: "深度可分离卷积模型，用 depthwise 提取每个通道的局部笔画，再用 pointwise 混合通道特征。",
     letterDsCnnTitle: "Letter-Perceptron",
     letterDsCnnText: "线性基线，体积最小，便于和神经网络模型做速度和精度对照。",
     letterPlan1: "使用同一套 28 x 28 预处理流程采集 A-Z 样本。",
-    letterPlan2: "使用 EMNIST Letters 训练 Letter-Perceptron、Letter-FNN 和 Letter-Tiny-CNN。",
+    letterPlan2: "使用 EMNIST Letters 训练 Letter-Perceptron、Letter-FNN 和 Letter-DS-CNN。",
     letterPlan3: "导出完整字母 P/F/C 后可直接构建并烧录字母固件。",
     letterCanvasCleared: "字母画布已清空",
     letterSampleSaved: "字母样本已保存",
@@ -376,13 +378,15 @@ const i18n = {
     metricModels: "Models",
     pfcTitle: "P / F / C Meaning",
     modelMeaningTitle: "Three lightweight recognizers, one STM32 target",
-    modelMeaningText: "The homepage explains the tradeoff between speed, accuracy, and Flash/SRAM usage through a linear baseline, an FNN, and a Tiny-CNN.",
+    modelMeaningText: "The homepage explains speed, accuracy, and Flash/SRAM tradeoffs through a linear baseline, an FNN, a Tiny-CNN, and a DS-CNN.",
     perceptronTitle: "Perceptron",
     fnnTitle: "FNN",
     cnnTitle: "Tiny-CNN",
+    dsCnnTitle: "DS-CNN",
     pfcP: " Perceptron: a linear baseline with the smallest code size.",
     pfcF: " FNN: a fully connected neural network and the current main digit model.",
     pfcC: " Tiny-CNN: a compact convolution model for stroke-shape features.",
+    pfcD: " DS-CNN: depthwise separable convolution; depthwise extracts per-channel strokes and 1x1 pointwise mixes channels. It outperforms the regular Tiny-CNN on the letter test set.",
     resourceCompareTitle: "Flash / SRAM and Quantization",
     quantVisualTitle: "FP32 weights become int8 tables",
     floatBits: "32 bit",
@@ -460,12 +464,12 @@ const i18n = {
     letterPlanTitle: "Letter Model Plan",
     letterFnnTitle: "Letter-FNN",
     letterFnnText: "One hidden layer learns letter stroke combinations for the main embedded fully connected model.",
-    letterCnnTitle: "Letter-Tiny-CNN",
-    letterCnnText: "8/16-channel lightweight CNN for local strokes, corners, and closed regions.",
+    letterCnnTitle: "Letter-DS-CNN",
+    letterCnnText: "Depthwise separable CNN: depthwise filters local strokes per channel, then 1x1 pointwise convolution mixes channels.",
     letterDsCnnTitle: "Letter-Perceptron",
     letterDsCnnText: "Linear baseline with the smallest footprint for speed and accuracy comparison.",
     letterPlan1: "Collect A-Z samples with the same 28 x 28 preprocessing path.",
-    letterPlan2: "Train Letter-Perceptron, Letter-FNN, and Letter-Tiny-CNN from EMNIST Letters.",
+    letterPlan2: "Train Letter-Perceptron, Letter-FNN, and Letter-DS-CNN from EMNIST Letters.",
     letterPlan3: "Export the full letter P/F/C set, then build and flash the letter firmware.",
     letterCanvasCleared: "Letter canvas cleared",
     letterSampleSaved: "Letter sample saved",
@@ -606,7 +610,7 @@ function setSourceMode(mode) {
 }
 
 function applyModelExplain() {
-  const valid = new Set(["perceptron", "fnn", "cnn"]);
+  const valid = new Set(["perceptron", "fnn", "cnn", "dscnn"]);
   const model = valid.has(state.modelExplain) ? state.modelExplain : "fnn";
   state.modelExplain = model;
   for (const pane of document.querySelectorAll("[data-model-visual]")) {
@@ -1251,7 +1255,7 @@ function renderLetterModelTiles() {
   const models = [
     { short: "P", name: "Letter-Perceptron" },
     { short: "F", name: "Letter-FNN" },
-    { short: "C", name: "Letter-Tiny-CNN" },
+    { short: "C", name: "Letter-DS-CNN" },
   ];
   els.letterResults.innerHTML = "";
   for (const model of models) {
@@ -1734,6 +1738,61 @@ function setMeterWidth(element, value, limit) {
   element.style.width = `${percent.toFixed(1)}%`;
 }
 
+function setMeterPercent(element, percent) {
+  if (!element) return;
+  const numberPercent = Number(percent);
+  if (!Number.isFinite(numberPercent)) {
+    element.style.width = "0%";
+    return;
+  }
+  element.style.width = `${Math.max(0, Math.min(numberPercent, 100)).toFixed(1)}%`;
+}
+
+function usageForDomain(data, domain) {
+  if (!data) return null;
+  const domains = data.domains || {};
+  const domainUsage = domains[domain];
+  if (domainUsage && domainUsage.available) {
+    return domainUsage;
+  }
+  if (data.available && data.domain === domain) {
+    return data;
+  }
+  return null;
+}
+
+function firstAvailableUsage(data) {
+  if (!data) return null;
+  if (data.available) return data;
+  const domains = data.domains || {};
+  return ["digit", "letter"].map((domain) => domains[domain]).find((entry) => entry && entry.available) || null;
+}
+
+function setUsageDisplay(textElement, meterElement, usage, kind) {
+  if (!textElement || !meterElement) return;
+  if (!usage || !usage.available) {
+    textElement.textContent = "--";
+    meterElement.style.width = "0%";
+    return;
+  }
+  if (kind === "flash") {
+    textElement.textContent = formatBytes(usage.flash);
+    setMeterPercent(meterElement, usage.flashPercent);
+  } else {
+    textElement.textContent = formatBytes(usage.sram);
+    setMeterPercent(meterElement, usage.sramPercent);
+  }
+}
+
+function setUsageText(textElement, usage, kind) {
+  if (!textElement) return;
+  if (!usage || !usage.available) {
+    textElement.textContent = "--";
+    return;
+  }
+  textElement.textContent = formatBytes(kind === "flash" ? usage.flash : usage.sram);
+}
+
 function renderQuantModelStrip(profile) {
   els.quantModelStrip.innerHTML = "";
   const models = (profile && profile.models ? profile.models : []).filter((model) => model.available);
@@ -1846,47 +1905,21 @@ async function refreshUsageOnly() {
 
 function updateUsage(usage) {
   const data = usage && usage.usage ? usage.usage : usage;
-  if (!data || !data.available) {
-    els.flashText.textContent = "--";
-    els.sramText.textContent = "--";
-    els.homeFlashText.textContent = "--";
-    els.homeSramText.textContent = "--";
-    els.quantFlashText.textContent = "--";
-    els.quantSramText.textContent = "--";
-    els.letterFlashText.textContent = "--";
-    els.letterSramText.textContent = "--";
-    els.chineseFlashText.textContent = "--";
-    els.chineseSramText.textContent = "--";
-    els.flashMeter.style.width = "0%";
-    els.sramMeter.style.width = "0%";
-    els.quantFlashBar.style.width = "0%";
-    els.quantSramBar.style.width = "0%";
-    els.letterFlashBar.style.width = "0%";
-    els.letterSramBar.style.width = "0%";
-    els.chineseFlashBar.style.width = "0%";
-    els.chineseSramBar.style.width = "0%";
-    return;
-  }
-  const flashText = formatBytes(data.flash);
-  const sramText = formatBytes(data.sram);
-  els.flashText.textContent = flashText;
-  els.sramText.textContent = sramText;
-  els.homeFlashText.textContent = flashText;
-  els.homeSramText.textContent = sramText;
-  els.quantFlashText.textContent = flashText;
-  els.quantSramText.textContent = sramText;
-  els.letterFlashText.textContent = flashText;
-  els.letterSramText.textContent = sramText;
-  els.chineseFlashText.textContent = flashText;
-  els.chineseSramText.textContent = sramText;
-  els.flashMeter.style.width = `${Math.min(data.flashPercent, 100).toFixed(1)}%`;
-  els.sramMeter.style.width = `${Math.min(data.sramPercent, 100).toFixed(1)}%`;
-  els.quantFlashBar.style.width = `${Math.min(data.flashPercent, 100).toFixed(1)}%`;
-  els.quantSramBar.style.width = `${Math.min(data.sramPercent, 100).toFixed(1)}%`;
-  els.letterFlashBar.style.width = `${Math.min(data.flashPercent, 100).toFixed(1)}%`;
-  els.letterSramBar.style.width = `${Math.min(data.sramPercent, 100).toFixed(1)}%`;
-  els.chineseFlashBar.style.width = `${Math.min(data.flashPercent, 100).toFixed(1)}%`;
-  els.chineseSramBar.style.width = `${Math.min(data.sramPercent, 100).toFixed(1)}%`;
+  const digitUsage = usageForDomain(data, "digit");
+  const letterUsage = usageForDomain(data, "letter");
+  const activeDomain = data && data.activeDomain;
+  const activeUsage = activeDomain ? usageForDomain(data, activeDomain) : firstAvailableUsage(data);
+
+  setUsageDisplay(els.flashText, els.flashMeter, digitUsage, "flash");
+  setUsageDisplay(els.sramText, els.sramMeter, digitUsage, "sram");
+  setUsageDisplay(els.letterFlashText, els.letterFlashBar, letterUsage, "flash");
+  setUsageDisplay(els.letterSramText, els.letterSramBar, letterUsage, "sram");
+  setUsageText(els.homeFlashText, activeUsage, "flash");
+  setUsageText(els.homeSramText, activeUsage, "sram");
+  setUsageDisplay(els.quantFlashText, els.quantFlashBar, activeUsage, "flash");
+  setUsageDisplay(els.quantSramText, els.quantSramBar, activeUsage, "sram");
+  setUsageDisplay(els.chineseFlashText, els.chineseFlashBar, activeUsage, "flash");
+  setUsageDisplay(els.chineseSramText, els.chineseSramBar, activeUsage, "sram");
 }
 
 async function refreshStatus() {

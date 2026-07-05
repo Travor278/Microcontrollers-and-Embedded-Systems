@@ -91,6 +91,64 @@ def conv_relu_pool2d(inputs: np.ndarray, weights: np.ndarray, bias: np.ndarray, 
     return pooled
 
 
+def depthwise_relu2d(inputs: np.ndarray, weights: np.ndarray, bias: np.ndarray, shift: int) -> np.ndarray:
+    channels, height, width = inputs.shape
+    output = np.zeros((channels, height, width), dtype=np.int32)
+
+    for channel in range(channels):
+        for y in range(height):
+            for x in range(width):
+                value = int(bias[channel])
+                for kernel_y in range(3):
+                    source_y = y + kernel_y - 1
+                    if source_y < 0 or source_y >= height:
+                        continue
+                    for kernel_x in range(3):
+                        source_x = x + kernel_x - 1
+                        if source_x < 0 or source_x >= width:
+                            continue
+                        value += int(inputs[channel, source_y, source_x]) * int(weights[channel, kernel_y, kernel_x])
+                output[channel, y, x] = max(value, 0) >> shift
+    return output
+
+
+def pointwise_relu2d(inputs: np.ndarray, weights: np.ndarray, bias: np.ndarray, shift: int) -> np.ndarray:
+    input_channels, height, width = inputs.shape
+    output_channels = weights.shape[0]
+    output = np.zeros((output_channels, height, width), dtype=np.int32)
+
+    for output_channel in range(output_channels):
+        for y in range(height):
+            for x in range(width):
+                value = int(bias[output_channel])
+                for input_channel in range(input_channels):
+                    value += int(inputs[input_channel, y, x]) * int(weights[output_channel, input_channel])
+                output[output_channel, y, x] = max(value, 0) >> shift
+    return output
+
+
+def pointwise_relu_pool2d(inputs: np.ndarray, weights: np.ndarray, bias: np.ndarray, shift: int) -> np.ndarray:
+    input_channels, height, width = inputs.shape
+    output_channels = weights.shape[0]
+    pooled = np.zeros((output_channels, height // 2, width // 2), dtype=np.int32)
+
+    for output_channel in range(output_channels):
+        for pool_y in range(height // 2):
+            for pool_x in range(width // 2):
+                max_value = 0
+                for dy in range(2):
+                    for dx in range(2):
+                        y = pool_y * 2 + dy
+                        x = pool_x * 2 + dx
+                        value = int(bias[output_channel])
+                        for input_channel in range(input_channels):
+                            value += int(inputs[input_channel, y, x]) * int(weights[output_channel, input_channel])
+                        if value > max_value:
+                            max_value = value
+                pooled[output_channel, pool_y, pool_x] = max_value >> shift
+    return pooled
+
+
 def scores_cnn(pixels: np.ndarray, data: np.lib.npyio.NpzFile) -> np.ndarray:
     image = pixels.astype(np.int32).reshape(1, 28, 28)
     conv1_weight = data["conv1_weight"].astype(np.int32)[:, np.newaxis, :, :]
@@ -105,6 +163,38 @@ def predict_cnn(pixels: np.ndarray, data: np.lib.npyio.NpzFile) -> int:
     return int(np.argmax(scores_cnn(pixels, data)))
 
 
+def scores_ds_cnn(pixels: np.ndarray, data: np.lib.npyio.NpzFile) -> np.ndarray:
+    image = pixels.astype(np.int32).reshape(1, 28, 28)
+    conv1_weight = data["conv1_weight"].astype(np.int32)[:, np.newaxis, :, :]
+    conv1 = conv_relu_pool2d(image, conv1_weight, data["conv1_bias"].astype(np.int32), int(data["conv1_shift"][0]))
+    ds1_depth = depthwise_relu2d(
+        conv1,
+        data["ds1_dw_weight"].astype(np.int32),
+        data["ds1_dw_bias"].astype(np.int32),
+        int(data["ds1_dw_shift"][0]),
+    )
+    ds1_pool = pointwise_relu_pool2d(
+        ds1_depth,
+        data["ds1_pw_weight"].astype(np.int32),
+        data["ds1_pw_bias"].astype(np.int32),
+        int(data["ds1_pw_shift"][0]),
+    )
+    ds2_depth = depthwise_relu2d(
+        ds1_pool,
+        data["ds2_dw_weight"].astype(np.int32),
+        data["ds2_dw_bias"].astype(np.int32),
+        int(data["ds2_dw_shift"][0]),
+    )
+    ds2_features = pointwise_relu2d(
+        ds2_depth,
+        data["ds2_pw_weight"].astype(np.int32),
+        data["ds2_pw_bias"].astype(np.int32),
+        int(data["ds2_pw_shift"][0]),
+    )
+    features = ds2_features.reshape(-1)
+    return data["fc_weight"].astype(np.int32) @ features + data["fc_bias"].astype(np.int32)
+
+
 def default_quant_file(model: str) -> Path:
     if model in {"perceptron", "letter_perceptron"}:
         if model.startswith("letter_"):
@@ -114,6 +204,8 @@ def default_quant_file(model: str) -> Path:
         if model.startswith("letter_"):
             return ROOT_DIR / "models" / "letter_fnn_quant.npz"
         return ROOT_DIR / "models" / "fnn_quant.npz"
+    if model == "letter_ds_cnn":
+        return ROOT_DIR / "models" / "letter_ds_cnn_quant.npz"
     if model == "letter_cnn":
         return ROOT_DIR / "models" / "letter_cnn_quant.npz"
     return ROOT_DIR / "models" / "cnn_quant.npz"
@@ -128,6 +220,8 @@ def predict_scores(model: str, pixels: np.ndarray, data: np.lib.npyio.NpzFile) -
         return scores_perceptron(pixels, data)
     if model in {"fnn", "letter_fnn"}:
         return scores_fnn(pixels, data)
+    if model == "letter_ds_cnn":
+        return scores_ds_cnn(pixels, data)
     return scores_cnn(pixels, data)
 
 
@@ -192,7 +286,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--set-dir", type=Path, default=ROOT_DIR / "testsets" / "mnist")
     parser.add_argument(
         "--model",
-        choices=["perceptron", "fnn", "cnn", "letter_perceptron", "letter_fnn", "letter_cnn"],
+        choices=["perceptron", "fnn", "cnn", "letter_perceptron", "letter_fnn", "letter_cnn", "letter_ds_cnn"],
         default="perceptron",
     )
     parser.add_argument("--quant-file", type=Path, default=None)

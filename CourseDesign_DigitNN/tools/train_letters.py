@@ -522,6 +522,206 @@ const int32_t g_cnn_fc_bias[CNN_CLASS_COUNT] = {{
     )
 
 
+def ds_cnn_quant_arrays(model: LetterDSCNN) -> dict[str, np.ndarray]:
+    conv1 = model.features[0]
+    block1 = model.features[3]
+    block2 = model.features[5]
+    fc = model.classifier[1]
+    assert isinstance(conv1, nn.Conv2d)
+    assert isinstance(block1, DepthwiseBlock)
+    assert isinstance(block2, DepthwiseBlock)
+    assert isinstance(fc, nn.Linear)
+
+    ds1_dw = block1.layers[0]
+    ds1_pw = block1.layers[2]
+    ds2_dw = block2.layers[0]
+    ds2_pw = block2.layers[2]
+    assert isinstance(ds1_dw, nn.Conv2d)
+    assert isinstance(ds1_pw, nn.Conv2d)
+    assert isinstance(ds2_dw, nn.Conv2d)
+    assert isinstance(ds2_pw, nn.Conv2d)
+
+    shift = 8
+
+    conv1_weight_q, conv1_scale = quantize_weight(conv1.weight.detach().cpu().numpy()[:, 0, :, :])
+    ds1_dw_weight_q, ds1_dw_scale = quantize_weight(ds1_dw.weight.detach().cpu().numpy()[:, 0, :, :])
+    ds1_pw_weight_q, ds1_pw_scale = quantize_weight(ds1_pw.weight.detach().cpu().numpy()[:, :, 0, 0])
+    ds2_dw_weight_q, ds2_dw_scale = quantize_weight(ds2_dw.weight.detach().cpu().numpy()[:, 0, :, :])
+    ds2_pw_weight_q, ds2_pw_scale = quantize_weight(ds2_pw.weight.detach().cpu().numpy()[:, :, 0, 0])
+    fc_weight_q, fc_scale = quantize_weight(fc.weight.detach().cpu().numpy())
+
+    conv1_feature_scale = 255.0 / (conv1_scale * float(1 << shift))
+    ds1_dw_feature_scale = conv1_feature_scale / (ds1_dw_scale * float(1 << shift))
+    ds1_pw_feature_scale = ds1_dw_feature_scale / (ds1_pw_scale * float(1 << shift))
+    ds2_dw_feature_scale = ds1_pw_feature_scale / (ds2_dw_scale * float(1 << shift))
+    ds2_pw_feature_scale = ds2_dw_feature_scale / (ds2_pw_scale * float(1 << shift))
+
+    return {
+        "model_name": np.array(["letter_ds_cnn"]),
+        "class_names": np.array(CLASS_NAMES),
+        "conv1_weight": conv1_weight_q,
+        "conv1_bias": np.round(conv1.bias.detach().cpu().numpy() * 255.0 / conv1_scale).astype(np.int32),
+        "conv1_shift": np.array([shift], dtype=np.int32),
+        "ds1_dw_weight": ds1_dw_weight_q,
+        "ds1_dw_bias": np.round(ds1_dw.bias.detach().cpu().numpy() * conv1_feature_scale / ds1_dw_scale).astype(np.int32),
+        "ds1_dw_shift": np.array([shift], dtype=np.int32),
+        "ds1_pw_weight": ds1_pw_weight_q,
+        "ds1_pw_bias": np.round(ds1_pw.bias.detach().cpu().numpy() * ds1_dw_feature_scale / ds1_pw_scale).astype(np.int32),
+        "ds1_pw_shift": np.array([shift], dtype=np.int32),
+        "ds2_dw_weight": ds2_dw_weight_q,
+        "ds2_dw_bias": np.round(ds2_dw.bias.detach().cpu().numpy() * ds1_pw_feature_scale / ds2_dw_scale).astype(np.int32),
+        "ds2_dw_shift": np.array([shift], dtype=np.int32),
+        "ds2_pw_weight": ds2_pw_weight_q,
+        "ds2_pw_bias": np.round(ds2_pw.bias.detach().cpu().numpy() * ds2_dw_feature_scale / ds2_pw_scale).astype(np.int32),
+        "ds2_pw_shift": np.array([shift], dtype=np.int32),
+        "fc_weight": fc_weight_q,
+        "fc_bias": np.round(fc.bias.detach().cpu().numpy() * ds2_pw_feature_scale / fc_scale).astype(np.int32),
+        "conv1_scale": np.array([conv1_scale], dtype=np.float32),
+        "ds1_dw_scale": np.array([ds1_dw_scale], dtype=np.float32),
+        "ds1_pw_scale": np.array([ds1_pw_scale], dtype=np.float32),
+        "ds2_dw_scale": np.array([ds2_dw_scale], dtype=np.float32),
+        "ds2_pw_scale": np.array([ds2_pw_scale], dtype=np.float32),
+        "fc_scale": np.array([fc_scale], dtype=np.float32),
+    }
+
+
+def export_ds_cnn_quantized(model: LetterDSCNN, output_path: Path) -> None:
+    np.savez(output_path, **ds_cnn_quant_arrays(model))
+
+
+def write_ds_cnn_c_from_npz(npz_path: Path, output_dir: Path) -> None:
+    output_dir.mkdir(parents=True, exist_ok=True)
+    with np.load(npz_path) as data:
+        conv1_weight = data["conv1_weight"]
+        conv1_bias = data["conv1_bias"]
+        ds1_dw_weight = data["ds1_dw_weight"]
+        ds1_dw_bias = data["ds1_dw_bias"]
+        ds1_pw_weight = data["ds1_pw_weight"]
+        ds1_pw_bias = data["ds1_pw_bias"]
+        ds2_dw_weight = data["ds2_dw_weight"]
+        ds2_dw_bias = data["ds2_dw_bias"]
+        ds2_pw_weight = data["ds2_pw_weight"]
+        ds2_pw_bias = data["ds2_pw_bias"]
+        fc_weight = data["fc_weight"]
+        fc_bias = data["fc_bias"]
+        conv1_shift = int(data["conv1_shift"][0])
+        ds1_dw_shift = int(data["ds1_dw_shift"][0])
+        ds1_pw_shift = int(data["ds1_pw_shift"][0])
+        ds2_dw_shift = int(data["ds2_dw_shift"][0])
+        ds2_pw_shift = int(data["ds2_pw_shift"][0])
+
+    (output_dir / "CNN_Data.h").write_text(
+        f"""/**
+ * @file CNN_Data.h
+ * @brief Quantized letter DS-CNN weights exported from tools/train_letters.py.
+ */
+#ifndef CNN_DATA_H
+#define CNN_DATA_H
+
+#include <stdint.h>
+
+#define CNN_MODEL_KIND_STANDARD       0U
+#define CNN_MODEL_KIND_DS_CNN         1U
+#define CNN_MODEL_KIND                CNN_MODEL_KIND_DS_CNN
+#define CNN_INPUT_WIDTH               28U
+#define CNN_INPUT_HEIGHT              28U
+#define CNN_KERNEL_SIZE               3U
+#define CNN_POOL1_WIDTH               14U
+#define CNN_POOL1_HEIGHT              14U
+#define CNN_POOL2_WIDTH               7U
+#define CNN_POOL2_HEIGHT              7U
+#define CNN_CONV1_OUT_CHANNELS        {int(conv1_weight.shape[0])}U
+#define CNN_DS1_DW_CHANNELS           {int(ds1_dw_weight.shape[0])}U
+#define CNN_DS1_PW_OUT_CHANNELS       {int(ds1_pw_weight.shape[0])}U
+#define CNN_DS2_DW_CHANNELS           {int(ds2_dw_weight.shape[0])}U
+#define CNN_DS2_PW_OUT_CHANNELS       {int(ds2_pw_weight.shape[0])}U
+#define CNN_CONV2_IN_CHANNELS         CNN_DS1_PW_OUT_CHANNELS
+#define CNN_CONV2_OUT_CHANNELS        CNN_DS2_PW_OUT_CHANNELS
+#define CNN_FEATURE_SIZE              (CNN_DS2_PW_OUT_CHANNELS * CNN_POOL2_WIDTH * CNN_POOL2_HEIGHT)
+#define CNN_CLASS_COUNT               26U
+#define CNN_CONV1_SHIFT               {conv1_shift}U
+#define CNN_DS1_DW_SHIFT              {ds1_dw_shift}U
+#define CNN_DS1_PW_SHIFT              {ds1_pw_shift}U
+#define CNN_DS2_DW_SHIFT              {ds2_dw_shift}U
+#define CNN_DS2_PW_SHIFT              {ds2_pw_shift}U
+#define CNN_CONV2_SHIFT               CNN_DS2_PW_SHIFT
+
+extern const int8_t g_cnn_conv1_weight[CNN_CONV1_OUT_CHANNELS][CNN_KERNEL_SIZE][CNN_KERNEL_SIZE];
+extern const int32_t g_cnn_conv1_bias[CNN_CONV1_OUT_CHANNELS];
+extern const int8_t g_cnn_ds1_depthwise_weight[CNN_DS1_DW_CHANNELS][CNN_KERNEL_SIZE][CNN_KERNEL_SIZE];
+extern const int32_t g_cnn_ds1_depthwise_bias[CNN_DS1_DW_CHANNELS];
+extern const int8_t g_cnn_ds1_pointwise_weight[CNN_DS1_PW_OUT_CHANNELS][CNN_DS1_DW_CHANNELS];
+extern const int32_t g_cnn_ds1_pointwise_bias[CNN_DS1_PW_OUT_CHANNELS];
+extern const int8_t g_cnn_ds2_depthwise_weight[CNN_DS2_DW_CHANNELS][CNN_KERNEL_SIZE][CNN_KERNEL_SIZE];
+extern const int32_t g_cnn_ds2_depthwise_bias[CNN_DS2_DW_CHANNELS];
+extern const int8_t g_cnn_ds2_pointwise_weight[CNN_DS2_PW_OUT_CHANNELS][CNN_DS2_DW_CHANNELS];
+extern const int32_t g_cnn_ds2_pointwise_bias[CNN_DS2_PW_OUT_CHANNELS];
+extern const int8_t g_cnn_fc_weight[CNN_CLASS_COUNT][CNN_FEATURE_SIZE];
+extern const int32_t g_cnn_fc_bias[CNN_CLASS_COUNT];
+
+#endif
+""",
+        encoding="utf-8",
+    )
+    (output_dir / "CNN_Data.c").write_text(
+        f"""/**
+ * @file CNN_Data.c
+ * @brief Quantized letter DS-CNN weights exported from tools/train_letters.py.
+ */
+#include "CNN_Data.h"
+
+const int8_t g_cnn_conv1_weight[CNN_CONV1_OUT_CHANNELS][CNN_KERNEL_SIZE][CNN_KERNEL_SIZE] = {{
+{format_c_nested(conv1_weight)}
+}};
+
+const int32_t g_cnn_conv1_bias[CNN_CONV1_OUT_CHANNELS] = {{
+{format_c_array(conv1_bias)}
+}};
+
+const int8_t g_cnn_ds1_depthwise_weight[CNN_DS1_DW_CHANNELS][CNN_KERNEL_SIZE][CNN_KERNEL_SIZE] = {{
+{format_c_nested(ds1_dw_weight)}
+}};
+
+const int32_t g_cnn_ds1_depthwise_bias[CNN_DS1_DW_CHANNELS] = {{
+{format_c_array(ds1_dw_bias)}
+}};
+
+const int8_t g_cnn_ds1_pointwise_weight[CNN_DS1_PW_OUT_CHANNELS][CNN_DS1_DW_CHANNELS] = {{
+{format_c_nested(ds1_pw_weight)}
+}};
+
+const int32_t g_cnn_ds1_pointwise_bias[CNN_DS1_PW_OUT_CHANNELS] = {{
+{format_c_array(ds1_pw_bias)}
+}};
+
+const int8_t g_cnn_ds2_depthwise_weight[CNN_DS2_DW_CHANNELS][CNN_KERNEL_SIZE][CNN_KERNEL_SIZE] = {{
+{format_c_nested(ds2_dw_weight)}
+}};
+
+const int32_t g_cnn_ds2_depthwise_bias[CNN_DS2_DW_CHANNELS] = {{
+{format_c_array(ds2_dw_bias)}
+}};
+
+const int8_t g_cnn_ds2_pointwise_weight[CNN_DS2_PW_OUT_CHANNELS][CNN_DS2_DW_CHANNELS] = {{
+{format_c_nested(ds2_pw_weight)}
+}};
+
+const int32_t g_cnn_ds2_pointwise_bias[CNN_DS2_PW_OUT_CHANNELS] = {{
+{format_c_array(ds2_pw_bias)}
+}};
+
+const int8_t g_cnn_fc_weight[CNN_CLASS_COUNT][CNN_FEATURE_SIZE] = {{
+{format_c_nested(fc_weight)}
+}};
+
+const int32_t g_cnn_fc_bias[CNN_CLASS_COUNT] = {{
+{format_c_array(fc_bias)}
+}};
+""",
+        encoding="utf-8",
+    )
+
+
 def sync_generated_for_keil(filenames: Iterable[str]) -> None:
     KEIL_GENERATED_DIR.mkdir(parents=True, exist_ok=True)
     for filename in filenames:
@@ -593,11 +793,15 @@ def main() -> None:
         records.append(record)
         print(f"epoch={epoch} loss={loss:.4f} accuracy={metrics['accuracy']:.4%}")
 
+    model_cpu = model.cpu()
     model_path = args.out_dir / f"{args.model}.pt"
     quant_path = args.out_dir / f"{args.model}_quant.npz"
     metrics_path = args.out_dir / f"{args.model}_metrics.json"
     torch.save(model.state_dict(), model_path)
-    export_quantized(model.cpu(), args.model, quant_path)
+    if args.model == "letter_ds_cnn":
+        export_ds_cnn_quantized(model_cpu, quant_path)  # type: ignore[arg-type]
+    else:
+        export_quantized(model_cpu, args.model, quant_path)
     metrics_path.write_text(json.dumps(records, ensure_ascii=False, indent=2), encoding="utf-8")
     (args.out_dir / "letter_classes.json").write_text(json.dumps(CLASS_NAMES, ensure_ascii=False, indent=2), encoding="utf-8")
     print(f"saved: {model_path}")
@@ -613,10 +817,13 @@ def main() -> None:
             write_fnn_c(model.cpu(), GENERATED_DIR)  # type: ignore[arg-type]
             exported_files = ["RecognitionDomain.h", "FNN_Data.c", "FNN_Data.h"]
         elif args.model == "letter_cnn":
-            write_cnn_c(model.cpu(), GENERATED_DIR)  # type: ignore[arg-type]
+            write_cnn_c(model_cpu, GENERATED_DIR)  # type: ignore[arg-type]
+            exported_files = ["RecognitionDomain.h", "CNN_Data.c", "CNN_Data.h"]
+        elif args.model == "letter_ds_cnn":
+            write_ds_cnn_c_from_npz(quant_path, GENERATED_DIR)
             exported_files = ["RecognitionDomain.h", "CNN_Data.c", "CNN_Data.h"]
         else:
-            raise SystemExit("letter_ds_cnn is a PC-side experiment model; MCU export supports letter_perceptron, letter_fnn, and letter_cnn.")
+            raise SystemExit("unsupported letter model export")
         if args.export_keil:
             sync_generated_for_keil(exported_files)
             print(f"synced generated files to Keil: {KEIL_GENERATED_DIR}")

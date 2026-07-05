@@ -60,14 +60,16 @@ MODEL_CACHE: dict[str, dict[str, np.ndarray]] = {}
 LETTER_MODEL_CHOICES = {
     "letter_perceptron": "Letter-Perceptron",
     "letter_fnn": "Letter-FNN",
-    "letter_cnn": "Letter-Tiny-CNN",
+    "letter_ds_cnn": "Letter-DS-CNN",
 }
 LETTER_MODEL_SHORT = {
     "letter_perceptron": "P",
     "letter_fnn": "F",
-    "letter_cnn": "C",
+    "letter_ds_cnn": "C",
 }
 GENERATED_DOMAIN_HEADER = ROOT_DIR / "keil_touch_digit_nn" / "User" / "digit_nn" / "generated" / "RecognitionDomain.h"
+BUILD_LOG = ROOT_DIR / "keil_touch_digit_nn" / "Output" / "DigitNN_Touch.build_log.htm"
+USAGE_CACHE_FILE = ROOT_DIR / "keil_touch_digit_nn" / "Output" / "firmware_usage.json"
 LOCAL_ENV_FILE = ROOT_DIR / ".env.local"
 DEFAULT_CSU_BASE_URL = "https://api.chat.csu.edu.cn/v1"
 DEFAULT_CSU_TOKEN_NAME = "fa_8202240417"
@@ -515,20 +517,105 @@ def save_board_sample(
     }
 
 
-def usage_payload() -> dict[str, object]:
-    usage = parse_build_usage()
-    if usage is None:
-        return {"ok": True, "available": False}
+def read_usage_cache() -> dict[str, object]:
+    if not USAGE_CACHE_FILE.exists():
+        return {"domains": {}}
+    try:
+        payload = json.loads(USAGE_CACHE_FILE.read_text(encoding="utf-8", errors="replace"))
+    except (OSError, json.JSONDecodeError):
+        return {"domains": {}}
+    if not isinstance(payload, dict):
+        return {"domains": {}}
+    if not isinstance(payload.get("domains"), dict):
+        payload["domains"] = {}
+    return payload
 
-    return {
-        "ok": True,
+
+def usage_entry_payload(raw: dict[str, object] | None, domain: str, source: str) -> dict[str, object]:
+    if not raw:
+        return {"available": False, "domain": domain, "source": source}
+    try:
+        usage = {
+            "code": int(raw["code"]),
+            "ro_data": int(raw["ro_data"]),
+            "rw_data": int(raw["rw_data"]),
+            "zi_data": int(raw["zi_data"]),
+            "flash": int(raw["flash"]),
+            "sram": int(raw["sram"]),
+        }
+    except (KeyError, TypeError, ValueError):
+        return {"available": False, "domain": domain, "source": source}
+    payload: dict[str, object] = {
         "available": True,
+        "domain": domain,
+        "source": source,
         "flash": usage["flash"],
         "sram": usage["sram"],
         "flashPercent": usage["flash"] * 100.0 / FLASH_BYTES,
         "sramPercent": usage["sram"] * 100.0 / SRAM_BYTES,
         "detail": usage,
     }
+    if "updatedAt" in raw:
+        payload["updatedAt"] = str(raw["updatedAt"])
+    if "mtime" in raw:
+        try:
+            payload["mtime"] = float(raw["mtime"])
+        except (TypeError, ValueError):
+            pass
+    return payload
+
+
+def usage_domains_payload() -> dict[str, dict[str, object]]:
+    cache = read_usage_cache()
+    cached_domains = cache.get("domains", {})
+    domains = {
+        "digit": usage_entry_payload(
+            cached_domains.get("digit") if isinstance(cached_domains, dict) else None,
+            "digit",
+            "cache",
+        ),
+        "letter": usage_entry_payload(
+            cached_domains.get("letter") if isinstance(cached_domains, dict) else None,
+            "letter",
+            "cache",
+        ),
+    }
+
+    active_domain = active_firmware_domain()
+    build_usage = parse_build_usage()
+    if build_usage is not None and BUILD_LOG.exists():
+        build_mtime = BUILD_LOG.stat().st_mtime
+        generated_mtime = GENERATED_DOMAIN_HEADER.stat().st_mtime if GENERATED_DOMAIN_HEADER.exists() else 0.0
+        cached_entry = domains.get(active_domain, {})
+        cached_mtime = 0.0
+        if isinstance(cached_entry, dict):
+            try:
+                cached_mtime = float(cached_entry.get("mtime", 0.0))
+            except (TypeError, ValueError):
+                cached_mtime = 0.0
+        if build_mtime >= generated_mtime - 1.0 and build_mtime >= cached_mtime:
+            domains[active_domain] = usage_entry_payload(
+                {**build_usage, "mtime": build_mtime},
+                active_domain,
+                "build_log",
+            )
+    return domains
+
+
+def usage_payload(domain: str | None = None) -> dict[str, object]:
+    active_domain = active_firmware_domain()
+    selected_domain = domain if domain in {"digit", "letter"} else active_domain
+    domains = usage_domains_payload()
+    selected = domains.get(selected_domain, {"available": False, "domain": selected_domain})
+    payload = {
+        "ok": True,
+        "activeDomain": active_domain,
+        "domain": selected_domain,
+        "domains": domains,
+    }
+    if not selected.get("available"):
+        return {**payload, "available": False}
+    return {**payload, **selected, "ok": True, "activeDomain": active_domain, "domains": domains}
 
 
 def active_firmware_domain() -> str:
@@ -1125,7 +1212,7 @@ def run_deploy(payload: dict[str, object]) -> dict[str, object]:
     if domain == "digit" and model not in {"all", "perceptron", "fnn", "cnn"}:
         raise ValueError("digit model must be all, perceptron, fnn, or cnn")
     if domain == "letter" and model not in {"all", *LETTER_MODEL_CHOICES.keys()}:
-        raise ValueError("letter model must be all, letter_perceptron, letter_fnn, or letter_cnn")
+        raise ValueError("letter model must be all, letter_perceptron, letter_fnn, or letter_ds_cnn")
 
     command = [
         sys.executable,
@@ -1196,10 +1283,11 @@ def run_batch_test(payload: dict[str, object]) -> dict[str, object]:
         "letter": {
             "p": "letter_perceptron",
             "f": "letter_fnn",
-            "c": "letter_cnn",
+            "c": "letter_ds_cnn",
             "letter_perceptron": "letter_perceptron",
             "letter_fnn": "letter_fnn",
             "letter_cnn": "letter_cnn",
+            "letter_ds_cnn": "letter_ds_cnn",
         },
     }
     model_meta = {
@@ -1209,10 +1297,11 @@ def run_batch_test(payload: dict[str, object]) -> dict[str, object]:
         "letter_perceptron": ("P", "Letter-Perceptron"),
         "letter_fnn": ("F", "Letter-FNN"),
         "letter_cnn": ("C", "Letter-Tiny-CNN"),
+        "letter_ds_cnn": ("C", "Letter-DS-CNN"),
     }
     ordered_models = {
         "digit": ["perceptron", "fnn", "cnn"],
-        "letter": ["letter_perceptron", "letter_fnn", "letter_cnn"],
+        "letter": ["letter_perceptron", "letter_fnn", "letter_ds_cnn"],
     }
     if requested_model == "all":
         model_names = ordered_models[domain]
@@ -1331,7 +1420,8 @@ class DashboardHandler(BaseHTTPRequestHandler):
             )
             return
         if path == "/api/usage":
-            json_response(self, usage_payload())
+            query = parse_qs(parsed.query)
+            json_response(self, usage_payload(query.get("domain", [""])[0] or None))
             return
         if path == "/api/quantization-profile":
             json_response(self, quantization_profile_payload())

@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import json
 import os
 import re
 import shutil
@@ -16,6 +17,8 @@ ROOT_DIR = Path(__file__).resolve().parents[1]
 PROJECT_PATH = ROOT_DIR / "keil_touch_digit_nn" / "Project" / "RVMDK（uv5）" / "BH-F103.uvprojx"
 LOG_DIR = ROOT_DIR / "keil_touch_digit_nn" / "Output"
 OUTPUT_AXF = LOG_DIR / "DigitNN_Touch.axf"
+BUILD_LOG = LOG_DIR / "DigitNN_Touch.build_log.htm"
+USAGE_CACHE_FILE = LOG_DIR / "firmware_usage.json"
 GENERATED_DOMAIN_HEADER = ROOT_DIR / "keil_touch_digit_nn" / "User" / "digit_nn" / "generated" / "RecognitionDomain.h"
 KEIL_GENERATED_DIR = ROOT_DIR / "keil_touch_digit_nn" / "User" / "digit_nn" / "generated"
 FIRMWARE_GENERATED_DIR = ROOT_DIR / "firmware" / "generated"
@@ -30,7 +33,10 @@ GENERATED_FILES = (
     "CNN_Data.c",
 )
 DIGIT_MODELS = ("perceptron", "fnn", "cnn")
-LETTER_MODELS = ("letter_perceptron", "letter_fnn", "letter_cnn")
+LETTER_MODELS = ("letter_perceptron", "letter_fnn", "letter_ds_cnn")
+PROGRAM_SIZE_RE = re.compile(
+    r"Program Size:\s*Code=(\d+)\s*RO-data=(\d+)\s*RW-data=(\d+)\s*ZI-data=(\d+)"
+)
 
 
 def find_uv4(explicit_path: str | None) -> Path | None:
@@ -117,6 +123,58 @@ def run_keil(uv4: Path, action: str, project: Path, target: str | None, dry_run:
         print(log_path)
         print(log_path.read_text(encoding="utf-8", errors="replace"))
     return exit_code
+
+
+def parse_usage_from_text(text: str) -> dict[str, int] | None:
+    match = PROGRAM_SIZE_RE.search(text)
+    if not match:
+        return None
+    code, ro_data, rw_data, zi_data = (int(item) for item in match.groups())
+    return {
+        "code": code,
+        "ro_data": ro_data,
+        "rw_data": rw_data,
+        "zi_data": zi_data,
+        "flash": code + ro_data + rw_data,
+        "sram": rw_data + zi_data,
+    }
+
+
+def read_usage_cache() -> dict[str, object]:
+    if not USAGE_CACHE_FILE.exists():
+        return {"domains": {}}
+    try:
+        payload = json.loads(USAGE_CACHE_FILE.read_text(encoding="utf-8", errors="replace"))
+    except (OSError, json.JSONDecodeError):
+        return {"domains": {}}
+    if not isinstance(payload, dict):
+        return {"domains": {}}
+    domains = payload.get("domains")
+    if not isinstance(domains, dict):
+        payload["domains"] = {}
+    return payload
+
+
+def update_usage_cache(domain: str) -> None:
+    if domain not in {"digit", "letter"} or not BUILD_LOG.exists():
+        return
+    usage = parse_usage_from_text(BUILD_LOG.read_text(encoding="utf-8", errors="ignore"))
+    if usage is None:
+        return
+
+    LOG_DIR.mkdir(parents=True, exist_ok=True)
+    cache = read_usage_cache()
+    domains = cache.setdefault("domains", {})
+    entry = {
+        "domain": domain,
+        "updatedAt": datetime.now().isoformat(timespec="seconds"),
+        "buildLog": str(BUILD_LOG),
+        "mtime": BUILD_LOG.stat().st_mtime,
+        **usage,
+    }
+    domains[domain] = entry
+    cache["latest"] = entry
+    USAGE_CACHE_FILE.write_text(json.dumps(cache, ensure_ascii=False, indent=2), encoding="utf-8")
 
 
 def active_generated_domain() -> str | None:
@@ -298,6 +356,9 @@ def write_cnn_from_npz(npz_path: Path, output_dir: Path, domain: str, class_coun
 
 #include <stdint.h>
 
+#define CNN_MODEL_KIND_STANDARD       0U
+#define CNN_MODEL_KIND_DS_CNN         1U
+#define CNN_MODEL_KIND                CNN_MODEL_KIND_STANDARD
 #define CNN_INPUT_WIDTH            28U
 #define CNN_INPUT_HEIGHT           28U
 #define CNN_CONV1_OUT_CHANNELS     {int(conv1_weight.shape[0])}U
@@ -359,6 +420,140 @@ const int32_t g_cnn_fc_bias[CNN_CLASS_COUNT] = {{
     )
 
 
+def write_ds_cnn_from_npz(npz_path: Path, output_dir: Path, domain: str, class_count: int) -> None:
+    import numpy as np
+
+    with np.load(npz_path) as data:
+        conv1_weight = data["conv1_weight"]
+        conv1_bias = data["conv1_bias"]
+        ds1_dw_weight = data["ds1_dw_weight"]
+        ds1_dw_bias = data["ds1_dw_bias"]
+        ds1_pw_weight = data["ds1_pw_weight"]
+        ds1_pw_bias = data["ds1_pw_bias"]
+        ds2_dw_weight = data["ds2_dw_weight"]
+        ds2_dw_bias = data["ds2_dw_bias"]
+        ds2_pw_weight = data["ds2_pw_weight"]
+        ds2_pw_bias = data["ds2_pw_bias"]
+        fc_weight = data["fc_weight"]
+        fc_bias = data["fc_bias"]
+        conv1_shift = int(data["conv1_shift"][0])
+        ds1_dw_shift = int(data["ds1_dw_shift"][0])
+        ds1_pw_shift = int(data["ds1_pw_shift"][0])
+        ds2_dw_shift = int(data["ds2_dw_shift"][0])
+        ds2_pw_shift = int(data["ds2_pw_shift"][0])
+
+    output_dir.joinpath("CNN_Data.h").write_text(
+        f"""/**
+ * @file CNN_Data.h
+ * @brief Cached quantized {domain} DS-CNN weights.
+ */
+#ifndef CNN_DATA_H
+#define CNN_DATA_H
+
+#include <stdint.h>
+
+#define CNN_MODEL_KIND_STANDARD       0U
+#define CNN_MODEL_KIND_DS_CNN         1U
+#define CNN_MODEL_KIND                CNN_MODEL_KIND_DS_CNN
+#define CNN_INPUT_WIDTH               28U
+#define CNN_INPUT_HEIGHT              28U
+#define CNN_KERNEL_SIZE               3U
+#define CNN_POOL1_WIDTH               14U
+#define CNN_POOL1_HEIGHT              14U
+#define CNN_POOL2_WIDTH               7U
+#define CNN_POOL2_HEIGHT              7U
+#define CNN_CONV1_OUT_CHANNELS        {int(conv1_weight.shape[0])}U
+#define CNN_DS1_DW_CHANNELS           {int(ds1_dw_weight.shape[0])}U
+#define CNN_DS1_PW_OUT_CHANNELS       {int(ds1_pw_weight.shape[0])}U
+#define CNN_DS2_DW_CHANNELS           {int(ds2_dw_weight.shape[0])}U
+#define CNN_DS2_PW_OUT_CHANNELS       {int(ds2_pw_weight.shape[0])}U
+#define CNN_CONV2_IN_CHANNELS         CNN_DS1_PW_OUT_CHANNELS
+#define CNN_CONV2_OUT_CHANNELS        CNN_DS2_PW_OUT_CHANNELS
+#define CNN_FEATURE_SIZE              (CNN_DS2_PW_OUT_CHANNELS * CNN_POOL2_WIDTH * CNN_POOL2_HEIGHT)
+#define CNN_CLASS_COUNT               {class_count}U
+#define CNN_CONV1_SHIFT               {conv1_shift}U
+#define CNN_DS1_DW_SHIFT              {ds1_dw_shift}U
+#define CNN_DS1_PW_SHIFT              {ds1_pw_shift}U
+#define CNN_DS2_DW_SHIFT              {ds2_dw_shift}U
+#define CNN_DS2_PW_SHIFT              {ds2_pw_shift}U
+#define CNN_CONV2_SHIFT               CNN_DS2_PW_SHIFT
+
+extern const int8_t g_cnn_conv1_weight[CNN_CONV1_OUT_CHANNELS][CNN_KERNEL_SIZE][CNN_KERNEL_SIZE];
+extern const int32_t g_cnn_conv1_bias[CNN_CONV1_OUT_CHANNELS];
+extern const int8_t g_cnn_ds1_depthwise_weight[CNN_DS1_DW_CHANNELS][CNN_KERNEL_SIZE][CNN_KERNEL_SIZE];
+extern const int32_t g_cnn_ds1_depthwise_bias[CNN_DS1_DW_CHANNELS];
+extern const int8_t g_cnn_ds1_pointwise_weight[CNN_DS1_PW_OUT_CHANNELS][CNN_DS1_DW_CHANNELS];
+extern const int32_t g_cnn_ds1_pointwise_bias[CNN_DS1_PW_OUT_CHANNELS];
+extern const int8_t g_cnn_ds2_depthwise_weight[CNN_DS2_DW_CHANNELS][CNN_KERNEL_SIZE][CNN_KERNEL_SIZE];
+extern const int32_t g_cnn_ds2_depthwise_bias[CNN_DS2_DW_CHANNELS];
+extern const int8_t g_cnn_ds2_pointwise_weight[CNN_DS2_PW_OUT_CHANNELS][CNN_DS2_DW_CHANNELS];
+extern const int32_t g_cnn_ds2_pointwise_bias[CNN_DS2_PW_OUT_CHANNELS];
+extern const int8_t g_cnn_fc_weight[CNN_CLASS_COUNT][CNN_FEATURE_SIZE];
+extern const int32_t g_cnn_fc_bias[CNN_CLASS_COUNT];
+
+#endif
+""",
+        encoding="utf-8",
+    )
+    output_dir.joinpath("CNN_Data.c").write_text(
+        f"""/**
+ * @file CNN_Data.c
+ * @brief Cached quantized {domain} DS-CNN weights.
+ */
+#include "digit_nn/generated/CNN_Data.h"
+
+const int8_t g_cnn_conv1_weight[CNN_CONV1_OUT_CHANNELS][CNN_KERNEL_SIZE][CNN_KERNEL_SIZE] = {{
+{format_c_nested(conv1_weight)}
+}};
+
+const int32_t g_cnn_conv1_bias[CNN_CONV1_OUT_CHANNELS] = {{
+{format_c_array(conv1_bias)}
+}};
+
+const int8_t g_cnn_ds1_depthwise_weight[CNN_DS1_DW_CHANNELS][CNN_KERNEL_SIZE][CNN_KERNEL_SIZE] = {{
+{format_c_nested(ds1_dw_weight)}
+}};
+
+const int32_t g_cnn_ds1_depthwise_bias[CNN_DS1_DW_CHANNELS] = {{
+{format_c_array(ds1_dw_bias)}
+}};
+
+const int8_t g_cnn_ds1_pointwise_weight[CNN_DS1_PW_OUT_CHANNELS][CNN_DS1_DW_CHANNELS] = {{
+{format_c_nested(ds1_pw_weight)}
+}};
+
+const int32_t g_cnn_ds1_pointwise_bias[CNN_DS1_PW_OUT_CHANNELS] = {{
+{format_c_array(ds1_pw_bias)}
+}};
+
+const int8_t g_cnn_ds2_depthwise_weight[CNN_DS2_DW_CHANNELS][CNN_KERNEL_SIZE][CNN_KERNEL_SIZE] = {{
+{format_c_nested(ds2_dw_weight)}
+}};
+
+const int32_t g_cnn_ds2_depthwise_bias[CNN_DS2_DW_CHANNELS] = {{
+{format_c_array(ds2_dw_bias)}
+}};
+
+const int8_t g_cnn_ds2_pointwise_weight[CNN_DS2_PW_OUT_CHANNELS][CNN_DS2_DW_CHANNELS] = {{
+{format_c_nested(ds2_pw_weight)}
+}};
+
+const int32_t g_cnn_ds2_pointwise_bias[CNN_DS2_PW_OUT_CHANNELS] = {{
+{format_c_array(ds2_pw_bias)}
+}};
+
+const int8_t g_cnn_fc_weight[CNN_CLASS_COUNT][CNN_FEATURE_SIZE] = {{
+{format_c_nested(fc_weight)}
+}};
+
+const int32_t g_cnn_fc_bias[CNN_CLASS_COUNT] = {{
+{format_c_array(fc_bias)}
+}};
+""",
+        encoding="utf-8",
+    )
+
+
 def copy_generated(source_dir: Path, target_dir: Path) -> None:
     target_dir.mkdir(parents=True, exist_ok=True)
     for filename in GENERATED_FILES:
@@ -373,7 +568,7 @@ def build_cache_from_quant(domain: str) -> None:
         files = {
             "perceptron": ROOT_DIR / "models" / "letter_perceptron_quant.npz",
             "fnn": ROOT_DIR / "models" / "letter_fnn_quant.npz",
-            "cnn": ROOT_DIR / "models" / "letter_cnn_quant.npz",
+            "cnn": ROOT_DIR / "models" / "letter_ds_cnn_quant.npz",
         }
     else:
         class_count = 10
@@ -388,7 +583,10 @@ def build_cache_from_quant(domain: str) -> None:
     write_domain_header(cache_dir, domain, class_count)
     write_perceptron_from_npz(files["perceptron"], cache_dir, domain, class_count)
     write_fnn_from_npz(files["fnn"], cache_dir, domain, class_count)
-    write_cnn_from_npz(files["cnn"], cache_dir, domain, class_count)
+    if domain == "letter":
+        write_ds_cnn_from_npz(files["cnn"], cache_dir, domain, class_count)
+    else:
+        write_cnn_from_npz(files["cnn"], cache_dir, domain, class_count)
 
 
 def cache_current_generated(domain: str) -> None:
@@ -552,10 +750,14 @@ def main() -> None:
         exit_code = run_keil(uv4, "b", args.project, args.target, args.dry_run)
         if exit_code != 0:
             raise SystemExit(exit_code)
+        if not args.dry_run:
+            update_usage_cache(args.domain)
     elif args.action == "rebuild":
         exit_code = run_keil(uv4, "r", args.project, args.target, args.dry_run)
         if exit_code != 0:
             raise SystemExit(exit_code)
+        if not args.dry_run:
+            update_usage_cache(args.domain)
 
     if args.action in {"flash", "build-flash", "export-build-flash"}:
         exit_code = run_keil(uv4, "f", args.project, args.target, args.dry_run)

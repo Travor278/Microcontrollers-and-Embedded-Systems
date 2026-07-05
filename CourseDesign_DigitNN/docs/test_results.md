@@ -72,4 +72,5 @@ PC 端量化模型结果：
 - 新采集个人手写集上，FNN 与 Tiny-CNN 均达到 128/129，说明上位机采集数据已经可以作为可靠的个人测试集。
 - USPS 外部公开集上，FNN 达到 93/100，Tiny-CNN 为 83/100；外部来源和 MNIST 分布差异较大，后续可继续通过数据增强或迁移测试优化泛化能力。
 - Perceptron 保留为基础模型和低资源对照，准确率不作为进阶方案主指标。
-- 字母识别已准备 EMNIST 测试集导出和训练脚本，固件主线为 Letter-Perceptron、Letter-FNN、Letter-CNN 三个模型；DS-CNN 仅作为 PC 侧可选实验对照。
+- 字母识别固件主线为 Letter-Perceptron、Letter-FNN、Letter-DS-CNN 三个模型。完整 EMNIST Letters 测试中，Letter-DS-CNN 最好结果为 18739/20800，90.09%，高于普通 Letter-Tiny-CNN 的 18600/20800，89.42%；当前网页展示用 260 张 `tf_card/emnist_letters` 子集上普通 CNN 为 234/260，DS-CNN 为 231/260，后续可继续扩充字母 TF 卡测试集来降低小样本波动。
+- Keil 验证：数字域 P/F/C build 通过，约 100.6 KB Flash、13.6 KB SRAM；字母域 P/F/DS-CNN build 通过，约 179.2 KB Flash、43.5 KB SRAM，仍低于 STM32F103VE 的 512 KB Flash / 64 KB SRAM 限制。

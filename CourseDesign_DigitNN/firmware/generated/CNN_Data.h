@@ -1,6 +1,7 @@
 /**
  * @file CNN_Data.h
- * @brief Cached quantized letter Tiny-CNN weights.
+ * @brief Quantized Tiny-CNN weights exported from tools/train_mnist.py.
+ * @author generated
  */
 #ifndef CNN_DATA_H
 #define CNN_DATA_H
@@ -9,16 +10,16 @@
 
 #define CNN_INPUT_WIDTH            28U
 #define CNN_INPUT_HEIGHT           28U
-#define CNN_CONV1_OUT_CHANNELS     8U
-#define CNN_CONV2_IN_CHANNELS      8U
-#define CNN_CONV2_OUT_CHANNELS     16U
+#define CNN_CONV1_OUT_CHANNELS     4U
+#define CNN_CONV2_IN_CHANNELS      4U
+#define CNN_CONV2_OUT_CHANNELS     8U
 #define CNN_KERNEL_SIZE            3U
 #define CNN_POOL1_WIDTH            14U
 #define CNN_POOL1_HEIGHT           14U
 #define CNN_POOL2_WIDTH            7U
 #define CNN_POOL2_HEIGHT           7U
 #define CNN_FEATURE_SIZE           (CNN_CONV2_OUT_CHANNELS * CNN_POOL2_WIDTH * CNN_POOL2_HEIGHT)
-#define CNN_CLASS_COUNT            26U
+#define CNN_CLASS_COUNT            10U
 #define CNN_CONV1_SHIFT            8U
 #define CNN_CONV2_SHIFT            8U
 

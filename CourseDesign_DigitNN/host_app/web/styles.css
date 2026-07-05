@@ -664,6 +664,64 @@ h2 {
   animation-name: fcPulse;
 }
 
+.ds-depth rect {
+  fill: #ccfbf1;
+  stroke: var(--teal);
+  stroke-width: 2;
+  filter: drop-shadow(0 7px 10px rgba(15, 118, 110, 0.12));
+  animation: dsChannelPulse 2.6s ease-in-out infinite;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.ds-depth rect:nth-child(2) {
+  animation-delay: 0.16s;
+}
+
+.ds-depth rect:nth-child(3) {
+  animation-delay: 0.32s;
+}
+
+.ds-depth rect:nth-child(4) {
+  animation-delay: 0.48s;
+}
+
+.ds-point rect {
+  fill: #fef3c7;
+  stroke: #c07d12;
+  stroke-width: 2;
+  filter: drop-shadow(0 7px 10px rgba(192, 125, 18, 0.12));
+  animation: pointwiseMix 2.4s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.ds-point rect:nth-child(2) {
+  animation-delay: 0.14s;
+}
+
+.ds-point rect:nth-child(3) {
+  animation-delay: 0.28s;
+}
+
+.ds-point rect:nth-child(4) {
+  animation-delay: 0.42s;
+}
+
+.ds-sep-line path {
+  fill: none;
+  stroke: url(#wireGradient);
+  stroke-width: 4;
+  stroke-linecap: round;
+  stroke-dasharray: 10 12;
+  animation: wireFlow 2.2s linear infinite;
+}
+
+.ds-fc rect {
+  fill: #dcfce7;
+  stroke: #55976a;
+}
+
 .model-copy-stack {
   display: grid;
   gap: 10px;
@@ -2326,6 +2384,28 @@ input[type="range"] {
   50% {
     transform: scaleY(1);
     opacity: 1;
+  }
+}
+
+@keyframes dsChannelPulse {
+  0%,
+  100% {
+    transform: translateY(0) scaleY(0.94);
+    opacity: 0.78;
+  }
+  50% {
+    transform: translateY(-5px) scaleY(1);
+    opacity: 1;
+  }
+}
+
+@keyframes pointwiseMix {
+  0%,
+  100% {
+    transform: translateX(0) scaleY(0.9);
+  }
+  50% {
+    transform: translateX(4px) scaleY(1);
   }
 }
 

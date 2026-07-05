@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>DigitNN Dashboard</title>
     <link rel="icon" href="data:," />
-    <link rel="stylesheet" href="styles.css?v=20260704k" />
+    <link rel="stylesheet" href="styles.css?v=20260704l" />
   </head>
   <body>
     <div class="app-shell">
@@ -245,6 +245,55 @@
                     <text x="548" y="330">FC + class</text>
                   </svg>
                 </div>
+
+                <div class="model-visual-pane" data-model-visual="dscnn">
+                  <svg viewBox="0 0 640 360" role="img" aria-label="depthwise separable convolutional neural network">
+                    <g class="cnn-input-grid">
+                      <rect x="38" y="92" width="110" height="110" rx="8" />
+                      <g class="digit-pixels">
+                        <rect x="62" y="112" width="12" height="12" />
+                        <rect x="74" y="124" width="12" height="12" />
+                        <rect x="86" y="136" width="12" height="12" />
+                        <rect x="98" y="148" width="12" height="12" />
+                        <rect x="86" y="160" width="12" height="12" />
+                        <rect x="74" y="172" width="12" height="12" />
+                      </g>
+                      <rect class="scan-window" x="58" y="108" width="44" height="44" rx="5" />
+                    </g>
+                    <g class="cnn-stack ds-stem">
+                      <rect x="186" y="78" width="58" height="120" rx="7" />
+                      <rect x="198" y="90" width="58" height="120" rx="7" />
+                      <rect x="210" y="102" width="58" height="120" rx="7" />
+                    </g>
+                    <g class="ds-depth">
+                      <rect x="318" y="70" width="20" height="138" rx="5" />
+                      <rect x="346" y="82" width="20" height="138" rx="5" />
+                      <rect x="374" y="94" width="20" height="138" rx="5" />
+                      <rect x="402" y="106" width="20" height="138" rx="5" />
+                    </g>
+                    <g class="ds-point">
+                      <rect x="462" y="88" width="18" height="112" rx="5" />
+                      <rect x="486" y="96" width="18" height="112" rx="5" />
+                      <rect x="510" y="104" width="18" height="112" rx="5" />
+                      <rect x="534" y="112" width="18" height="112" rx="5" />
+                    </g>
+                    <g class="cnn-fc-stack ds-fc">
+                      <rect x="582" y="118" width="13" height="104" rx="6" />
+                      <rect x="604" y="144" width="13" height="78" rx="6" />
+                    </g>
+                    <g class="ds-sep-line">
+                      <path d="M148 148 C166 142 174 136 186 132" />
+                      <path d="M268 158 C292 142 300 136 318 132" />
+                      <path d="M422 160 C444 156 448 150 462 146" />
+                      <path d="M552 166 C566 170 572 174 582 178" />
+                    </g>
+                    <text x="50" y="330">input</text>
+                    <text x="184" y="330">stem conv</text>
+                    <text x="306" y="330">depthwise</text>
+                    <text x="452" y="330">1 x 1 pointwise</text>
+                    <text x="578" y="330">class</text>
+                  </svg>
+                </div>
               </div>
               <div class="model-copy-stack">
                 <button class="model-copy-row model-option" type="button" data-model-explain="perceptron">
@@ -258,6 +307,10 @@
                 <button class="model-copy-row model-option" type="button" data-model-explain="cnn">
                   <strong>C</strong>
                   <div><b data-i18n="cnnTitle">Tiny-CNN</b><span data-i18n="pfcC"> Tiny-CNN: a compact convolution model for stroke-shape features.</span></div>
+                </button>
+                <button class="model-copy-row model-option" type="button" data-model-explain="dscnn">
+                  <strong>DS</strong>
+                  <div><b data-i18n="dsCnnTitle">DS-CNN</b><span data-i18n="pfcD"> DS-CNN: depthwise separable convolution, the stronger letter C model.</span></div>
                 </button>
               </div>
             </div>
@@ -403,9 +456,9 @@
               <article class="letter-model-home-card">
                 <span>C</span>
                 <div>
-                  <h3>Letter-Tiny-CNN</h3>
-                  <p>用 8/16 通道卷积提取局部笔画、拐点和闭合区域，适合区分 B/R、C/G、I/L 等容易混淆的字母。</p>
-                  <code>Conv8 -> Conv16 -> 26</code>
+                  <h3>Letter-DS-CNN</h3>
+                  <p>用 depthwise 逐通道提取局部笔画，再用 1x1 pointwise 混合通道特征；测试集准确率略高于普通 Tiny-CNN，更适合说明嵌入式轻量化。</p>
+                  <code>Conv12 -> DW/PW -> DW/PW -> 26</code>
                 </div>
               </article>
             </div>
@@ -741,7 +794,7 @@
 
                 <div class="deploy-block letter-deploy-block">
                   <div class="section-title">字母固件构建与烧录</div>
-                  <div class="deploy-hint">目标字母固件只包含 Letter-Perceptron / Letter-FNN / Letter-Tiny-CNN，不包含数字权重。已有字母权重可直接构建或烧录；只有点“导出”或“导出+烧录”才会重新训练并更新权重。</div>
+                  <div class="deploy-hint">目标字母固件只包含 Letter-Perceptron / Letter-FNN / Letter-DS-CNN，不包含数字权重。已有字母权重可直接构建或烧录；只有点“导出”或“导出+烧录”才会重新训练并更新权重。</div>
                   <div class="deploy-grid">
                     <label class="field">
                       <span data-i18n="model">Model</span>
@@ -749,7 +802,7 @@
                         <option value="all" selected>All Letter P/F/C</option>
                         <option value="letter_perceptron">Letter-Perceptron</option>
                         <option value="letter_fnn">Letter-FNN</option>
-                        <option value="letter_cnn">Letter-Tiny-CNN</option>
+                        <option value="letter_ds_cnn">Letter-DS-CNN</option>
                       </select>
                     </label>
                     <label class="field">
@@ -948,6 +1001,6 @@
         </section>
       </main>
     </div>
-    <script src="app.js?v=20260704n"></script>
+    <script src="app.js?v=20260704p"></script>
   </body>
 </html>
