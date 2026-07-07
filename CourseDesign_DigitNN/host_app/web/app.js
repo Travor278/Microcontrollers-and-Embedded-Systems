@@ -41,6 +41,7 @@ const els = {
   homeView: document.getElementById("homeView"),
   workspaceView: document.getElementById("workspaceView"),
   batchTestView: document.getElementById("batchTestView"),
+  tfCardView: document.getElementById("tfCardView"),
   lettersView: document.getElementById("lettersView"),
   chineseView: document.getElementById("chineseView"),
   homeNavBtn: document.getElementById("homeNavBtn"),
@@ -117,6 +118,20 @@ const els = {
   batchModelSelect: document.getElementById("batchModelSelect"),
   runDigitBatchTestBtn: document.getElementById("runDigitBatchTestBtn"),
   runLetterBatchTestBtn: document.getElementById("runLetterBatchTestBtn"),
+  tfCardPathInput: document.getElementById("tfCardPathInput"),
+  refreshTfCardBtn: document.getElementById("refreshTfCardBtn"),
+  refreshTfCardBtn2: document.getElementById("refreshTfCardBtn2"),
+  tfPcStatus: document.getElementById("tfPcStatus"),
+  tfMcuStatus: document.getElementById("tfMcuStatus"),
+  tfDriveText: document.getElementById("tfDriveText"),
+  tfImageText: document.getElementById("tfImageText"),
+  tfLabelText: document.getElementById("tfLabelText"),
+  tfSourceText: document.getElementById("tfSourceText"),
+  tfPathList: document.getElementById("tfPathList"),
+  tfDatasetBody: document.getElementById("tfDatasetBody"),
+  tfMcuMessage: document.getElementById("tfMcuMessage"),
+  tfSerialStatus: document.getElementById("tfSerialStatus"),
+  tfEvidenceLog: document.getElementById("tfEvidenceLog"),
   batchResultBody: document.getElementById("batchResultBody"),
   confusionResultBody: document.getElementById("confusionResultBody"),
   standardAccuracyText: document.getElementById("standardAccuracyText"),
@@ -563,7 +578,7 @@ function toggleLanguage() {
 }
 
 function applyView() {
-  const validViews = new Set(["home", "workspace", "batchTest", "letters", "chinese"]);
+  const validViews = new Set(["home", "workspace", "batchTest", "tfCard", "letters", "chinese"]);
   const view = validViews.has(state.currentView) ? state.currentView : "home";
   state.currentView = view;
   for (const panel of document.querySelectorAll(".view")) {
@@ -587,6 +602,9 @@ function setView(view) {
   if (state.currentView === "chinese") {
     initChineseCanvasIfBlank();
     loadChineseStatus();
+  }
+  if (state.currentView === "tfCard") {
+    refreshTfCardStatus();
   }
 }
 
@@ -1170,6 +1188,174 @@ async function runBatchTest(domain = "digit") {
     logLine(String(error.message || error), "error");
   } finally {
     setBatchRunning(false);
+  }
+}
+
+function setTfStatusChip(element, text, tone = "warn") {
+  if (!element) return;
+  element.textContent = text;
+  element.classList.remove("ok", "warn", "danger");
+  element.classList.add(tone);
+}
+
+function pickTfCardCandidate(payload) {
+  const candidates = payload?.pc?.candidates || [];
+  return (
+    candidates.find((item) => item.available && item.kind === "mounted") ||
+    candidates.find((item) => item.available && item.kind === "workspace") ||
+    candidates.find((item) => item.available) ||
+    candidates[0] ||
+    null
+  );
+}
+
+function renderTfPathList(candidates) {
+  if (!els.tfPathList) return;
+  const visibleCandidates = (candidates || []).filter((item) => item.available || item.kind === "workspace");
+  if (!visibleCandidates.length) {
+    els.tfPathList.innerHTML = `<div class="tf-path-item warn">没有可检测路径。</div>`;
+    return;
+  }
+  els.tfPathList.innerHTML = visibleCandidates
+    .map((item) => {
+      const kind = item.kind === "workspace" ? "工程制卡镜像" : "本机挂载目录";
+      const tone = item.available ? "ok" : "warn";
+      const images = Number(item.totalImages || 0);
+      const labels = Number(item.labelFiles || 0);
+      return `
+        <div class="tf-path-item ${tone}">
+          <strong>${escapeHtml(kind)}</strong>
+          <span>${escapeHtml(item.path || "--")}</span>
+          <em>${item.available ? `${images} images / ${labels} label files` : "not found"}</em>
+        </div>
+      `;
+    })
+    .join("");
+}
+
+function renderTfDatasetTable(candidate) {
+  if (!els.tfDatasetBody) return;
+  const datasets = candidate?.datasets || [];
+  if (!candidate?.available) {
+    els.tfDatasetBody.innerHTML = `<tr><td colspan="5">没有发现可读取的 tf_card 目录。</td></tr>`;
+    return;
+  }
+  if (!datasets.length) {
+    els.tfDatasetBody.innerHTML = `<tr><td colspan="5">目录存在，但未在一级子目录中发现图片或 label.txt。</td></tr>`;
+    return;
+  }
+  els.tfDatasetBody.innerHTML = datasets
+    .map((dataset) => {
+      const preview = (dataset.preview || []).slice(0, 4).map(escapeHtml).join("<br>") || "--";
+      return `
+        <tr>
+          <td>${escapeHtml(dataset.name || "--")}</td>
+          <td>${escapeHtml(dataset.path || "--")}</td>
+          <td>${Number(dataset.images || 0)}</td>
+          <td>${Number(dataset.labelFiles || 0)}</td>
+          <td>${preview}</td>
+        </tr>
+      `;
+    })
+    .join("");
+}
+
+function renderTfEvidence(payload) {
+  if (!els.tfEvidenceLog || !els.tfSerialStatus) return;
+  const serial = payload?.mcu?.serial || {};
+  const portText = serial.port || "no port";
+  const openText = serial.open ? "open" : "closed";
+  const errorText = serial.error ? ` / ${serial.error}` : "";
+  els.tfSerialStatus.textContent = `${portText} / ${openText}${errorText}`;
+
+  const frames = payload?.mcu?.tfFramesSeen || payload?.mcu?.sdFramesSeen || [];
+  if (frames.length) {
+    els.tfEvidenceLog.textContent = frames.map((item) => item.line || "").join("\n");
+    return;
+  }
+  const capability = payload?.mcu?.capability || {};
+  const files = capability.files || {};
+  const fatfsFiles = Object.entries(files)
+    .map(([name, paths]) => `${name}: ${(paths || []).length ? "found" : "missing"}`)
+    .join("\n");
+  els.tfEvidenceLog.textContent = [
+    "No TF/FatFs frames were found in the current serial stream.",
+    "Current firmware protocol is still handwriting-oriented: STATUS, POINT, STROKE, IMAGE, RESULT.",
+    "",
+    "To prove STM32-side TF-card reading, firmware should emit frames like:",
+    "TF_STATUS,state=ready,path=/tf_card",
+    "TF_DIR,path=/tf_card/mnist,count=1000",
+    "TF_FILE,path=/tf_card/mnist/img_0001.bmp,label=7,size=1078",
+    "",
+    "Current Keil FatFs file check:",
+    fatfsFiles || "No capability data.",
+  ].join("\n");
+}
+
+function renderTfCardStatus(payload) {
+  const candidate = pickTfCardCandidate(payload);
+  const candidates = payload?.pc?.candidates || [];
+  const mounted = candidates.find((item) => item.available && item.kind === "mounted");
+  const workspace = candidates.find((item) => item.available && item.kind === "workspace");
+  const drives = payload?.pc?.drives || [];
+
+  if (mounted) {
+    setTfStatusChip(els.tfPcStatus, "mounted mirror", "ok");
+  } else if (workspace) {
+    setTfStatusChip(els.tfPcStatus, "mirror ok", "ok");
+  } else {
+    setTfStatusChip(els.tfPcStatus, "mirror missing", "warn");
+  }
+
+  if (els.tfDriveText) els.tfDriveText.textContent = drives.length ? drives.join("  ") : "--";
+  if (els.tfImageText) els.tfImageText.textContent = candidate?.available ? String(candidate.totalImages || 0) : "--";
+  if (els.tfLabelText) els.tfLabelText.textContent = candidate?.available ? String(candidate.labelFiles || 0) : "--";
+  if (els.tfSourceText) {
+    els.tfSourceText.textContent = mounted ? "本机挂载目录" : workspace ? "工程本地制卡镜像" : "--";
+  }
+
+  const mcu = payload?.mcu || {};
+  if (mcu.canConfirmRead) {
+    setTfStatusChip(els.tfMcuStatus, "confirmed", "ok");
+  } else if (mcu.firmwareFatfsReady) {
+    setTfStatusChip(els.tfMcuStatus, "waiting frames", "warn");
+  } else {
+    setTfStatusChip(els.tfMcuStatus, "not wired", "danger");
+  }
+  if (els.tfMcuMessage) {
+    if (mcu.canConfirmRead) {
+      els.tfMcuMessage.textContent = "串口已出现 TF/FatFs 读卡帧，可以作为 STM32 读取 TF 卡的证据。";
+    } else if (mcu.firmwareFatfsReady) {
+      els.tfMcuMessage.textContent = "Keil 工程疑似已包含 FatFs 文件，但当前串口还没有 TF 读卡帧。";
+    } else {
+      els.tfMcuMessage.textContent =
+        "当前 DigitNN 固件还没有接入 TF 卡读取逻辑，串口只能证明触摸采集和识别回传，不能证明板端读卡。";
+    }
+  }
+
+  renderTfPathList(candidates);
+  renderTfDatasetTable(candidate);
+  renderTfEvidence(payload);
+}
+
+async function refreshTfCardStatus() {
+  if (!els.tfPcStatus || !els.tfMcuStatus) return;
+  setTfStatusChip(els.tfPcStatus, "checking", "warn");
+  setTfStatusChip(els.tfMcuStatus, "checking", "warn");
+  if (els.tfEvidenceLog) {
+    els.tfEvidenceLog.textContent = "Checking TF card paths and serial evidence...";
+  }
+  try {
+    const path = els.tfCardPathInput?.value?.trim() || "";
+    const suffix = path ? `?path=${encodeURIComponent(path)}` : "";
+    const payload = await apiJson(`/api/tf-card/status${suffix}`);
+    renderTfCardStatus(payload);
+  } catch (error) {
+    setTfStatusChip(els.tfPcStatus, "error", "danger");
+    setTfStatusChip(els.tfMcuStatus, "error", "danger");
+    if (els.tfEvidenceLog) {
+      els.tfEvidenceLog.textContent = String(error.message || error);
+    }
   }
 }
 
@@ -2498,6 +2684,12 @@ function bindEvents() {
   els.homeRefreshBtn.addEventListener("click", refreshStatus);
   els.runDigitBatchTestBtn.addEventListener("click", () => runBatchTest("digit"));
   els.runLetterBatchTestBtn.addEventListener("click", () => runBatchTest("letter"));
+  if (els.refreshTfCardBtn) {
+    els.refreshTfCardBtn.addEventListener("click", refreshTfCardStatus);
+  }
+  if (els.refreshTfCardBtn2) {
+    els.refreshTfCardBtn2.addEventListener("click", refreshTfCardStatus);
+  }
   els.refreshPortsBtn.addEventListener("click", loadSerialPorts);
   els.languageBtn.addEventListener("click", toggleLanguage);
   els.serialBtn.addEventListener("click", connectSerial);
@@ -2588,6 +2780,9 @@ function boot() {
   loadSerialPorts();
   refreshStatus();
   loadChineseStatus();
+  if (state.currentView === "tfCard") {
+    refreshTfCardStatus();
+  }
   if (!state.usagePollTimer) {
     state.usagePollTimer = window.setInterval(refreshUsageOnly, 5000);
   }

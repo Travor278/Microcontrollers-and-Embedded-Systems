@@ -1,51 +1,106 @@
-# CourseDesign_DigitNN
+﻿# CourseDesign_DigitNN
 
-基于神经网络的手写数字识别系统，面向《微控制器与嵌入式系统》课程设计题目 6。
+基于神经网络的手写数字/字母识别系统，面向《微控制器与嵌入式系统》课程设计题目 6。当前工程已经从基础数字识别扩展到网页上位机、字母识别、自动化测试、中文识别 API 原型和模型打包交付。
 
-## 目标
+## 已完成能力
 
-本目录按任务书和培训文档先搭好可持续迭代的工程骨架：
-
-- 基本任务：触摸屏采集手写轨迹，预处理到 28x28 图像，训练单层感知机，导出 `PerceptronData.c/.h`，在 STM32 端完成推理。
-- 进阶任务：多层全连接网络 FNN 与 Tiny-CNN 训练/部署，MNIST 与个人手写 BMP 测试集，批量自动化测试，串口结果上报，实时上位机 UI，后续可扩展多类型字符/EMNIST。
-- 规范要求：C 代码使用蛇形命名、`.h/.c` 分离、Doxygen 风格注释、按 `inc/src` 与 `core/drivers/utils` 分层。
+- 板端采集：STM32F103VE + ILI9341 LCD + XPT2046 电阻触摸屏，触摸轨迹预处理为 28 x 28 灰度输入。
+- 数字识别：Perceptron、FNN、Tiny-CNN/DS-CNN 三模型量化推理，LCD 与串口输出 P/F/C 结果。
+- 字母识别：A-Z 独立固件域，模型为 Letter-Perceptron、Letter-FNN、Letter-DS-CNN，不与数字权重混烧。
+- 上位机：网页 Dashboard 支持中英文切换、手写输入、板端实时轨迹、像素预览、模型置信度、自动化测试、样本采集、Keil 构建/烧录、中文识别和 TF 卡页。
+- 量化展示：首页解释 float32 到 int8/int32 的 scale、zero point、bias、accumulator、multiplier/shift 流程。
+- 数据集：`tf_card/` 整理 MNIST、personal、USPS、EMNIST Letters 和采集缓存。
+- 字母模型包：`packages/letter_models_20260706/` 与 `.zip` 已整理模型、量化权重、metrics 和字母 generated C 文件。
 
 ## 目录
 
 ```text
 CourseDesign_DigitNN/
-├── docs/                 # 需求摘录、系统设计、流程图、串口协议、进度清单
+├── docs/                 # 需求摘录、系统设计、流程图、串口协议、进度和升级说明
 ├── firmware/             # STM32 C 端核心算法和驱动适配接口
-│   ├── generated/        # 训练脚本导出的模型参数 C 文件
+│   ├── generated/        # 当前导出的模型参数 C 文件
+│   ├── generated_cache/  # digit/letter 分域缓存，默认不提交
 │   ├── inc/
-│   │   ├── core/
-│   │   ├── drivers/
-│   │   └── utils/
 │   └── src/
-│       ├── core/
-│       ├── drivers/
-│       └── utils/
-├── host_app/             # 上位机/串口监控方案
+├── host_app/             # 网页上位机、串口监控和本地服务
 ├── keil_touch_digit_nn/  # 基于野火触摸画板例程改造的 Keil 实物工程
 ├── models/               # 训练权重、量化参数、模型评估结果
+├── packages/             # 课程设计交付包，如字母模型包
 ├── report/               # 课程设计报告草稿
-├── testsets/             # TF 卡测试集组织方式
-└── tools/                # 训练、导出、测试集制作和 PC 端验证脚本
+├── testsets/             # 测试集组织说明
+├── tf_card/              # 可复制到 TF 卡根目录的测试集镜像
+└── tools/                # 训练、导出、测试集制作、Keil 和 API 工具脚本
 ```
 
-## 推荐推进顺序
+## 数字识别流程
 
-1. 运行 `tools/train_mnist.py --model perceptron --epochs 2 --batch-size 512 --export-c --export-keil`，生成基础模型参数。当前 Perceptron 官方 MNIST 测试准确率约 89.25%。
-2. 打开 `keil_touch_digit_nn/Project/RVMDK（uv5）/BH-F103.uvprojx`，使用 DAPLink/CMSIS-DAP 编译下载。
-3. Keil 工程已接入野火 STM32 的 ILI9341 LCD 与 XPT2046 触摸屏驱动，触摸点会送入 `preprocess_add_point()` 并通过 `REC` 按钮触发识别。
-4. 运行 `tools/train_mnist.py --model fnn --epochs 8 --batch-size 512 --augment --export-c --export-keil`，完成增强 FNN 部署。当前 FNN 官方 MNIST 测试准确率约 94.48%。
-5. 运行 `tools/train_mnist.py --model cnn --epochs 5 --batch-size 512 --augment --export-c --export-keil`，完成 Tiny-CNN 进阶部署。当前 Tiny-CNN 官方 MNIST 测试准确率约 95.97%。
-6. 运行 `tools/evaluate_tf_card.py`，对 `tf_card/mnist`、`tf_card/personal` 与 `tf_card/external_usps` 做 PC 端批量评估并生成 `models/tf_card_eval.json`。
-7. 运行 `python host_app\web_dashboard_server.py`，浏览器打开 `http://127.0.0.1:8765/`，进入网页上位机，用于画布输入、像素预览、量化模型置信度展示、串口联调和样本采集。
-8. 如需一键构建/下载，在 UI 的 `Firmware Deploy` 面板填写 `UV4.exe` 路径，或运行 `python tools\keil_flash.py --action build`、`python tools\keil_flash.py --action flash`。
-9. 如需尝试英文字母，运行 `python tools\make_emnist_letters_testset.py` 准备 EMNIST Letters 测试集，再用 `python tools\train_letters.py --model letter_fnn --epochs 3 --augment` 训练字母原型。字母固件按独立目标规划，不与数字 P/F/C 权重混烧。
-10. 如果扩展到约 5000 个汉字，STM32F103VE 建议只承担触摸板和串口采集职责；本机通过 `/api/chinese/infer` 接收板端图像或轨迹，再调用本机 OCR/分类模型完成识别。
-11. 如需启用视觉 API 中文识别，运行 `tools\save_csu_api_key.ps1` 或 `tools\save_aliyun_api_key.ps1` 保存密钥；密钥会保存到本地 `.env.local`，该文件已加入 `.gitignore`。进入网页“中文识别”页后可点击“探测模型”筛选支持图像输入的模型；CSU 若全部返回 403，先确认校园网/VPN 和令牌权限。
+```powershell
+cd CourseDesign_DigitNN
+python tools\train_mnist.py --model perceptron --epochs 2 --batch-size 512 --export-c --export-keil
+python tools\train_mnist.py --model fnn --epochs 8 --batch-size 512 --augment --export-c --export-keil
+python tools\train_mnist.py --model cnn --epochs 5 --batch-size 512 --augment --export-c --export-keil
+python tools\evaluate_tf_card.py
+```
+
+数字固件只包含数字 P/F/C 权重。网页中 `Build` 或 `Flash` 可复用已导出的权重；只有 `Export` 或 `Export+Flash` 会重新训练/导出。
+
+## 字母识别流程
+
+```powershell
+cd CourseDesign_DigitNN
+python tools\make_emnist_letters_testset.py
+python tools\train_letters.py --model all --epochs 8 --batch-size 128 --augment --export-c --export-keil
+```
+
+当前字母主模型：
+
+| 模型 | 结构 | 最佳准确率 |
+| --- | --- | --- |
+| Letter-Perceptron | `784 -> 26` | 66.40% |
+| Letter-FNN | `784 -> 96 -> 26` | 86.11% |
+| Letter-DS-CNN | `Conv12 -> DW/PW -> DW/PW -> FC26` | 90.09% |
+
+普通 Letter-Tiny-CNN 作为历史对照保存在 `packages/letter_models_20260706/legacy_reference/`。
+
+## 上位机运行
+
+```powershell
+cd CourseDesign_DigitNN
+python host_app\web_dashboard_server.py
+```
+
+浏览器打开：
+
+```text
+http://127.0.0.1:8765/
+```
+
+网页页面包括：
+
+- 首页：模型、量化、Flash/SRAM、固件流程可视化。
+- 数字工作区：浏览器输入或 STM32 板端输入，显示 P/F/C 推理结果。
+- 字母工作区：浏览器/板端输入 A-Z，显示 Letter P/F/C 结果。
+- 自动化测试：批量评估数字和字母测试集，统计准确率、平均耗时和混淆对。
+- 中文识别：STM32 作为手写板，上位机或视觉 API 负责中文识别。
+- TF 卡页：展示本地制卡镜像和板端读卡诊断入口。
+
+## Keil 工程
+
+打开：
+
+```text
+keil_touch_digit_nn/Project/RVMDK（uv5）/BH-F103.uvprojx
+```
+
+下载方式：CMSIS-DAP / DAPLink，Debug 与 Utilities 均选择 `CMSIS-DAP Debugger`，Port 选择 `SW`。
+
+命令行构建/烧录：
+
+```powershell
+python tools\keil_flash.py --action build
+python tools\keil_flash.py --action flash --uv4 D:\UV4\UV4.exe
+python tools\keil_flash.py --action export-build-flash --domain letter --model all --epochs 3 --batch-size 128 --augment
+```
 
 ## 规范入口
 
@@ -55,8 +110,6 @@ CourseDesign_DigitNN/
 - 串口协议：`docs/serial_protocol.md`
 - 上位机与多字符升级说明：`docs/upgrade_notes.md`
 - 联调结果：`docs/test_results.md`
-- 多类型字符扩展：`docs/multitype_extension_plan.md`
 - Keil 构建/烧录脚本：`tools/keil_flash.py`
-- 26 类字母原型训练：`tools/train_letters.py`
-- EMNIST Letters 测试集导出：`tools/make_emnist_letters_testset.py`
+- 字母模型包：`packages/letter_models_20260706/README.md`
 - 报告草稿：`report/report_draft.md`

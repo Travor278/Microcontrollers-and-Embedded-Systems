@@ -3,7 +3,7 @@
  * @brief Quantized FNN weights exported from tools/train_mnist.py.
  * @author generated
  */
-#include "FNN_Data.h"
+#include "digit_nn/generated/FNN_Data.h"
 
 const int8_t g_fnn_weight_1[FNN_HIDDEN_SIZE][FNN_INPUT_SIZE] = {
     {

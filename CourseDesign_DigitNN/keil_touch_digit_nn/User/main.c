@@ -23,6 +23,7 @@
 #include "./led/bsp_led.h" 
 #include "palette.h"
 #include "digit_recognition_app.h"
+#include "tf_card_probe.h"
 #include "digit_nn/generated/RecognitionDomain.h"
 #include <string.h>
 
@@ -50,6 +51,7 @@ int main(void)
 	/* USART config */
 	USART_Config();  
 	LED_GPIO_Config();
+	TFCardProbe_Run();
 	
 	printf("\r\n ********** 触摸画板程序 *********** \r\n"); 
 	printf("\r\n 若汉字显示不正常，请阅读工程中的readme.txt文件说明，根据要求给FLASH重刷字模数据\r\n"); 

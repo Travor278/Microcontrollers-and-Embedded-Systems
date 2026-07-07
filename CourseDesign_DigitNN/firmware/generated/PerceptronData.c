@@ -3,7 +3,7 @@
  * @brief Quantized perceptron weights exported from tools/train_mnist.py.
  * @author generated
  */
-#include "PerceptronData.h"
+#include "digit_nn/generated/PerceptronData.h"
 
 const int8_t g_perceptron_weights[PERCEPTRON_CLASS_COUNT][PERCEPTRON_INPUT_SIZE] = {
     {

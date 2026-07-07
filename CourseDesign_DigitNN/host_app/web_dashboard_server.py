@@ -9,6 +9,7 @@ import json
 import mimetypes
 import os
 import re
+import shutil
 import subprocess
 import sys
 import threading
@@ -618,6 +619,193 @@ def usage_payload(domain: str | None = None) -> dict[str, object]:
     return {**payload, **selected, "ok": True, "activeDomain": active_domain, "domains": domains}
 
 
+def drive_roots() -> list[Path]:
+    if os.name == "nt":
+        roots: list[Path] = []
+        for code in range(ord("C"), ord("Z") + 1):
+            root = Path(f"{chr(code)}:/")
+            try:
+                if root.exists():
+                    roots.append(root)
+            except OSError:
+                continue
+        return roots
+    return [Path("/")]
+
+
+def path_usage(path: Path) -> dict[str, object]:
+    try:
+        usage = shutil.disk_usage(path)
+    except OSError:
+        return {"available": False}
+    return {
+        "available": True,
+        "total": usage.total,
+        "used": usage.used,
+        "free": usage.free,
+        "usedPercent": (usage.used * 100.0 / usage.total) if usage.total else 0.0,
+    }
+
+
+def scan_tf_card_path(path: Path, max_preview: int = 8) -> dict[str, object]:
+    path = path.expanduser()
+    try:
+        resolved = path.resolve()
+    except OSError:
+        resolved = path
+    if not path.exists() or not path.is_dir():
+        return {
+            "available": False,
+            "path": str(path),
+            "datasets": [],
+            "totalImages": 0,
+            "labelFiles": 0,
+            "preview": [],
+        }
+
+    datasets: list[dict[str, object]] = []
+    preview: list[dict[str, object]] = []
+    total_images = 0
+    label_files = 0
+    image_exts = {".bmp", ".png", ".jpg", ".jpeg"}
+    for child in sorted(path.iterdir(), key=lambda item: item.name.lower()):
+        if not child.is_dir():
+            if child.name.lower() == "label.txt":
+                label_files += 1
+            continue
+        image_count = 0
+        child_label_files = 0
+        child_bytes = 0
+        child_preview: list[str] = []
+        try:
+            files = list(child.iterdir())
+        except OSError:
+            files = []
+        for file_path in files:
+            if not file_path.is_file():
+                continue
+            suffix = file_path.suffix.lower()
+            if suffix in image_exts:
+                image_count += 1
+                try:
+                    child_bytes += file_path.stat().st_size
+                except OSError:
+                    pass
+                if len(child_preview) < 4:
+                    child_preview.append(file_path.name)
+                if len(preview) < max_preview:
+                    preview.append({"dataset": child.name, "name": file_path.name, "path": str(file_path)})
+            elif file_path.name.lower() == "label.txt":
+                child_label_files += 1
+
+        if image_count or child_label_files:
+            datasets.append(
+                {
+                    "name": child.name,
+                    "path": str(child),
+                    "images": image_count,
+                    "labelFiles": child_label_files,
+                    "bytes": child_bytes,
+                    "preview": child_preview,
+                }
+            )
+        total_images += image_count
+        label_files += child_label_files
+
+    root = Path(str(resolved.anchor)) if resolved.anchor else resolved
+    return {
+        "available": True,
+        "path": str(resolved),
+        "root": str(root),
+        "disk": path_usage(root),
+        "datasets": datasets,
+        "totalImages": total_images,
+        "labelFiles": label_files,
+        "preview": preview,
+    }
+
+
+def keil_sd_capability_payload() -> dict[str, object]:
+    user_dir = ROOT_DIR / "keil_touch_digit_nn" / "User"
+    expected = {
+        "ff.c": list(user_dir.rglob("ff.c")) if user_dir.exists() else [],
+        "diskio.c": list(user_dir.rglob("diskio.c")) if user_dir.exists() else [],
+        "bsp_sdio_sdcard.c": list(user_dir.rglob("bsp_sdio_sdcard.c")) if user_dir.exists() else [],
+    }
+    firmware_stub = ROOT_DIR / "firmware" / "src" / "drivers" / "sd_testset.c"
+    stub_text = firmware_stub.read_text(encoding="utf-8", errors="replace") if firmware_stub.exists() else ""
+    return {
+        "fatfsReady": all(bool(paths) for paths in expected.values()),
+        "files": {name: [str(path) for path in paths[:3]] for name, paths in expected.items()},
+        "sdTestsetStub": "STATUS_ERROR_NOT_READY" in stub_text,
+        "referenceExamples": [
+            "1-书籍配套例程-F103VE指南者_20240202/36-SDIO-SD卡读写测试",
+            "1-书籍配套例程-F103VE指南者_20240202/37-SDIO-FatFs移植与读写测试",
+        ],
+    }
+
+
+def sd_card_status_payload(path_hint: str | None = None) -> dict[str, object]:
+    requested_paths: list[Path] = []
+    if path_hint:
+        requested_paths.append(Path(path_hint))
+    requested_paths.extend(root / "tf_card" for root in drive_roots())
+    requested_paths.append(ROOT_DIR / "tf_card")
+
+    seen: set[str] = set()
+    candidates: list[dict[str, object]] = []
+    for path in requested_paths:
+        key = str(path).lower()
+        if key in seen:
+            continue
+        seen.add(key)
+        scan = scan_tf_card_path(path)
+        try:
+            is_workspace = path.resolve() == (ROOT_DIR / "tf_card").resolve()
+        except OSError:
+            is_workspace = False
+        scan["kind"] = "workspace" if is_workspace else "mounted"
+        candidates.append(scan)
+
+    serial_lines = SERIAL_BRIDGE.read_since(0).get("lines", [])
+    tf_lines: list[dict[str, object]] = []
+    for item in serial_lines:
+        line = str(item.get("line", ""))
+        if re.search(r"^(SD|TF|FATFS|CARD|DIR|FILE)[,_]", line, flags=re.IGNORECASE) or re.search(
+            r"\b(sd|tf|fatfs)\b", line, flags=re.IGNORECASE
+        ):
+            tf_lines.append(item)
+
+    capability = keil_sd_capability_payload()
+    mounted_available = any(item.get("available") and item.get("kind") == "mounted" for item in candidates)
+    workspace = next((item for item in candidates if item.get("kind") == "workspace"), None)
+    return {
+        "ok": True,
+        "checkedAt": datetime.now().isoformat(timespec="seconds"),
+        "pc": {
+            "drives": [str(root) for root in drive_roots()],
+            "mountedTfCardAvailable": mounted_available,
+            "candidates": candidates,
+            "workspaceTfCard": workspace,
+        },
+        "mcu": {
+            "serial": SERIAL_BRIDGE.status(),
+            "tfFramesSeen": tf_lines[-20:],
+            "sdFramesSeen": tf_lines[-20:],
+            "tfFrameCount": len(tf_lines),
+            "sdFrameCount": len(tf_lines),
+            "protocolSupportedNow": bool(tf_lines),
+            "firmwareFatfsReady": bool(capability.get("fatfsReady")),
+            "canConfirmRead": bool(tf_lines),
+            "capability": capability,
+            "message": (
+                "MCU has reported TF/FatFs frames."
+                if tf_lines
+                else "No TF/FatFs frames have been seen on the current serial protocol; current firmware cannot confirm MCU-side TF-card reading."
+            ),
+        },
+    }
+
 def active_firmware_domain() -> str:
     if not GENERATED_DOMAIN_HEADER.exists():
         return "digit"
@@ -991,7 +1179,10 @@ def call_csu_vision_api(data_url: str, model: str, prompt: str, provider: str | 
                     {
                         "type": "text",
                         "text": prompt
-                        or "请识别图片中的中文手写字符或短文本。只输出 JSON，不要输出 Markdown。",
+                        or (
+                            "Please recognize the Chinese handwritten character or short text in the image. "
+                            "Return JSON only, no Markdown."
+                        ),
                     },
                     {
                         "type": "image_url",
@@ -1121,7 +1312,7 @@ def probe_csu_models_payload(payload: dict[str, object]) -> dict[str, object]:
                 {
                     "role": "user",
                     "content": [
-                        {"type": "text", "text": "请用 8 个字以内描述这张图。"},
+                        {"type": "text", "text": "Describe this image in 8 words or fewer."},
                         {"type": "image_url", "image_url": {"url": image_url}},
                     ],
                 }
@@ -1425,6 +1616,10 @@ class DashboardHandler(BaseHTTPRequestHandler):
             return
         if path == "/api/quantization-profile":
             json_response(self, quantization_profile_payload())
+            return
+        if path in {"/api/tf-card/status", "/api/sd-card/status"}:
+            query = parse_qs(parsed.query)
+            json_response(self, sd_card_status_payload(query.get("path", [""])[0] or None))
             return
         if path == "/api/chinese/status":
             query = parse_qs(parsed.query)

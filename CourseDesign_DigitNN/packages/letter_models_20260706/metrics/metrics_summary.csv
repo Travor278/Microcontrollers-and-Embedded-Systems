@@ -1,0 +1,5 @@
+﻿"model","best_epoch","accuracy","correct","total","source_file"
+"letter_perceptron","7","0.664038","13812","20800","letter_perceptron_metrics.json"
+"letter_fnn","8","0.861058","17910","20800","letter_fnn_metrics.json"
+"letter_ds_cnn","8","0.900913","18739","20800","letter_ds_cnn_metrics.json"
+"letter_cnn","7","0.894231","18600","20800","letter_cnn_metrics.json"

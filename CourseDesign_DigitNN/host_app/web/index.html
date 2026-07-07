@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>DigitNN Dashboard</title>
     <link rel="icon" href="data:," />
-    <link rel="stylesheet" href="styles.css?v=20260704l" />
+    <link rel="stylesheet" href="styles.css?v=20260706b" />
   </head>
   <body>
     <div class="app-shell">
@@ -19,6 +19,7 @@
             <button class="view-tab active" id="homeNavBtn" data-view="home" data-i18n="home">Home</button>
             <button class="view-tab" id="workspaceNavBtn" data-view="workspace" data-i18n="workspace">Workspace</button>
             <button class="view-tab" id="testNavBtn" data-view="batchTest" data-i18n="batchTest">Batch Test</button>
+            <button class="view-tab" id="tfCardNavBtn" data-view="tfCard">TF 卡</button>
             <button class="view-tab" id="lettersNavBtn" data-view="letters" data-i18n="letters">Letters</button>
             <button class="view-tab" id="chineseNavBtn" data-view="chinese">中文识别</button>
           </div>
@@ -314,6 +315,240 @@
                 </button>
               </div>
             </div>
+
+            <div class="model-detail-grid">
+              <section class="model-principle-panel">
+                <div class="detail-eyebrow">模型演进逻辑</div>
+                <h3>从像素分界线，到能理解局部笔画的卷积结构</h3>
+                <p>
+                  这四个模型不是简单堆名字，而是按能力逐级增强：感知机只在 784 个像素上做线性分类；FNN 加入隐藏层和 ReLU，
+                  可以学习像素组合；Tiny-CNN 保留 28 x 28 的二维结构，用 3 x 3 卷积提取边缘、弧线和笔画连接；DS-CNN
+                  再把普通卷积分成 depthwise 与 pointwise 两步，在保持图像特征能力的同时减少 MCU 上的参数和乘加量。
+                </p>
+                <div class="evolution-rail" aria-label="model evolution from pixels to depthwise separable convolution">
+                  <div class="evolution-node">
+                    <span>Pixels</span>
+                    <strong>28 x 28</strong>
+                    <small>触摸轨迹压缩成灰度输入</small>
+                  </div>
+                  <div class="evolution-node">
+                    <span>Linear</span>
+                    <strong>P</strong>
+                    <small>score = Wx + b</small>
+                  </div>
+                  <div class="evolution-node">
+                    <span>Hidden</span>
+                    <strong>F</strong>
+                    <small>ReLU 学习非线性组合</small>
+                  </div>
+                  <div class="evolution-node">
+                    <span>Spatial</span>
+                    <strong>C</strong>
+                    <small>卷积核滑动提取笔画</small>
+                  </div>
+                  <div class="evolution-node">
+                    <span>Efficient</span>
+                    <strong>DS</strong>
+                    <small>Depthwise + 1 x 1 Pointwise</small>
+                  </div>
+                </div>
+              </section>
+
+              <aside class="model-ledger">
+                <div class="detail-eyebrow">当前代码参数口径</div>
+                <div class="ledger-row">
+                  <span>P Perceptron</span>
+                  <strong>7,850 params</strong>
+                  <code>784 x 10 + 10</code>
+                </div>
+                <div class="ledger-row">
+                  <span>F FNN</span>
+                  <strong>50,890 params</strong>
+                  <code>784 x 64 + 64 + 64 x 10 + 10</code>
+                </div>
+                <div class="ledger-row">
+                  <span>C Tiny-CNN</span>
+                  <strong>约 4,266 params</strong>
+                  <code>Conv4 -> Pool14 -> Conv8 -> Pool7 -> FC10</code>
+                </div>
+                <div class="ledger-row">
+                  <span>DS-CNN</span>
+                  <strong>K²Cin + CinCout</strong>
+                  <code>depthwise 空间特征 + pointwise 通道混合</code>
+                </div>
+              </aside>
+            </div>
+
+            <div class="model-comparison-board" aria-label="scientific model comparison">
+              <div class="compare-heading">
+                <div>
+                  <span class="detail-eyebrow">模型怎么选</span>
+                  <h3>同一块 STM32 上的速度、精度和资源取舍</h3>
+                </div>
+                <p>答辩时可以把 P/F/C/DS 讲成一条清晰路线：先有最轻的 baseline，再到可用的 FNN，随后用 CNN 提取图像结构，最后用 DS-CNN 面向 MCU 压缩优化。</p>
+              </div>
+              <div class="comparison-table">
+                <div class="comparison-row header">
+                  <span>模型</span><span>核心思想</span><span>优势</span><span>代价</span>
+                </div>
+                <div class="comparison-row">
+                  <span><b>P</b> 感知机</span>
+                  <span>把 28 x 28 拉平成 784 维，直接做线性得分。</span>
+                  <span>最快、最小，适合作为 baseline。</span>
+                  <span>不理解局部笔画，对平移、倾斜和噪声敏感。</span>
+                </div>
+                <div class="comparison-row">
+                  <span><b>F</b> 全连接网络</span>
+                  <span>784 -> 64 -> 10，隐藏层学习像素组合。</span>
+                  <span>结构简单，速度和准确率比较均衡。</span>
+                  <span>仍然丢掉二维空间关系，第一层权重较多。</span>
+                </div>
+                <div class="comparison-row">
+                  <span><b>C</b> Tiny-CNN</span>
+                  <span>3 x 3 卷积提取边缘、弧线和笔画连接。</span>
+                  <span>更适合图像识别，对局部变形更鲁棒。</span>
+                  <span>中间特征图会占 SRAM，卷积计算更复杂。</span>
+                </div>
+                <div class="comparison-row">
+                  <span><b>DS</b> DS-CNN</span>
+                  <span>普通卷积拆成 depthwise 和 1 x 1 pointwise。</span>
+                  <span>结构压缩加 int8 量化，适合 MCU 高效部署。</span>
+                  <span>实现更复杂，通道很少时优势不如中后层明显。</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="model-deep-dive" aria-label="four model deep explanations">
+              <div class="deep-dive-head">
+                <div>
+                  <span class="detail-eyebrow">四个模型详解</span>
+                  <h3>从线性像素模板，到面向 MCU 的高效卷积</h3>
+                </div>
+                <p>下面四行可以直接作为答辩讲稿：先说明模型做了什么，再说明它在当前工程里的具体结构，最后说明为什么它在准确率、Flash、SRAM 和速度上会表现不同。</p>
+              </div>
+
+              <article class="model-deep-row">
+                <div class="model-mini-visual perceptron-mini" aria-label="perceptron pixel weights visual">
+                  <div class="mini-input-strip">
+                    <span></span><span></span><span></span><span></span><span></span><span></span>
+                  </div>
+                  <div class="mini-weight-bank">
+                    <span style="--w: 46%">w0</span>
+                    <span style="--w: 72%">w1</span>
+                    <span style="--w: 34%">w2</span>
+                    <span style="--w: 58%">w3</span>
+                  </div>
+                  <div class="mini-sum-node">Σ</div>
+                  <div class="mini-score-bars">
+                    <span style="--w: 36%"></span>
+                    <span style="--w: 80%"></span>
+                    <span style="--w: 54%"></span>
+                    <span style="--w: 28%"></span>
+                  </div>
+                </div>
+                <div class="model-deep-copy">
+                  <div class="model-title-line"><strong>P</strong><h4>感知机：最轻量的线性 baseline</h4></div>
+                  <p>感知机把 28 x 28 图像拉平成 784 维向量，直接计算 10 个类别分数。它本质上是在原始像素空间里给每个数字学习一张“权重模板”：哪些像素亮起来更像 2，哪些像素亮起来更像 8。</p>
+                  <div class="model-fact-grid">
+                    <div><span>公式</span><code>score_i = sum(x_j * w_ij) + b_i</code></div>
+                    <div><span>当前工程</span><code>784 x 10 + 10 = 7,850 params</code></div>
+                    <div><span>优点</span><code>Flash 最省，推理最快，实现最简单</code></div>
+                    <div><span>短板</span><code>无隐藏层，不理解局部笔画和空间结构</code></div>
+                  </div>
+                  <p class="model-deep-note">所以它适合作为对照组：如果 P 都能识别，说明预处理和串口闭环没问题；如果 P 不稳，也能反衬 FNN/CNN 的必要性。</p>
+                </div>
+              </article>
+
+              <article class="model-deep-row alternate">
+                <div class="model-mini-visual fnn-mini" aria-label="fully connected neural network visual">
+                  <div class="mini-layer input">
+                    <span></span><span></span><span></span><span></span>
+                  </div>
+                  <div class="mini-wires">
+                    <span></span><span></span><span></span><span></span>
+                  </div>
+                  <div class="mini-layer hidden">
+                    <span></span><span></span><span></span>
+                  </div>
+                  <div class="mini-wires second">
+                    <span></span><span></span><span></span>
+                  </div>
+                  <div class="mini-layer output">
+                    <span></span><span></span>
+                  </div>
+                </div>
+                <div class="model-deep-copy">
+                  <div class="model-title-line"><strong>F</strong><h4>全连接网络：用隐藏层组合像素模式</h4></div>
+                  <p>FNN 仍然先把图片拉平，但中间加了 64 个隐藏神经元和 ReLU。它不再只看单个像素是否亮，而是能学习“若干像素一起出现时像不像某个笔画组合”。</p>
+                  <div class="model-fact-grid">
+                    <div><span>公式</span><code>h = ReLU(W1x + b1), score = W2h + b2</code></div>
+                    <div><span>当前工程</span><code>784 -> 64 -> 10, 50,890 params</code></div>
+                    <div><span>量化实现</span><code>int8 weights, int32 bias, FNN_HIDDEN_SHIFT = 8</code></div>
+                    <div><span>取舍</span><code>比 P 准确，但 flatten 后仍丢失二维邻接关系</code></div>
+                  </div>
+                  <p class="model-deep-note">它是“简单可用”的主力模型：训练和导出都直观，STM32 上也容易解释每一层在做什么。</p>
+                </div>
+              </article>
+
+              <article class="model-deep-row">
+                <div class="model-mini-visual cnn-mini" aria-label="tiny cnn feature extraction visual">
+                  <div class="mini-image-grid">
+                    <span></span><span></span><span></span><span></span><span></span><span></span>
+                    <i></i>
+                  </div>
+                  <div class="mini-feature-stack conv-a">
+                    <span></span><span></span><span></span><span></span>
+                  </div>
+                  <div class="mini-pool-block">pool</div>
+                  <div class="mini-feature-stack conv-b">
+                    <span></span><span></span><span></span>
+                  </div>
+                  <div class="mini-fc-bars">
+                    <span style="--h: 80%"></span><span style="--h: 58%"></span><span style="--h: 36%"></span>
+                  </div>
+                </div>
+                <div class="model-deep-copy">
+                  <div class="model-title-line"><strong>C</strong><h4>Tiny-CNN：保留图像结构，提取局部笔画</h4></div>
+                  <p>Tiny-CNN 不急着把图像拉平，而是用 3 x 3 卷积核在 28 x 28 图上滑动，先找横线、竖线、弧线、转折点，再把这些局部特征组合成数字类别。</p>
+                  <div class="model-fact-grid">
+                    <div><span>当前工程</span><code>Conv4 -> Pool14 -> Conv8 -> Pool7 -> FC10</code></div>
+                    <div><span>特征长度</span><code>8 x 7 x 7 = 392 features</code></div>
+                    <div><span>参数估算</span><code>约 4,266 params，比 FNN 少很多</code></div>
+                    <div><span>SRAM 压力</span><code>中间特征图需要 buffer，不只看权重大小</code></div>
+                  </div>
+                  <p class="model-deep-note">它更“懂图像”：同样一段竖线出现在左侧或右侧，卷积核都能复用，因此对轻微平移和笔画变形更稳。</p>
+                </div>
+              </article>
+
+              <article class="model-deep-row alternate">
+                <div class="model-mini-visual dscnn-mini" aria-label="depthwise separable cnn visual">
+                  <div class="ds-formula-card">
+                    <span>普通卷积</span>
+                    <code>K² x Cin x Cout</code>
+                  </div>
+                  <div class="ds-split-visual">
+                    <div class="ds-depth-bars"><span></span><span></span><span></span><span></span></div>
+                    <strong>+</strong>
+                    <div class="ds-point-grid"><span></span><span></span><span></span><span></span><span></span><span></span></div>
+                  </div>
+                  <div class="ds-formula-card compact">
+                    <span>DS-CNN</span>
+                    <code>K²Cin + CinCout</code>
+                  </div>
+                </div>
+                <div class="model-deep-copy">
+                  <div class="model-title-line"><strong>DS</strong><h4>DS-CNN：把卷积拆开，专门为 MCU 压缩计算</h4></div>
+                  <p>普通卷积同时做“空间特征提取”和“通道混合”。DS-CNN 把它拆成两步：depthwise 每个通道单独做 3 x 3 空间卷积，pointwise 再用 1 x 1 卷积混合通道信息。</p>
+                  <div class="model-fact-grid">
+                    <div><span>参数对比</span><code>普通卷积 K²CinCout，DS 为 K²Cin + CinCout</code></div>
+                    <div><span>结构优势</span><code>先省乘加量，再配合 int8 量化省 Flash</code></div>
+                    <div><span>代码对应</span><code>run_ds*_depthwise + run_ds*_pointwise</code></div>
+                    <div><span>注意点</span><code>通道太少时优势不明显，中后层更划算</code></div>
+                  </div>
+                  <p class="model-deep-note">它适合在课程设计里作为进阶亮点：不是盲目加大 CNN，而是用更适合 STM32 的卷积结构换取准确率和资源之间的平衡。</p>
+                </div>
+              </article>
+            </div>
           </section>
 
           <section class="home-grid single-home-grid">
@@ -367,14 +602,38 @@
                   </div>
                   <div class="method-step">
                     <span>3</span>
-                    <div><strong data-i18n="quantStep3Title">Convert bias</strong><p data-i18n="quantStep3Text">Bias is stored as int32 so integer accumulation keeps the original offset.</p><code>b_q = round(b_float * input_scale / scale)</code></div>
+                    <div><strong data-i18n="quantStep3Title">Convert bias</strong><p data-i18n="quantStep3Text">Bias is stored as int32 so integer accumulation keeps the original offset.</p><code>b_q = round(b_float / (scale_x x scale_w))</code></div>
                   </div>
                   <div class="method-step">
                     <span>4</span>
-                    <div><strong data-i18n="quantStep4Title">Run integer MAC</strong><p data-i18n="quantStep4Text">The firmware exports C arrays and uses int32 multiply-accumulate, with shifts between layers.</p><code>score = sum(x_u8 * w_q) + b_q</code></div>
+                    <div><strong data-i18n="quantStep4Title">Run integer MAC</strong><p data-i18n="quantStep4Text">The firmware exports C arrays and uses int32 multiply-accumulate, with shifts between layers.</p><code>acc = sum((x_q - zero_x) * w_q) + b_q</code></div>
                   </div>
                 </div>
               </div>
+
+              <div class="quant-pipeline" aria-label="integer inference pipeline">
+                <div>
+                  <span>输入</span>
+                  <strong>uint8 image</strong>
+                  <small>灰度图 0..255</small>
+                </div>
+                <div>
+                  <span>权重</span>
+                  <strong>int8 weight</strong>
+                  <small>scale = max(|w|) / 127</small>
+                </div>
+                <div>
+                  <span>累加</span>
+                  <strong>int32 acc</strong>
+                  <small>127 x 127 x 784 约 12.65M</small>
+                </div>
+                <div>
+                  <span>重缩放</span>
+                  <strong>multiplier >> shift</strong>
+                  <small>层间恢复到下一层尺度</small>
+                </div>
+              </div>
+
               <div class="quant-viz" aria-label="Flash and SRAM quantization comparison">
                 <div class="quant-row estimate-row">
                   <div class="quant-row-head">
@@ -425,6 +684,33 @@
                     <span id="quantSavingText">--</span>
                   </div>
                 </div>
+              </div>
+              <div class="quant-science-board" aria-label="quantization formula explanation">
+                <section class="formula-panel main-formula">
+                  <span class="detail-eyebrow">量化核心公式</span>
+                  <code>r ≈ scale x (q - zero_point)</code>
+                  <p>真实浮点值 r 不直接存进 STM32，而是拆成一把尺子 scale 和一个整数刻度 q。权重量化常用对称 int8，所以 zero_point = 0。</p>
+                </section>
+                <section class="formula-panel">
+                  <span>权重示例</span>
+                  <code>[-0.31, 0.51, 0.70, -0.39]</code>
+                  <p>max(|w|)=0.70，scale=0.70/127≈0.00551，量化后变成 [-56, 93, 127, -71]。</p>
+                </section>
+                <section class="formula-panel">
+                  <span>偏置为什么是 int32</span>
+                  <code>b_q = round(b / (scale_x x scale_w))</code>
+                  <p>偏置要和乘加累加值处在同一个数值单位下，才能直接加到 int32 acc 上。</p>
+                </section>
+                <section class="formula-panel">
+                  <span>PTQ 与 QAT</span>
+                  <code>PTQ: train float -> calibrate -> export int8</code>
+                  <p>当前工程更接近 PTQ：先训练 float32，再导出 int8 权重、int32 偏置和 C 数组。QAT 是训练时模拟量化误差，精度更稳但工程更复杂。</p>
+                </section>
+                <section class="formula-panel">
+                  <span>为什么整包不是 4 倍缩小</span>
+                  <code>firmware = model + app + driver + buffers</code>
+                  <p>权重从 float32 到 int8 接近 4 倍压缩，但完整固件还包含触摸屏、串口、LCD、推理代码、量化参数和临时 buffer。</p>
+                </section>
               </div>
               <p data-i18n="quantizationNote">The board build stores weights as int8 and biases as int32. The float number is a parameter-storage estimate; it is shown to explain why quantization is necessary on STM32F103VE.</p>
             </article>
@@ -707,6 +993,86 @@
                   </tbody>
                 </table>
               </div>
+            </section>
+          </div>
+        </section>
+
+
+        <section class="view" id="tfCardView">
+          <div class="tf-card-page">
+            <section class="panel tf-card-hero">
+              <div>
+                <div class="section-title">STM32 侧 TF 卡检测</div>
+                <h2>只以串口回传判断板端是否读卡</h2>
+                <p class="panel-note">TF 卡插在 STM32 开发板上时，电脑不会出现对应盘符。左侧只展示工程里的 <code>tf_card</code> 制卡镜像，真正是否读卡要看右侧串口是否出现板端 FatFs 诊断帧。</p>
+              </div>
+              <div class="tf-card-actions">
+                <label class="field">
+                  <span>制卡镜像路径</span>
+                  <input id="tfCardPathInput" type="text" value="D:\Microcontrollers_and_Embedded_Systems\CourseDesign_DigitNN\tf_card" />
+                </label>
+                <button class="button primary" id="refreshTfCardBtn">刷新检测</button>
+              </div>
+            </section>
+
+            <section class="tf-card-grid">
+              <div class="panel tf-status-panel">
+                <div class="panel-head">
+                  <h2>本地制卡镜像</h2>
+                  <div class="status-chip" id="tfPcStatus">checking</div>
+                </div>
+                <div class="tf-metrics">
+                  <div><span>本机盘符</span><strong id="tfDriveText">--</strong></div>
+                  <div><span>图片数量</span><strong id="tfImageText">--</strong></div>
+                  <div><span>标签文件</span><strong id="tfLabelText">--</strong></div>
+                  <div><span>目录来源</span><strong id="tfSourceText">--</strong></div>
+                </div>
+                <div class="tf-path-list" id="tfPathList"></div>
+              </div>
+
+              <div class="panel tf-status-panel">
+                <div class="panel-head">
+                  <h2>STM32 板端读卡</h2>
+                  <div class="status-chip warn" id="tfMcuStatus">not confirmed</div>
+                </div>
+                <div class="tf-board-flow">
+                  <div><strong>1</strong><span>TF 卡插入开发板卡槽</span></div>
+                  <div><strong>2</strong><span>固件接入 TF 卡接口 + FatFs</span></div>
+                  <div><strong>3</strong><span>串口回传 TF_STATUS / TF_DIR / TF_FILE</span></div>
+                </div>
+                <p class="panel-note" id="tfMcuMessage">等待检测。</p>
+              </div>
+            </section>
+
+            <section class="panel tf-datasets-panel">
+              <div class="panel-head">
+                <h2>tf_card 目录结构</h2>
+                <button class="button secondary" id="refreshTfCardBtn2">重新扫描</button>
+              </div>
+              <div class="tf-table-wrap">
+                <table class="test-table">
+                  <thead>
+                    <tr>
+                      <th>目录</th>
+                      <th>路径</th>
+                      <th>图片</th>
+                      <th>label.txt</th>
+                      <th>示例文件</th>
+                    </tr>
+                  </thead>
+                  <tbody id="tfDatasetBody">
+                    <tr><td colspan="5">等待扫描。</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </section>
+
+            <section class="panel tf-evidence-panel">
+              <div class="panel-head">
+                <h2>板端串口证据</h2>
+                <div class="mono" id="tfSerialStatus">--</div>
+              </div>
+              <pre class="log tf-log" id="tfEvidenceLog"></pre>
             </section>
           </div>
         </section>
@@ -1001,6 +1367,6 @@
         </section>
       </main>
     </div>
-    <script src="app.js?v=20260704p"></script>
+    <script src="app.js?v=20260705a"></script>
   </body>
 </html>

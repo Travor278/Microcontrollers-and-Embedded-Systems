@@ -1,4 +1,4 @@
-# Editor and local agent state
+﻿# Editor and local agent state
 .claude/
 .vscode/
 .playwright/
@@ -22,6 +22,7 @@ tmp/
 ~$*.docx
 *.mp4
 CourseDesign_DigitNN/host_app.zip
+CourseDesign_DigitNN/tf_card/ui_collected/*_raw.png
 
 # CourseDesign local workspaces and datasets that are regenerated/downloaded
 CourseDesign_DigitNN/cube_workspace/
@@ -34,4 +35,6 @@ CourseDesign_DigitNN/keil_touch_digit_nn/Output/
 CourseDesign_DigitNN/keil_touch_digit_nn/Listing/
 CourseDesign_DigitNN/keil_touch_digit_nn/**/*.bak
 CourseDesign_DigitNN/keil_touch_digit_nn/**/*.log
+CourseDesign_DigitNN/keil_touch_digit_nn/**/*.uvgui.*
 CourseDesign_DigitNN/keil_touch_digit_nn/**/*.uvguix.*
+CourseDesign_DigitNN/keil_touch_digit_nn/**/JLinkLog.txt

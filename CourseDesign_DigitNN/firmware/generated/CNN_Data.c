@@ -3,7 +3,7 @@
  * @brief Quantized Tiny-CNN weights exported from tools/train_mnist.py.
  * @author generated
  */
-#include "CNN_Data.h"
+#include "digit_nn/generated/CNN_Data.h"
 
 const int8_t g_cnn_conv1_weight[CNN_CONV1_OUT_CHANNELS][CNN_KERNEL_SIZE][CNN_KERNEL_SIZE] = {
     {

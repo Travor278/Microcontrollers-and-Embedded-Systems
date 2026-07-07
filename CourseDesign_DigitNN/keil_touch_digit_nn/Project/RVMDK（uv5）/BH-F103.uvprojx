@@ -369,7 +369,7 @@
               <MiscControls></MiscControls>
               <Define>STM32F10X_HD, USE_STDPERIPH_DRIVER</Define>
               <Undefine></Undefine>
-              <IncludePath>..\..\Libraries\CMSIS;..\..\User;..\..\User\digit_nn\core;..\..\User\digit_nn\generated;..\..\Libraries\FWlib\inc</IncludePath>
+              <IncludePath>..\..\Libraries\CMSIS;..\..\User;..\..\User\FATFS;..\..\User\FATFS\option;..\..\User\sdio;..\..\User\digit_nn\core;..\..\User\digit_nn\generated;..\..\Libraries\FWlib\inc</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -616,6 +616,41 @@
               <FileName>digit_recognition_app.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\..\User\digit_recognition_app.c</FilePath>
+            </File>
+            <File>
+              <FileName>tf_card_probe.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\User\tf_card_probe.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>FATFS</GroupName>
+          <Files>
+            <File>
+              <FileName>diskio.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\User\FATFS\diskio.c</FilePath>
+            </File>
+            <File>
+              <FileName>ff.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\User\FATFS\ff.c</FilePath>
+            </File>
+            <File>
+              <FileName>cc936.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\User\FATFS\option\cc936.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>SDIO</GroupName>
+          <Files>
+            <File>
+              <FileName>bsp_sdio_sdcard.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\User\sdio\bsp_sdio_sdcard.c</FilePath>
             </File>
           </Files>
         </Group>

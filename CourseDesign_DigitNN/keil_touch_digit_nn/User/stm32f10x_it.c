@@ -28,6 +28,7 @@
 #include "./lcd/bsp_xpt2046_lcd.h"
 #include "./led/bsp_led.h"   
 #include "./usart/bsp_usart.h"
+#include "./sdio/bsp_sdio_sdcard.h"
 
 /** @addtogroup STM32F10x_StdPeriph_Template
   * @{
@@ -157,6 +158,11 @@ void SysTick_Handler(void)
 /*void PPP_IRQHandler(void)
 {
 }*/
+
+void SDIO_IRQHandler(void)
+{
+  (void)SD_ProcessIRQSrc();
+}
 
 /**
   * @}
